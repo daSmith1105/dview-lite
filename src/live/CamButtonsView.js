@@ -6,57 +6,57 @@ import '../App.css';
 const CamButtonsView = props => {
     const singleView = <div>
                     <button style={{ color: props.currentCamView === "cam-1" ? 'white' : 'black', backgroundColor: props.currentCamView === "cam-1" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }} 
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-1')}>
                         1
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-2" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-2" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }} 
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-2')}>
                         2
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-3" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-3" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-3')}>
                         3
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-4" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-4" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-4')}>
                         4
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-5" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-5" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-5')}>
                         5
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-6" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-6" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-6')}>
                         6
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-7" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-7" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-7')}>
                         7
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-8" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-8" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-8')}>
                         8
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-9" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-9" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-9')}>
                         9
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-10" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-10" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-10')}>
                         10
                     </button>
                     <button style={{ color: props.currentCamView  === "cam-11" ? 'white' : 'black', backgroundColor: props.currentCamView  === "cam-11" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
-                            className="hoverable"
+                            className="hoverableButton"
                             onClick={ () => props.camViewChange('cam-11')}>
                         11
                     </button>

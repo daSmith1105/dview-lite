@@ -7,5 +7,16 @@
 }
 .hoverable:hover {
   cursor: pointer;
-  color: dodgerblue
+  color: dodgerblue;
+}
+
+.hoverableButton {
+  color: black;
+  background-color: lightgrey;
+  transition: .3s;
+}
+.hoverableButton:hover {
+  cursor: pointer;
+  color: white;
+  background-color: grey;
 }

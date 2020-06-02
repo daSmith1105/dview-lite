@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import LoginView from './login/LoginView';
 import LiveView from './live/LiveView';
 import Error from './PageError';
 import { connect } from 'react-redux';
 import { getServer } from './actions';
 import './App.css';
+import history from './history';
 
 class App extends React.Component {
   constructor(props){
@@ -13,6 +14,9 @@ class App extends React.Component {
   }
 
 componentDidMount =() => {
+  // check autologin
+  // if yes => history.push('/live')
+  // else =>  history.push('/')
   this.props.getServer('http://205.209.241.49:7000/JSON/')
 }
   render() {
