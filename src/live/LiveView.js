@@ -23,7 +23,6 @@ class Login extends React.Component {
 
     return (
         <div style={ liveContainerStyle }>
-            {/* <div style={ styles.subContainer }> */}
             <div style={ styles.leftSubContainerStyle }>
                 <div>
                     <VideoView />
@@ -37,7 +36,6 @@ class Login extends React.Component {
             </div>
             {/* iCamButttonsBoxView */}
             {/* iControlBoxView */}
-            {/* </div> */}
       </div>
     );
   };
@@ -69,14 +67,16 @@ const styles = {
   subContainer: {
     height: '70vmin',
     width: '90vmin',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    paddingRight: 40,
+    paddingleft: 40
   },
   leftSubContainerStyle: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   rightSubContainerStyle: {
     display: 'flex',

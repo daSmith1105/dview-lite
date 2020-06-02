@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import dividia_logo from '../images/dividia_logo.jpg';
 import cams from './test_cams.json';
-import temp_image from '../images/image1.jpg'
 
 const VideoView = props => {
     const qv1 = cams.length > 4 ? cams.slice(0,4) : cams;
@@ -15,7 +14,7 @@ const VideoView = props => {
     const eightv2 = cams.length > 8 ? cams.slice(9,cams.length) : null;
     const ninev1 = cams.length > 9 ? cams.slice(0,9) : cams.slice(0,cams.length);
     const ninev2 = cams.length > 9 ? cams.slice(7,cams.length) : null;
-    console.log(cams.length)
+
     const singleView =  <div style={{ height: '100%', width: '100%', position: 'relative' }}>
                             { isNaN(parseInt(props.currentCamView.charAt(props.currentCamView.length -2))) ?
                                 <img src={ cams.find(c => c.id.toString() === props.currentCamView.slice(-1)).url } height='100%' width='100%' alt='' style={{ position: 'absolute', top: 0, left: 0 }}/> :
@@ -24,10 +23,10 @@ const VideoView = props => {
                         </div>
     
     const quadView = <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-                        { props.currentCamView === "cam-1-4" && qv1.map( c => <img key={c.id.toString()} src={c.url} height='49.5%' width='50%' alt='' />) }
-                        { props.currentCamView === "cam-5-8" && qv2.map( c => <img key={c.id.toString()} src={c.url} height='49.5%' width='50%' alt='' />) }
-                        { props.currentCamView === "cam-9-12" && qv3.map( c => <img key={c.id.toString()} src={c.url} height='49.5%' width='50%' alt='' />) }   
-                        { props.currentCamView === "cam-13-16" && qv4.map( c => <img key={c.id.toString()} src={c.url} height='49.5%' width='50%' alt='' />) }
+                        { props.currentCamView === "cam-1-4" && qv1.map( c => <img key={c.id.toString()} src={c.url} height='50%' width='50%' alt='' style={{ float: 'left' }}/>) }
+                        { props.currentCamView === "cam-5-8" && qv2.map( c => <img key={c.id.toString()} src={c.url} height='50%' width='50%' alt='' style={{ float: 'left' }}/>) }
+                        { props.currentCamView === "cam-9-12" && qv3.map( c => <img key={c.id.toString()} src={c.url} height='50%' width='50%' alt='' style={{ float: 'left' }}/>) }   
+                        { props.currentCamView === "cam-13-16" && qv4.map( c => <img key={c.id.toString()} src={c.url} height='50%' width='50%' alt='' style={{ float: 'left' }}/>) }
                      </div>
     
     const octoView = <div style={{ height: '100%', width: '100%', position: 'relative' }}>
@@ -48,12 +47,12 @@ const VideoView = props => {
                  </div>
     
     const nineView = <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-                        { props.currentCamView === "cam-1-9" && ninev1.map( c => <img key={c.id.toString()} src={c.url} height='32.75%' width='33.3%' alt='' />) }
-                        { props.currentCamView === "cam-8-16" && ninev2.map( c => <img key={c.id.toString()} src={c.url} height='32.75%' width='33.3%' alt='' />) }
+                        { props.currentCamView === "cam-1-9" && ninev1.map( c => <img key={c.id.toString()} src={c.url} height='33.3%' width='33.3%' alt='' style={{ float: 'left' }} />) }
+                        { props.currentCamView === "cam-8-16" && ninev2.map( c => <img key={c.id.toString()} src={c.url} height='33.3%' width='33.3%' alt='' style={{ float: 'left' }} />) }
                      </div>
                     
     const sixteenView = <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-                            { cams.map( c => <img key={c.id.toString()}src={c.url} height='24.5%' width='25%' alt=''/> )}
+                            { cams.map( c => <img key={c.id.toString()}src={c.url} height='25%' width='25%' alt='' style={{ float: 'left' }}/> )}
                         </div>
 
     return (
@@ -86,8 +85,7 @@ const styles = {
     videoViewContainerStyle: {
         height: '100%',
         width: '100%',
-        position: 'relative',
-        // border: '2px solid grey'
+        position: 'relative'
     },
     videoViewHeaderStyle: {
         paddingRight: 10,
@@ -105,7 +103,7 @@ const styles = {
     videoViewStreamStyle: {
         backgroundColor: 'grey',
         marginTop: '1vmin',
-        height: '53vmin',
-        width: '80vmin'
+        height: '60vmin',
+        width: '85vmin'
     }
 }
