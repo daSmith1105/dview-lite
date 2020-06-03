@@ -1,17 +1,20 @@
 import React from 'react';
+import Loader from 'react-loader-spinner'
 import dividia_logo from '../images/dividia_logo.jpg';
 import SessionExistsModal from './SessionExistsModal';
 import SessionExpiredModal from './SessionExpiredModal';
+import MaxSessionsModal from './MaxSessionsModal';
+import NoRemoteModal from './NoRemoteModal';
+import SessionErrorModal from './SessionErrorModal';
 import { connect } from 'react-redux';
 import {    usernameChanged, 
             passwordChanged, 
             autoLoginChanged, 
             loginUser,
             screenChange,
-            clearSessionExistsModal,
-            clearExpiredSessionModal,
-            forceLogin
+            clearSessionModal
         } from '../actions';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../App.css';
 
 class Login extends React.Component {
@@ -22,7 +25,8 @@ class Login extends React.Component {
             isWin: null,
             isMac: null,
             isIos: null,
-            isAndroid: null
+            isAndroid: null,
+            showPassword: false
         };
     };
 
@@ -62,25 +66,15 @@ class Login extends React.Component {
         this.props.autoLoginChanged();
     };
 
-// work this out - enter key should advance to next field or submit if user and pass have value
-    _onKey = ( e ) => {
+    toggleShowPassword = () => {
+      this.setState({ showPassword: !this.state.showPassword })
+    }
+
+    keyPressed = (e) => {
+      if (e.key === "Enter") {
         e.preventDefault();
-        // summary: If the enter key is pressed, then move to the next field or submit login.
-        // try {
-        //     if (e.keyCode == keys.ENTER) {
-        //         if (e.target == this.frmLogin.sUser) {
-        //             this.frmLogin.sPass.focus();
-        //         } else if (e.target == this.frmLogin.sPass) {
-        //             this.btnLogin.click();
-        //         } else if (e.target == this.btnAuto) {
-        //             this.btnLogin.click();
-        //         }
-        //         //e.preventDefault();
-        //         event.stop( e );
-        //     }
-        // } catch(e) {
-        //     console.log( "Error handling key press [" + e + "]" );
-        // }
+        this.props.loginUser( this.props.username, this.props.password, '/' )
+      }
     }
 
     _onSubmit = ( e ) => {
@@ -201,12 +195,35 @@ class Login extends React.Component {
 
     return (
       <div style={ loginContainerStyle }>
-
         { this.props.loginResult === 'exists' ?
             <div style={ modalContainerStyle }>
                 <SessionExistsModal 
-                    onDeny={ this.props.clearSessionExistsModal }
-                    onAccept={ this.props.forceLogin } />
+                    onDeny={ () => this.props.clearSessionModal() }
+                    onAccept={ () => this.props.loginUser(this.props.username, this.props.password, '/', 'force') } />
+            </div> :
+            null  
+        }
+
+        { this.props.loginResult === 'maxsession' ?
+            <div style={ modalContainerStyle }>
+                <MaxSessionsModal 
+                    onAccept={ () => this.props.clearSessionModal() } />
+            </div> :
+            null  
+        }
+
+        { this.props.loginResult === 'noremote' ?
+            <div style={ modalContainerStyle }>
+                <NoRemoteModal 
+                    onAccept={ () => this.props.clearSessionModal() } />
+            </div> :
+            null  
+        }
+
+        { this.props.loginResult === 'error' ?
+            <div style={ modalContainerStyle }>
+                <SessionErrorModal 
+                    onAccept={ () => this.props.clearSessionModal() } />
             </div> :
             null  
         }
@@ -214,7 +231,7 @@ class Login extends React.Component {
         { 1 === 2 ?
             <div style={ modalContainerStyle }>
                 <SessionExpiredModal 
-                    onAccept={ this.props.clearExpiredSessionModal } />
+                    onAccept={ this.props.clearSessionModal() } />
             </div> :
             null  
         }
@@ -238,13 +255,29 @@ class Login extends React.Component {
                 </div>
 
                 <div style={ passwordBlockStyle }>
-                    <label htmlFor="password">Password:</label>
-                    <input 
-                        style={ passwordInputStyle }
-                        type="password" 
-                        name="password" 
-                        value={ this.props.password } 
-                        onChange={ this.handlePasswordChange } />
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                    <label htmlFor="password" style={{ paddingLeft: 10 }}>Password:</label>
+                      { this.state.showPassword ? 
+                          <input 
+                              style={ passwordInputStyle }
+                              type="text"  
+                              name="password" 
+                              value={ this.props.password } 
+                              onKeyPress={this.keyPressed}
+                              onChange={ this.handlePasswordChange } /> :
+                            <input 
+                              style={ passwordInputStyle }
+                              type="password"
+                              name="password" 
+                              value={ this.props.password } 
+                              onKeyPress={this.keyPressed}
+                              onChange={ this.handlePasswordChange } />
+                      }
+                      { this.state.showPassword ? 
+                        <FaEyeSlash className="hoverable" style={{ marginTop: 2, color: 'white' }} onClick={ () => this.toggleShowPassword() } /> : 
+                        <FaEye className="hoverable" style={{ marginTop: 2, color: 'white' }} onClick={ () => this.toggleShowPassword() } /> 
+                      }
+                    </div>
                 </div>
 
                 <div style={ autoLoginContainer }>
@@ -256,14 +289,14 @@ class Login extends React.Component {
                         onChange={ this.toggleAuto } />
                 </div>
 
-                { this.state.error ? 
-                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', color: 'red', marginTop: -1,  marginBottom: -1 }}>Access Denied</p> :
-                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', marginTop: -1,  marginBottom: -1 }}></p> 
+                { this.props.loginResult === 'noauth' ? 
+                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', color: 'red', marginTop: 1,  marginBottom: 0 }}>Access Denied</p> :
+                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', marginTop: 1,  marginBottom: 0 }}></p> 
                 }
 
-                { this.state.loginCancelled ? 
-                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', color: 'red', marginTop: -1 }}>Login Cancelled</p> :
-                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', marginTop: -1 }}></p> 
+                { this.props.loginResult === 'loginerror' ? 
+                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', color: 'red', marginTop: -4,  marginBottom: 0 }}>Must provide username and password</p> :
+                    <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', marginTop: -4,  marginBottom: 0 }}></p> 
                 }
 
                 <div style={styles.spacedRowStyle}>
@@ -281,8 +314,14 @@ class Login extends React.Component {
                         <button style={ bottomButtonStyle } onClick={() => this.props.screenChange('app_store')}>App Store</button> :
                         null
                     }
+                    { this.props.loading ?
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 26,  width: '30%', }}>
+                        <p style={{ fontSize: 14, color: 'white', marginRight: 10 }}><i>LOADING</i> </p>
+                        <Loader type="Grid" color="white" height={26} width={26} />
+                      </div> :
+                      <button style={ bottomButtonStyle } onClick={this._onSubmit}>Login</button>
+                    }
 
-                    <button style={ bottomButtonStyle} onClick={this._onSubmit}>Login</button>
                 </div>
 
             </form>
@@ -313,7 +352,7 @@ class Login extends React.Component {
 };
 
 const mapStateToProps = state => {
-    const { username, password, autoLoginStatus, loginStatus, loginResult } = state.auth;
+    const { username, password, autoLoginStatus, loginStatus, loginResult, loading } = state.auth;
     const { sName, sVersion, serverUrl, fEview } = state.server;
     return {
         username,
@@ -321,6 +360,7 @@ const mapStateToProps = state => {
         autoLoginStatus,
         loginStatus,
         loginResult,
+        loading,
         sName,
         sVersion,
         serverUrl,
@@ -336,9 +376,7 @@ export default connect(
     autoLoginChanged, 
     loginUser, 
     screenChange,
-    clearSessionExistsModal,
-    clearExpiredSessionModal,
-    forceLogin
+    clearSessionModal
   })(Login);
 
 const styles = {
@@ -369,21 +407,22 @@ const styles = {
     fontSize: 14
   },
   userInputStyle: {
-    width: '60%', 
+    width: '55%', 
     borderRadius: '.2em', 
     paddingLeft: 10,  
-    marginLeft: 10 
+    marginLeft: 10, 
+    marginRight: 14
   },
   passwordBlockStyle: {
     marginTop: 5,
     fontSize: 14
   },
   passwordInputStyle: {
-    width: '60%', 
+    width: '55%', 
     borderRadius: '.2em', 
     paddingLeft: 10, 
-    marginLeft: 14, 
-    marginTop: 3
+    marginLeft: 4, 
+    marginTop: 3,
   },
   autoLoginContainer: {
     marginTop: 10,
@@ -400,7 +439,8 @@ const styles = {
     borderRadius: 5,
     paddingTop: 5,
     paddingBottom: 5,
-    backgroundColor: 'lightgrey'
+    backgroundColor: 'lightgrey',
+    height: 26
   },
   modalContainerStyle: {
     height: 180,
@@ -416,7 +456,8 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    color: 'black'
+    color: 'black',
+    marginTop: 16
   },
   footerTextStyle: {
     fontSize: 10

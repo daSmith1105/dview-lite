@@ -4,8 +4,7 @@ import {
   PASSWORD_CHANGED,
   AUTO_LOGIN_CHANGED,
   LOGIN_RESULT,
-  CLEAR_SESSION_EXISTS_MODAL,
-  CLEAR_EXPIRED_SESSION_MODAL,
+  CLEAR_SESSION_MODAL,
   LOGOUT_USER
 } from './types';
 
@@ -32,25 +31,9 @@ export const autoLoginChanged = () => {
     };
 };
 
-export const clearSessionExistsModal = () => {
+export const clearSessionModal = () => {
     return {
-        type: CLEAR_SESSION_EXISTS_MODAL
-    }
-}
-
-export const clearExpiredSessionModal = () => {
-    return {
-        type: CLEAR_EXPIRED_SESSION_MODAL
-    }
-}
-             
-export const forceLogin = ( username, password, serverUrl, sSess ) => {
-    return( dispatch) => {
-        console.log('forcing login')
-        dispatch({ type: LOGIN_USER_START });
-        // clear current session (logoutUser) and login user  - finally dispatch LOGIN_RESULT and push to live view
-        logoutUser(sSess, serverUrl);
-        loginUser(username, password, serverUrl);
+        type: CLEAR_SESSION_MODAL
     }
 }
 
@@ -94,19 +77,24 @@ const isAlive = async(serverUrl) => {
     })
 };
 
-export const loginUser = ( username, password, serverUrl ) => {
+export const loginUser = ( username, password, serverUrl, force ) => {
     return async ( dispatch ) => {
         dispatch({ type: LOGIN_USER_START });
+        if(username.trim().length < 1 || password.trim().length < 1) {
+            dispatch({ type: LOGIN_RESULT, payload: 'loginerror' });
+            return setTimeout(() => dispatch({ type: LOGIN_RESULT, payload: '' }), 4000);
+        };
         //check server is alive first using method: info.isAlive
         const online = isAlive(serverUrl)
         Promise.all([online])
         .then( async(result) => {
+            console.log('boom!')
             if(result[0]){
             // if server is alive attempt login
                 const reqBody = {   "jsonrpc": 2.0,
                     "method": "auth.loginUser",
                     "id": 200,
-                    "params": [ username, password, false, true ]
+                    "params": [ username, password, force ? true : false, force ? false : true ]
                 };
                 await axios({
                     method: 'post',
@@ -120,7 +108,7 @@ export const loginUser = ( username, password, serverUrl ) => {
                 })
                 .then( response => {
                     const result = response.data.result[1];
-                    // possible results: noauth, noremote, exists, maxsession
+                    // possible results: noauth, noremote, exists, maxsession, error
                     if(result) {
                         if(result.length > 8) {
                         // we recieved a session key - push to live page
@@ -149,8 +137,8 @@ export const loginUser = ( username, password, serverUrl ) => {
 }
 
 export const logoutUser = ( sSess, serverUrl ) => {
-    console.log('called')
     return ( dispatch ) => {
+        dispatch({ type: LOGOUT_USER });
         const reqBody = {   "jsonrpc": 2.0,
                             "method": "auth.logoutUser",
                             "id": 200,
@@ -168,10 +156,12 @@ export const logoutUser = ( sSess, serverUrl ) => {
             timeout: 6000
         })
         .then( response => {
-            console.log(response)
+            console.log(response.data.result);
+            history.push('/');
         })
         .catch(error => {
             console.error('Error:', error);
+            history.push('/');
         }); 
     }
 }

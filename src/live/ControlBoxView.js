@@ -6,10 +6,6 @@ import '../App.css';
 
 const ControlBoxView = props => {
 
-    const doLogout = (sSess) => {
-        props.logoutUser(sSess);
-    }
-
     return (
         <div style={ styles.controlBoxViewContainerStyle }>
             <button style={ styles.controlBoxButtonStyle }
@@ -22,7 +18,7 @@ const ControlBoxView = props => {
             </button>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton"
-                    onClick={ () => doLogout('sSess') }>
+                    onClick={ () => props.logoutUser(props.sSess, '/') }>
                 <Link className="link" to="/">Logout</Link>
             </button>
         </div>
@@ -30,7 +26,10 @@ const ControlBoxView = props => {
 }
 
 const mapStateToProps = state => {
-    return state;
+    const { sSess } = state.auth;
+    return {
+        sSess
+    };
 }
 
 export default connect(mapStateToProps, { logoutUser })(ControlBoxView);
