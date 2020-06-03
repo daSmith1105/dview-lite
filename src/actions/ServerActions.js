@@ -27,15 +27,13 @@ export const getServer = ( sServer ) => {
             timeout: 6000
         })
         .then( response => {
-            console.log(response.result[1])
-            const data = response.result[1];
-
+            const data = response.data.result[1];
             dispatch({
                 type: GET_SERVER,
                 bSerial: data.bSerial,
                 sName: data.sName,
                 sVersion: data.sVersion,
-                bNumCams: data.bNumCams
+                bNumcams: data.bNumcams
             })
         })
         .catch(error => {
@@ -58,9 +56,34 @@ export const getIp = ( session, server ) => {
     };
 };
   
-export const isAlive = ( session, server ) => {
-    return (dispatch) => {
-        // make an axios request to json-rpc
-        dispatch({ type: GET_NETWORK_STATUS })
+export const isAlive = (serverUrl) => {
+    return async( dispatch ) => {
+        const reqBody = {   "jsonrpc": 2.0,
+                            "method": "info.isAlive",
+                            "id": 200
+                        };
+        await axios({
+            method: 'post',
+            url: serverUrl,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            data: reqBody,
+            timeout: 2000
+        })
+        .then( response => {
+            console.log(response)
+            const data = response.data.result[1]
+            console.log(response.data.result[1])
+            if(!data) {
+                return false;
+            }
+            return true;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return false;
+        }); 
     };
 };

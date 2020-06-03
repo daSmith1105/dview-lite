@@ -4,10 +4,13 @@ import {
   PASSWORD_CHANGED,
   AUTO_LOGIN_CHANGED,
   LOGIN_RESULT,
+  CLEAR_SESSION_EXISTS_MODAL,
+  CLEAR_EXPIRED_SESSION_MODAL,
   LOGOUT_USER
 } from './types';
 
 import axios from 'axios';
+import history from '../history';
 
 export const usernameChanged = text => {
     return {
@@ -29,6 +32,28 @@ export const autoLoginChanged = () => {
     };
 };
 
+export const clearSessionExistsModal = () => {
+    return {
+        type: CLEAR_SESSION_EXISTS_MODAL
+    }
+}
+
+export const clearExpiredSessionModal = () => {
+    return {
+        type: CLEAR_EXPIRED_SESSION_MODAL
+    }
+}
+             
+export const forceLogin = ( username, password, serverUrl, sSess ) => {
+    return( dispatch) => {
+        console.log('forcing login')
+        dispatch({ type: LOGIN_USER_START });
+        // clear current session (logoutUser) and login user  - finally dispatch LOGIN_RESULT and push to live view
+        logoutUser(sSess, serverUrl);
+        loginUser(username, password, serverUrl);
+    }
+}
+
 export const checkAutoLogin = () => {
     return( dispatch) => {
         // check local storage for autologin
@@ -37,16 +62,13 @@ export const checkAutoLogin = () => {
     }
 }
 
-export const loginUser = ( username, password, serverUrl ) => {
-    return ( dispatch ) => {
-        dispatch({ type: LOGIN_USER_START });
+const isAlive = async(serverUrl) => {
+    return new Promise( async(resolve,reject) => {
         const reqBody = {   "jsonrpc": 2.0,
-                            "method": "auth.loginUser",
-                            "id": 200,
-                            "params": [ username, password, false, true ]
+                            "method": "info.isAlive",
+                            "id": 200
                         };
-        // being blocked by CORS
-        axios({
+        await axios({
             method: 'post',
             url: serverUrl,
             headers: {
@@ -54,20 +76,75 @@ export const loginUser = ( username, password, serverUrl ) => {
                 'Accept': 'application/json'
             },
             data: reqBody,
-            timeout: 6000
+            timeout: 2000
         })
         .then( response => {
-            console.log(response)
-            // possible results: noauth, noremote, exists, maxsession
-            if(response.result && response.result[1]) {
-                return dispatch({ type: LOGIN_RESULT, payload: response.result[1] });
+            const data = response.data.result[1]
+            if(data === false) {
+                console.log('returned: nvr is not accessible')
+                resolve(false);
+            }
+            console.log('returned: nvr is accessible')
+            resolve(true);
+        })
+        .catch( () => {
+            console.log('returned: nvr is not accessible - timeout')
+            resolve(false);
+        }); 
+    })
+};
+
+export const loginUser = ( username, password, serverUrl ) => {
+    return async ( dispatch ) => {
+        dispatch({ type: LOGIN_USER_START });
+        //check server is alive first using method: info.isAlive
+        const online = isAlive(serverUrl)
+        Promise.all([online])
+        .then( async(result) => {
+            if(result[0]){
+            // if server is alive attempt login
+                const reqBody = {   "jsonrpc": 2.0,
+                    "method": "auth.loginUser",
+                    "id": 200,
+                    "params": [ username, password, false, true ]
+                };
+                await axios({
+                    method: 'post',
+                    url: serverUrl,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    data: reqBody,
+                    timeout: 6000
+                })
+                .then( response => {
+                    const result = response.data.result[1];
+                    // possible results: noauth, noremote, exists, maxsession
+                    if(result) {
+                        if(result.length > 8) {
+                        // we recieved a session key - push to live page
+                            history.push('/live')
+                        }
+                        return dispatch({ type: LOGIN_RESULT, payload: result });
+                    } else {
+                        return dispatch({ type: LOGIN_RESULT, payload: "error" });  
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    return dispatch({ type: LOGIN_RESULT, payload: "error" }); 
+                })
             } else {
-                return dispatch({ type: LOGIN_RESULT, payload: "error" });  
+            // if server is not alive show error to user
+                console.log('Error: Server Offline or Unavailable')
+                return dispatch({ type: LOGIN_RESULT, payload: "error" }); 
             }
         })
-        .catch(error => {
+        .catch( error => {
+        // display error to user
             console.error('Error:', error);
-        }); 
+        })
     }
 }
 

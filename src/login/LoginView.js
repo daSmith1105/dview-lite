@@ -7,7 +7,10 @@ import {    usernameChanged,
             passwordChanged, 
             autoLoginChanged, 
             loginUser,
-            screenChange
+            screenChange,
+            clearSessionExistsModal,
+            clearExpiredSessionModal,
+            forceLogin
         } from '../actions';
 import '../App.css';
 
@@ -82,9 +85,8 @@ class Login extends React.Component {
 
     _onSubmit = ( e ) => {
         e.preventDefault();
-        alert(this.props.username, this.props.password)
         // need to sanitize/verify user, pass, autologin and dispatch action
-        this.props.loginUser( this.props.username, this.props.password, this.props.serverUrl )
+        this.props.loginUser( this.props.username, this.props.password, '/' )
     };
 
     // setServer = ( sServer ) => {
@@ -200,16 +202,16 @@ class Login extends React.Component {
     return (
       <div style={ loginContainerStyle }>
 
-        { this.state.sessionExists ?
+        { this.props.loginResult === 'exists' ?
             <div style={ modalContainerStyle }>
                 <SessionExistsModal 
-                    onDeny={ this.cancelCurrentSession }
-                    onAccept={ this.forceLogin } />
+                    onDeny={ this.props.clearSessionExistsModal }
+                    onAccept={ this.props.forceLogin } />
             </div> :
             null  
         }
 
-        { this.props.sessionExpired ?
+        { 1 === 2 ?
             <div style={ modalContainerStyle }>
                 <SessionExpiredModal 
                     onAccept={ this.props.clearExpiredSessionModal } />
@@ -222,7 +224,7 @@ class Login extends React.Component {
 
             <form style={ formStyle }>
 
-                <h1 style={ headingStyle }>{this.props.dvsName}</h1>
+                <h1 style={ headingStyle }>{this.props.sName} </h1> 
 
                 <div style={ userBlockStyle }>
                     <label htmlFor="username">Username:</label>
@@ -266,7 +268,7 @@ class Login extends React.Component {
 
                 <div style={styles.spacedRowStyle}>
                     { !this.state.isIOS && !this.state.isAndroid ? 
-                        <button style={bottomButtonStyle} onClick={() => this.props.screenChange('full')}>Full Viewer</button> :
+                        <button style={ bottomButtonStyle} onClick={() => this.props.screenChange('full')}>Full Viewer</button> :
                         null
                     }
 
@@ -276,17 +278,17 @@ class Login extends React.Component {
                     }
 
                     { this.state.isMac || this.state.isIOS ? 
-                        <button style={bottomButtonStyle } onClick={() => this.props.screenChange('app_store')}>App Store</button> :
+                        <button style={ bottomButtonStyle } onClick={() => this.props.screenChange('app_store')}>App Store</button> :
                         null
                     }
 
-                    <button style={bottomButtonStyle} onClick={this._onSubmit}>Login</button>
+                    <button style={ bottomButtonStyle} onClick={this._onSubmit}>Login</button>
                 </div>
 
             </form>
 
             <div style={styles.spacedRowStyle}>
-                <p style={styles.footerTextStyle}>Version {this.props.dvsVersion}</p>
+                <p style={styles.footerTextStyle}>Version {this.props.sVersion}</p>
                 <p style={styles.footerTextStyle}>&copy;{currentYear} Dividia Technologies, LLC</p>
                 { !this.state.isIOS && !this.state.isWin ?
                     <p style={styles.footerTextStyle} className={'hoverable'} onClick={() => this.props.screenChange('full')}>full</p> :
@@ -311,21 +313,33 @@ class Login extends React.Component {
 };
 
 const mapStateToProps = state => {
-    const { username, password, autoLoginStatus, loginStatus } = state.auth;
-    const { dvsName, dvsVersion, serverUrl, fEview } = state.server;
+    const { username, password, autoLoginStatus, loginStatus, loginResult } = state.auth;
+    const { sName, sVersion, serverUrl, fEview } = state.server;
     return {
         username,
         password,
         autoLoginStatus,
         loginStatus,
-        dvsName,
-        dvsVersion,
+        loginResult,
+        sName,
+        sVersion,
         serverUrl,
         fEview
     }
 };
 
-export default connect(mapStateToProps, { usernameChanged, passwordChanged, autoLoginChanged, loginUser, screenChange })(Login);
+export default connect( 
+  mapStateToProps, 
+  { 
+    usernameChanged, 
+    passwordChanged, 
+    autoLoginChanged, 
+    loginUser, 
+    screenChange,
+    clearSessionExistsModal,
+    clearExpiredSessionModal,
+    forceLogin
+  })(Login);
 
 const styles = {
   loginContainerStyle: {
@@ -348,9 +362,10 @@ const styles = {
   },
   headingStyle: {
     fontSize: 16,
+    height: 16
   },
   userBlockStyle: {
-    marginTop: 5,
+    marginTop: 16,
     fontSize: 14
   },
   userInputStyle: {
@@ -377,10 +392,15 @@ const styles = {
     fontSize: 13
   },
   bottomButtonStyle: {
-    width: '22%',
+    width: '30%',
     padding: 2,
-    fontSize: 10,
-    fontWeight: 'bold'
+    fontSize: 12,
+    fontWeight: 'bold',
+    border: 'none',
+    borderRadius: 5,
+    paddingTop: 5,
+    paddingBottom: 5,
+    backgroundColor: 'lightgrey'
   },
   modalContainerStyle: {
     height: 180,

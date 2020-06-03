@@ -14,7 +14,7 @@ const ControlBoxView = props => {
         <div style={ styles.controlBoxViewContainerStyle }>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton">
-                Playback
+                <Link className="link" to="/playback">Playback</Link>
             </button>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton">

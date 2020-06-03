@@ -7,7 +7,7 @@ import ServerView from './ServerView';
 import ControlBoxView from './ControlBoxView';
 import '../App.css';
 
-class Login extends React.Component {
+class Live extends React.Component {
     constructor(props) {
         super(props);
 
@@ -51,7 +51,7 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, {})(Login);
+export default connect(mapStateToProps, {})(Live);
 
 const styles = {
   liveContainerStyle: {
