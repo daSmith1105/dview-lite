@@ -1,4 +1,5 @@
 import React from 'react';
+import servers from './test_servers.json'
 
 const ServerView = props => {
     return (
@@ -6,9 +7,7 @@ const ServerView = props => {
             <select style={{ padding: 2, border: '2px solid grey', borderRadius: 5 }}>
                 <option value="none">Jump System</option>
                 <option value="null">-----------</option>
-                <option value="s1">Server 1</option>
-                <option value="s2">Server 2</option>
-                <option value="s3">Server 3</option>
+                {servers.map( s => <option key={s.bSerial} value={s.bSerial}>{s.sName}</option>)}
             </select>
         </div>
     )

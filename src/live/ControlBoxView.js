@@ -1,6 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { logoutUser } from '../actions';
+import { Link } from 'react-router-dom';
+import '../App.css';
 
 const ControlBoxView = props => {
+
+    const doLogout = (sSess) => {
+        props.logoutUser(sSess);
+    }
+
     return (
         <div style={ styles.controlBoxViewContainerStyle }>
             <button style={ styles.controlBoxButtonStyle }
@@ -12,14 +21,19 @@ const ControlBoxView = props => {
                 FullViewer
             </button>
             <button style={ styles.controlBoxButtonStyle }
-                    className="hoverableButton">
-                Logout
+                    className="hoverableButton"
+                    onClick={ () => doLogout('sSess') }>
+                <Link className="link" to="/">Logout</Link>
             </button>
         </div>
     )
 }
 
-export default ControlBoxView;
+const mapStateToProps = state => {
+    return state;
+}
+
+export default connect(mapStateToProps, { logoutUser })(ControlBoxView);
 
 const styles = {
     controlBoxViewContainerStyle: {

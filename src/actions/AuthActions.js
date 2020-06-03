@@ -70,3 +70,31 @@ export const loginUser = ( username, password, serverUrl ) => {
         }); 
     }
 }
+
+export const logoutUser = ( sSess, serverUrl ) => {
+    console.log('called')
+    return ( dispatch ) => {
+        const reqBody = {   "jsonrpc": 2.0,
+                            "method": "auth.logoutUser",
+                            "id": 200,
+                            "params": [ sSess ]
+                        };
+        // being blocked by CORS
+        axios({
+            method: 'post',
+            url: serverUrl,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            data: reqBody,
+            timeout: 6000
+        })
+        .then( response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        }); 
+    }
+}

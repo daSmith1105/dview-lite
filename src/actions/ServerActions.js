@@ -7,7 +7,7 @@ import {
   
 import axios from 'axios';
 export const getServer = ( sServer ) => {
-    console.log('called')
+    // console.log('called')
     return (dispatch) => {
         // make an axios request to json-rpc
         const reqBody = {   

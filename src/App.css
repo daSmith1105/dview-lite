@@ -20,3 +20,8 @@
   color: white;
   background-color: grey;
 }
+
+.link {
+  text-decoration: none;
+  color: black
+}
