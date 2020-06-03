@@ -5,21 +5,50 @@ import LiveView from './live/LiveView';
 import PlaybackView from './playback/PlaybackView';
 import Error from './PageError';
 import { connect } from 'react-redux';
-import { getServer } from './actions';
+import { getServer, checkExists, expireSession } from './actions';
 import './App.css';
 import history from './history';
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-  }
 
-componentDidMount =() => {
-  // check autologin
-  // if yes => history.push('/live')
-  // else =>  history.push('/')
-  this.props.getServer('/')
+    this.state = {
+        temp: ''
+    };
+
+    this.verifySessionHandler = 0;
+};
+
+componentDidMount = () => {
+  this.props.getServer('/');
+  this.verifySession();
 }
+
+componentWillUnmount = () => {
+  clearTimeout(this.verifySessionHandler);
+};
+
+verifySession = async() => {
+  const sessionValidation = this.props.checkExists(this.props.sSess, '/');
+  Promise.all([sessionValidation])
+  .then( (exists) => {
+      if(exists[0] === false) {
+        if(this.props.isLoggedIn) {
+          // we never logged out, but we no longer have a valid session
+          // set session expiration
+          this.props.expireSession(this.props.sSess, '/');
+        }
+        console.log('session is invaild')
+        this.verifySessionHandler = setTimeout( () => { this.verifySession(); this.verifySessionHandler = 0 }, 10000 );
+      } else {
+        console.log('session is vaild: ', this.props.sSess)
+        clearTimeout(this.verifySessionHandler);
+        this.verifySessionHandler = setTimeout( () => { this.verifySession(); this.verifySessionHandler = 0 }, 10000 );
+      }
+  }) 
+};
+
   render() {
     return (
       <div className="App">
@@ -35,6 +64,10 @@ componentDidMount =() => {
 }
 
 const mapStateToProps = state => {
-  return state;
+  const { sSess, isLoggedIn } = state.auth;
+  return {
+    sSess,
+    isLoggedIn
+  }
 }
-export default connect( mapStateToProps, { getServer })(App);
+export default connect( mapStateToProps, { getServer, checkExists, expireSession })(App);

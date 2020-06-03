@@ -83,92 +83,6 @@ class Login extends React.Component {
         this.props.loginUser( this.props.username, this.props.password, '/' )
     };
 
-    // setServer = ( sServer ) => {
-    //     if ( sServer == "" )
-    //         sServer = "DVS";
-
-    //     this.lblServer.innerHTML = sServer + " Login";
-    // }
-
-    // promptLoginSuccess = () => {
-    //     this.lblMessage.innerHTML = "&nbsp;";
-    //     this.frmLogin.sUser.value = "";
-    //     this.frmLogin.sPass.value = "";
-    //     this.frmLogin.sUser.focus();
-    // }
-
-    // promptLoginAttempt =() => {
-    //     this.lblMessage.innerHTML = "Please Wait";
-    //     this.frmLogin.sUser.selectionStart = 0;
-    //     this.frmLogin.sUser.selectionEnd = this.frmLogin.sUser.textLength;
-    //     this.frmLogin.sUser.focus();
-    // }
-
-    // promptLoginFailed = () => {
-    //     this.lblMessage.innerHTML = "Access Denied";
-    //     this.frmLogin.sPass.value = "";
-    //     this.frmLogin.sUser.selectionStart = 0;
-    //     this.frmLogin.sUser.selectionEnd = this.frmLogin.sUser.textLength;
-    //     this.frmLogin.sUser.focus();
-    // }
-
-    // promptExisting = () => {
-    //     var fRet = confirm('You are already logged in.\nWould you like to terminate your other session?');
-    //     if ( fRet ) {
-    //         this.btnForce.click();
-    //         return;
-    //     }
-
-    //     this.lblMessage.innerHTML = "Login Cancelled";
-    //     this.frmLogin.sPass.value = "";
-    //     this.frmLogin.sUser.selectionStart = 0;
-    //     this.frmLogin.sUser.selectionEnd = this.frmLogin.sUser.textLength;
-    //     this.frmLogin.sUser.focus();
-    // }
-
-    // promptLoginMax = () => {
-    //     alert( "Maximum login sessions exceeded.\nTry again later." );
-        
-    //     this.lblMessage.innerHTML = "Max Sessions Exceeded";
-    //     this.frmLogin.sUser.selectionStart = 0;
-    //     this.frmLogin.sUser.selectionEnd = this.frmLogin.sUser.textLength;
-    //     this.frmLogin.sUser.focus();
-	// }
-
-    // promptNoRemote = () => {
-    //     this.lblMessage.innerHTML = "Access Denied (No remote rights)!";
-    //     this.frmLogin.sPass.value = "";
-    //     this.frmLogin.sUser.selectionStart = 0;
-    //     this.frmLogin.sUser.selectionEnd = this.frmLogin.sUser.textLength;
-    //     this.frmLogin.sUser.focus();
-	// }
-
-    // promptError = ( fOverride, sMsg ) => {
-    //     var sError = "An error occurred while attempting to login to the server. Please try again.\n" +
-    //         "If this problem persists, please contact Dividia at 866-348-4342.";
-    //     if ( fOverride )
-    //         sError = sMsg;
-    //     else
-    //         sError += "\n\n(" + sMsg + ")";
-
-    //     alert( sError );
-
-    //     this.lblMessage.innerHTML = "&nbsp;";
-    //     this.frmLogin.sPass.value = "";
-    //     this.frmLogin.sUser.selectionStart = 0;
-    //     this.frmLogin.sUser.selectionEnd = this.frmLogin.sUser.textLength;
-    //     this.frmLogin.sUser.focus();
-    // }
-
-    // showLoginBooted = () => {
-    //     alert( "Someone has logged in from a different computer with your username.\n\nYour session has been terminated." );
-        
-    //     this.lblMessage.innerHTML = "Session Terminated";
-    //     this.frmLogin.sUser.selectionStart = 0;
-    //     this.frmLogin.sUser.selectionEnd = this.frmLogin.sUser.textLength;
-    //     this.frmLogin.sUser.focus();
-	// }
-
     // showInactivity = () => {		
     //     this.lblMessage.innerHTML = "You were logged out due to inactivity";
     //     this.frmLogin.sUser.selectionStart = 0;
@@ -228,10 +142,10 @@ class Login extends React.Component {
             null  
         }
 
-        { 1 === 2 ?
+        { this.props.loginResult === 'expired' ?
             <div style={ modalContainerStyle }>
                 <SessionExpiredModal 
-                    onAccept={ this.props.clearSessionModal() } />
+                    onAccept={ () => this.props.clearSessionModal() } />
             </div> :
             null  
         }

@@ -45,6 +45,47 @@ export const checkAutoLogin = () => {
     }
 }
 
+export const expireSession = (sSess, serverUrl) => {
+    return(dispatch) => {
+        dispatch({ type: LOGIN_RESULT, payload: 'expired' });
+        logoutUser(sSess, serverUrl)
+        history.push('/')
+    }
+}
+
+export const checkExists = (sSess, serverUrl) => {
+    return async ( dispatch ) => {
+        return new Promise( async(resolve,reject) => {
+            const reqBody = {   "jsonrpc": 2.0,
+                                "method": "auth.checkExists",
+                                "id": 200,
+                                "params": [sSess]
+                            };
+            await axios({
+                method: 'post',
+                url: serverUrl,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                data: reqBody,
+                timeout: 2000
+            })
+            .then( response => {
+                const data = response.data.result[1]
+                if(data === false) {
+                    return resolve(false);
+                }
+                resolve(true);
+            })
+            .catch( () => {
+                console.log('check session exists returned: false - timeout')
+                resolve(false);
+            }); 
+        })
+    }
+}
+
 const isAlive = async(serverUrl) => {
     return new Promise( async(resolve,reject) => {
         const reqBody = {   "jsonrpc": 2.0,
@@ -112,7 +153,8 @@ export const loginUser = ( username, password, serverUrl, force ) => {
                     if(result) {
                         if(result.length > 8) {
                         // we recieved a session key - push to live page
-                            history.push('/live')
+                            history.push('/live');
+                            // start checkExists timer
                         }
                         return dispatch({ type: LOGIN_RESULT, payload: result });
                     } else {

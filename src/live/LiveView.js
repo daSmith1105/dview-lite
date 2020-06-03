@@ -16,29 +16,27 @@ class Live extends React.Component {
         };
     };
     
-  render() {
-    const { 
-      liveContainerStyle
-    } = styles;
+    render() {
+        const { liveContainerStyle } = styles;
 
-    return (
-        <div style={ liveContainerStyle }>
-            <div style={ styles.leftSubContainerStyle }>
-                <div>
-                    <VideoView />
+        return (
+            <div style={ liveContainerStyle }>
+                <div style={ styles.leftSubContainerStyle }>
+                    <div>
+                        <VideoView />
+                    </div>
+                    <CamButtonsView />
                 </div>
-                <CamButtonsView />
-            </div>
-            <div style={ styles.rightSubContainerStyle }>
-                <ConfButtonsView />
-                <ServerView />
-                <ControlBoxView />
-            </div>
-            {/* iCamButttonsBoxView */}
-            {/* iControlBoxView */}
-      </div>
-    );
-  };
+                <div style={ styles.rightSubContainerStyle }>
+                    <ConfButtonsView />
+                    <ServerView />
+                    <ControlBoxView />
+                </div>
+                {/* iCamButttonsBoxView */}
+                {/* iControlBoxView */}
+        </div>
+        );
+    };
 };
 
 const mapStateToProps = state => {
