@@ -5,7 +5,7 @@ import LiveView from './live/LiveView';
 import PlaybackView from './playback/PlaybackView';
 import Error from './PageError';
 import { connect } from 'react-redux';
-import { getServer, checkExists, expireSession } from './actions';
+import { getServer, checkExists,logoutUser, expireSession } from './actions';
 import './App.css';
 import history from './history';
 
@@ -37,7 +37,7 @@ verifySession = async() => {
         if(this.props.isLoggedIn) {
           // we never logged out, but we no longer have a valid session
           // set session expiration
-          this.props.expireSession(this.props.sSess, '/');
+          this.props.expireSession(this.props.sSess, '/', this.props.autoLoginStatus);
         }
         console.log('session is invaild')
         this.verifySessionHandler = setTimeout( () => { this.verifySession(); this.verifySessionHandler = 0 }, 10000 );
@@ -64,10 +64,11 @@ verifySession = async() => {
 }
 
 const mapStateToProps = state => {
-  const { sSess, isLoggedIn } = state.auth;
+  const { sSess, isLoggedIn, autoLoginStatus } = state.auth;
   return {
     sSess,
-    isLoggedIn
+    isLoggedIn,
+    autoLoginStatus
   }
 }
-export default connect( mapStateToProps, { getServer, checkExists, expireSession })(App);
+export default connect( mapStateToProps, { getServer, checkExists, logoutUser, expireSession })(App);

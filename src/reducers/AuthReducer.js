@@ -4,14 +4,17 @@ import {
   PASSWORD_CHANGED,
   LOGIN_RESULT,
   CLEAR_SESSION_MODAL,
-  LOGOUT_USER
+  LOGOUT_USER,
+  AUTO_LOGIN_CHANGED,
+  SET_SESSION_FROM_STORAGE,
+  EXPIRE_SESSION
 } from '../actions/types';
 
 const INITIAL_STATE = { 
   username: '', 
   password: '',
   loading: false,
-  autoLoginStatus: true,
+  autoLoginStatus: false,
   loginResult: '',
   sSess: '',
   isLoggedIn: false
@@ -29,10 +32,36 @@ export default ( state = INITIAL_STATE, action ) => {
         ...state, 
         password: action.payload 
       }
+    case AUTO_LOGIN_CHANGED:
+      return { 
+        ...state, 
+       autoLoginStatus: action.payload ? true : !state.autoLoginStatus
+      }
+    case SET_SESSION_FROM_STORAGE:
+      return { 
+        ...state, 
+        sSess: action.payload
+      }
     case LOGIN_USER_START:
       return { 
         ...state, 
         loading: true
+      }
+    case EXPIRE_SESSION:
+      let uName = '';
+      let uPass = '';
+      if(action.payload) {
+        uName = localStorage.getItem('username');
+        uPass = localStorage.getItem('password');
+      }
+      return { 
+        ...state, 
+        username: uName, 
+        password: uPass,
+        loading: false,
+        loginResult: 'expired',
+        sSess: '',
+        isLoggedIn: false
       }
     case LOGIN_RESULT:
       return { 
@@ -48,7 +77,6 @@ export default ( state = INITIAL_STATE, action ) => {
         username: '', 
         password: '',
         loading: false,
-        autoLoginStatus: true,
         loginResult: '',
         sSess: '',
         isLoggedIn: false
@@ -56,9 +84,7 @@ export default ( state = INITIAL_STATE, action ) => {
     case CLEAR_SESSION_MODAL:
       return { 
         ...state, 
-        loginResult: '',
-        username: '', 
-        password: '',
+        loginResult: ''
       }
     default:
       return state;

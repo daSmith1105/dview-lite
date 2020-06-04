@@ -35,11 +35,11 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#135ba2',
-    height: '95%',
+    height: '98%',
     width: '100%',
     borderRadius: 5,
     color: 'lightgrey',
     marginTop: '5%',
-    marginLeft: 10
+    marginLeft: 14
   }
 };

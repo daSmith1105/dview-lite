@@ -5,7 +5,9 @@ import {
   AUTO_LOGIN_CHANGED,
   LOGIN_RESULT,
   CLEAR_SESSION_MODAL,
-  LOGOUT_USER
+  LOGOUT_USER,
+  SET_SESSION_FROM_STORAGE,
+  EXPIRE_SESSION
 } from './types';
 
 import axios from 'axios';
@@ -25,9 +27,10 @@ export const passwordChanged = text => {
     };
 };
 
-export const autoLoginChanged = () => {
+export const autoLoginChanged = (status) => {
     return {
-        type: AUTO_LOGIN_CHANGED
+        type: AUTO_LOGIN_CHANGED,
+        payload: status ? true : null
     };
 };
 
@@ -37,29 +40,18 @@ export const clearSessionModal = () => {
     }
 }
 
-export const checkAutoLogin = () => {
-    return( dispatch) => {
-        // check local storage for autologin
-        // if we have autologin set check for existing session and boot and then get new session variable
-        // dispatch({ type: LOGIN_USER_START });
-    }
-}
-
-export const expireSession = (sSess, serverUrl) => {
-    return(dispatch) => {
-        dispatch({ type: LOGIN_RESULT, payload: 'expired' });
-        logoutUser(sSess, serverUrl)
-        history.push('/')
-    }
-}
-
 export const checkExists = (sSess, serverUrl) => {
     return async ( dispatch ) => {
-        return new Promise( async(resolve,reject) => {
+        return new Promise( async(resolve, reject) => {
+            let session = sSess;
+            if(!sSess) {
+                session = await localStorage.getItem('sSess');
+                dispatch({ type: SET_SESSION_FROM_STORAGE, payload: session }); 
+            }
             const reqBody = {   "jsonrpc": 2.0,
                                 "method": "auth.checkExists",
                                 "id": 200,
-                                "params": [sSess]
+                                "params": [session]
                             };
             await axios({
                 method: 'post',
@@ -118,15 +110,15 @@ const isAlive = async(serverUrl) => {
     })
 };
 
-export const loginUser = ( username, password, serverUrl, force ) => {
+export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto ) => {
     return async ( dispatch ) => {
         dispatch({ type: LOGIN_USER_START });
-        if(username.trim().length < 1 || password.trim().length < 1) {
+        if(sName.trim().length < 1 || sPass.trim().length < 1) {
             dispatch({ type: LOGIN_RESULT, payload: 'loginerror' });
             return setTimeout(() => dispatch({ type: LOGIN_RESULT, payload: '' }), 4000);
         };
         //check server is alive first using method: info.isAlive
-        const online = isAlive(serverUrl)
+        const online = isAlive(sServer)
         Promise.all([online])
         .then( async(result) => {
             console.log('boom!')
@@ -135,11 +127,11 @@ export const loginUser = ( username, password, serverUrl, force ) => {
                 const reqBody = {   "jsonrpc": 2.0,
                     "method": "auth.loginUser",
                     "id": 200,
-                    "params": [ username, password, force ? true : false, force ? false : true ]
+                    "params": [ sName, sPass, fForce ? true : false, fLocal ? true : false ] // sName, sPass,fForce, fLocal
                 };
                 await axios({
                     method: 'post',
-                    url: serverUrl,
+                    url: sServer,
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
@@ -149,12 +141,24 @@ export const loginUser = ( username, password, serverUrl, force ) => {
                 })
                 .then( response => {
                     const result = response.data.result[1];
+                    console.log(result)
                     // possible results: noauth, noremote, exists, maxsession, error
                     if(result) {
                         if(result.length > 8) {
+                            console.log('whamo')
+                            // set session key in local storage in case we refresh the page
+                            localStorage.setItem('sSess', result);
+                            if(fAuto) {
+                                localStorage.setItem('autoLogin', 'true');
+                                localStorage.setItem('username', sName);
+                                localStorage.setItem('password', sPass);
+                            } else {
+                                localStorage.removeItem('autoLogin', 'true');
+                                localStorage.removeItem('username', sName);
+                                localStorage.removeItem('password', sPass);
+                            }
                         // we recieved a session key - push to live page
                             history.push('/live');
-                            // start checkExists timer
                         }
                         return dispatch({ type: LOGIN_RESULT, payload: result });
                     } else {
@@ -178,15 +182,46 @@ export const loginUser = ( username, password, serverUrl, force ) => {
     }
 }
 
-export const logoutUser = ( sSess, serverUrl ) => {
+export const expireSession = ( sSess, serverUrl, autoLogin ) => {
     return ( dispatch ) => {
+        localStorage.removeItem('sSess');
+        dispatch({ type: EXPIRE_SESSION, payload: autoLogin ? autoLogin : null });
+        const reqBody = {   
+            "jsonrpc": 2.0,
+            "method": "auth.logoutUser",
+            "id": 200,
+            "params": [ sSess ]
+        };
+        axios({
+            method: 'post',
+            url: serverUrl,
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            data: reqBody,
+            timeout: 6000
+        })
+        .then( () => {
+            history.push('/');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            history.push('/');
+        }); 
+    }
+}
+
+export const logoutUser = ( sSess, serverUrl) => {
+    return ( dispatch ) => {
+        localStorage.removeItem('sSess');
         dispatch({ type: LOGOUT_USER });
+
         const reqBody = {   "jsonrpc": 2.0,
                             "method": "auth.logoutUser",
                             "id": 200,
                             "params": [ sSess ]
                         };
-        // being blocked by CORS
         axios({
             method: 'post',
             url: serverUrl,
@@ -197,8 +232,7 @@ export const logoutUser = ( sSess, serverUrl ) => {
             data: reqBody,
             timeout: 6000
         })
-        .then( response => {
-            console.log(response.data.result);
+        .then( () => {
             history.push('/');
         })
         .catch(error => {

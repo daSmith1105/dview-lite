@@ -30,12 +30,26 @@ class Login extends React.Component {
         };
     };
 
-    componentDidMount = () => {
-        this.isWindows();
-        this.isMacintosh();
-        this.isIOS();
-        this.isAndroid()
-        // need to check if autologin is set in local storage, if so and we return a session that exists - logout and force login to get a new session variable
+    componentDidMount = async() => {
+      // need to check if autologin is set in local storage, if so and we return a session that exists - logout and force login to get a new session variable
+      const autoLogin = await localStorage.getItem('autoLogin');
+      const username = await localStorage.getItem('username');
+      const password = await localStorage.getItem('password');
+      const sSess = await localStorage.getItem('sSess');
+      console.log(autoLogin);
+      console.log(username);
+      console.log(password);
+      console.log(sSess);
+      if(autoLogin){ this.props.autoLoginChanged('true') };
+      if(username){ this.props.usernameChanged(username) };
+      if(password){ this.props.passwordChanged(password) };
+      if(autoLogin && username && password && sSess ) {
+        this.props.loginUser( username, password, true, false, '/', true ); // sName, sPass, fForce, fLocal, sServer, fAuto
+      }
+      this.isWindows();
+      this.isMacintosh();
+      this.isIOS();
+      this.isAndroid()
     };
 
     isWindows = () => {
@@ -62,7 +76,7 @@ class Login extends React.Component {
         this.props.passwordChanged(e.target.value);
     };
 
-    toggleAuto = () => {
+    toggleAutoLogin = () => {
         this.props.autoLoginChanged();
     };
 
@@ -73,14 +87,14 @@ class Login extends React.Component {
     keyPressed = (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        this.props.loginUser( this.props.username, this.props.password, '/' )
+        this.props.loginUser( this.props.username, this.props.password, false, false, '/', this.props.autoLoginStatus ) 
       }
     }
 
-    _onSubmit = ( e ) => {
+    onSubmit = ( e ) => {
         e.preventDefault();
         // need to sanitize/verify user, pass, autologin and dispatch action
-        this.props.loginUser( this.props.username, this.props.password, '/' )
+        this.props.loginUser( this.props.username, this.props.password, false, false, '/', this.props.autoLoginStatus ) // sName, sPass, fForce, fLocal, sServer, fAuto
     };
 
     // showInactivity = () => {		
@@ -106,14 +120,14 @@ class Login extends React.Component {
 
     const date = new Date();
     const currentYear = date.getFullYear();
-
+console.log(this.props.autoLoginStatus)
     return (
       <div style={ loginContainerStyle }>
         { this.props.loginResult === 'exists' ?
             <div style={ modalContainerStyle }>
                 <SessionExistsModal 
                     onDeny={ () => this.props.clearSessionModal() }
-                    onAccept={ () => this.props.loginUser(this.props.username, this.props.password, '/', 'force') } />
+                    onAccept={ () => this.props.loginUser(this.props.username, this.props.password, true, false, '/', this.props.autoLoginStatus) } />  {/* sName, sPass, fForce, fLocal, sServer, fAuto */}
             </div> :
             null  
         }
@@ -199,8 +213,9 @@ class Login extends React.Component {
                     <input
                         name='autoLogin' 
                         type="checkbox" 
+                        checked={ this.props.autoLoginStatus }
                         value={ this.props.autoLoginStatus } 
-                        onChange={ this.toggleAuto } />
+                        onChange={ () => this.toggleAutoLogin() } />
                 </div>
 
                 { this.props.loginResult === 'noauth' ? 
@@ -233,7 +248,7 @@ class Login extends React.Component {
                         <p style={{ fontSize: 14, color: 'white', marginRight: 10 }}><i>LOADING</i> </p>
                         <Loader type="Grid" color="white" height={26} width={26} />
                       </div> :
-                      <button style={ bottomButtonStyle } onClick={this._onSubmit}>Login</button>
+                      <button style={ bottomButtonStyle } onClick={this.onSubmit}>Login</button>
                     }
 
                 </div>
