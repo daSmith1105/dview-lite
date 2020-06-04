@@ -4,6 +4,7 @@ import {
   PASSWORD_CHANGED,
   AUTO_LOGIN_CHANGED,
   LOGIN_RESULT,
+  LOGIN_SUCCESS,
   CLEAR_SESSION_MODAL,
   LOGOUT_USER,
   SET_SESSION_FROM_STORAGE,
@@ -121,7 +122,6 @@ export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto ) => {
         const online = isAlive(sServer)
         Promise.all([online])
         .then( async(result) => {
-            console.log('boom!')
             if(result[0]){
             // if server is alive attempt login
                 const reqBody = {   "jsonrpc": 2.0,
@@ -141,11 +141,9 @@ export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto ) => {
                 })
                 .then( response => {
                     const result = response.data.result[1];
-                    console.log(result)
                     // possible results: noauth, noremote, exists, maxsession, error
                     if(result) {
                         if(result.length > 8) {
-                            console.log('whamo')
                             // set session key in local storage in case we refresh the page
                             localStorage.setItem('sSess', result);
                             if(fAuto) {
@@ -157,10 +155,12 @@ export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto ) => {
                                 localStorage.removeItem('username', sName);
                                 localStorage.removeItem('password', sPass);
                             }
-                        // we recieved a session key - push to live page
+                            // we recieved a session key - push to live page
                             history.push('/live');
+                            return dispatch({ type: LOGIN_SUCCESS, payload: result });
+                        } else {
+                            return dispatch({ type: LOGIN_RESULT, payload: result });
                         }
-                        return dispatch({ type: LOGIN_RESULT, payload: result });
                     } else {
                         return dispatch({ type: LOGIN_RESULT, payload: "error" });  
                     }

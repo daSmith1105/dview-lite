@@ -14,7 +14,7 @@ const ControlBoxView = props => {
             </button>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton">
-                FullViewer
+                <Link className="link" to="/dview.php">FullViewer</Link>
             </button>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton"

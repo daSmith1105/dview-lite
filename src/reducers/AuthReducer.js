@@ -7,7 +7,8 @@ import {
   LOGOUT_USER,
   AUTO_LOGIN_CHANGED,
   SET_SESSION_FROM_STORAGE,
-  EXPIRE_SESSION
+  EXPIRE_SESSION,
+  LOGIN_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -63,13 +64,19 @@ export default ( state = INITIAL_STATE, action ) => {
         sSess: '',
         isLoggedIn: false
       }
+    case LOGIN_SUCCESS:
+      return { 
+        ...state, 
+        loginResult: '',
+        loading: false,
+        sSess: action.payload,
+        isLoggedIn: true
+      }
     case LOGIN_RESULT:
       return { 
         ...state, 
         loginResult: action.payload,
-        loading: false,
-        sSess: action.payload.length > 8 ? action.payload : '',
-        isLoggedIn: action.payload.length > 8 ? true : false
+        loading: false
       }
     case LOGOUT_USER:
       return { 

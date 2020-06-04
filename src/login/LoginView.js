@@ -1,5 +1,6 @@
 import React from 'react';
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
+import { Link } from 'react-router-dom';
 import dividia_logo from '../images/dividia_logo.jpg';
 import SessionExistsModal from './SessionExistsModal';
 import SessionExpiredModal from './SessionExpiredModal';
@@ -33,19 +34,20 @@ class Login extends React.Component {
     componentDidMount = async() => {
       // need to check if autologin is set in local storage, if so and we return a session that exists - logout and force login to get a new session variable
       const autoLogin = await localStorage.getItem('autoLogin');
-      const username = await localStorage.getItem('username');
-      const password = await localStorage.getItem('password');
-      const sSess = await localStorage.getItem('sSess');
-      console.log(autoLogin);
-      console.log(username);
-      console.log(password);
-      console.log(sSess);
       if(autoLogin){ this.props.autoLoginChanged('true') };
+
+      const username = await localStorage.getItem('username');
       if(username){ this.props.usernameChanged(username) };
+
+      const password = await localStorage.getItem('password');
       if(password){ this.props.passwordChanged(password) };
+
+      const sSess = await localStorage.getItem('sSess');
+
       if(autoLogin && username && password && sSess ) {
         this.props.loginUser( username, password, true, false, '/', true ); // sName, sPass, fForce, fLocal, sServer, fAuto
-      }
+      };
+
       this.isWindows();
       this.isMacintosh();
       this.isIOS();
@@ -53,19 +55,27 @@ class Login extends React.Component {
     };
 
     isWindows = () => {
-        return navigator.platform.indexOf('Win') > -1
+      this.setState({
+        isWin: navigator.platform.indexOf('Win') > -1
+      });
     }
 
     isMacintosh = () => {
-        return navigator.platform.indexOf('Mac') > -1
+      this.setState({
+        isMac: navigator.platform.indexOf('Mac') > -1
+      });
     }
 
     isIOS = () => {
-        return navigator.platform.indexOf('iPad') > -1 || navigator.platform.indexOf('iPhone') > -1
+      this.setState({
+        isIos: navigator.platform.indexOf('iPad') > -1 || navigator.platform.indexOf('iPhone') > -1
+      });
     }
 
     isAndroid = () => {
-        return navigator.platform.indexOf('Android') > -1
+      this.setState({
+        isAndroid: navigator.platform.indexOf('Android') > -1
+      });
     }
 
     handleUsernameChange = (e) => {
@@ -120,7 +130,7 @@ class Login extends React.Component {
 
     const date = new Date();
     const currentYear = date.getFullYear();
-console.log(this.props.autoLoginStatus)
+
     return (
       <div style={ loginContainerStyle }>
         { this.props.loginResult === 'exists' ?
@@ -228,49 +238,103 @@ console.log(this.props.autoLoginStatus)
                     <p style={{ height: 8, fontSize: 13, fontWeight: 'bold', marginTop: -4,  marginBottom: 0 }}></p> 
                 }
 
-                <div style={styles.spacedRowStyle}>
+                <div style={styles.spacedRowStyle1}>
                     { !this.state.isIOS && !this.state.isAndroid ? 
-                        <button style={ bottomButtonStyle} onClick={() => this.props.screenChange('full')}>Full Viewer</button> :
+                        <button style={ bottomButtonStyle} onClick={() => this.props.screenChange('full')}>
+                          <a href={ this.state.isWin ? 
+                                      "http://205.209.241.49:7000/launcher.php": 
+                                      "http://205.209.241.49:7000/dview.php"
+                                   } 
+                             alt="full viewer"
+                             style={{ textDecoration: 'none', color: 'black' }}>
+                            FullViewer
+                          </a>
+                        </button> :
                         null
                     }
 
                     { this.props.fEview ? 
-                        <button style={ bottomButtonStyle} onClick={() => this.props.screenChange('enterprise')}>eView</button> :
+                        <button style={ bottomButtonStyle }>
+                          <a href={ this.state.isWin ? 
+                                      "http://205.209.241.49:7000/elauncher.php": 
+                                      "http://205.209.241.49:7000/eview.php" 
+                                  } 
+                             alt="eView" 
+                             target="_blank"
+                             style={{ textDecoration: 'none', color: 'black' }}>
+                            eView
+                          </a>
+                        </button> :
                         null
                     }
 
                     { this.state.isMac || this.state.isIOS ? 
-                        <button style={ bottomButtonStyle } onClick={() => this.props.screenChange('app_store')}>App Store</button> :
+                          <button style={ bottomButtonStyle }>
+                            <a href={ this.state.isMac ? 
+                                        "https://geo.itunes.apple.com/us/app/dividia-viewer/id1130011776?mt=12" : 
+                                        "https://itunes.apple.com/us/app/dividia-viewer/id1143269725?mt=8" 
+                                     } 
+                               alt="app store" 
+                               target="_blank"
+                               style={{ textDecoration: 'none', color: 'black' }}>
+                              App Store
+                            </a>
+                          </button> :
                         null
                     }
+
                     { this.props.loading ?
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 26,  width: '30%', }}>
                         <p style={{ fontSize: 14, color: 'white', marginRight: 10 }}><i>LOADING</i> </p>
                         <Loader type="Grid" color="white" height={26} width={26} />
                       </div> :
-                      <button style={ bottomButtonStyle } onClick={this.onSubmit}>Login</button>
+                      <button className="hoverable" style={ bottomButtonStyle } onClick={this.onSubmit}>Login</button>
                     }
 
                 </div>
 
             </form>
 
-            <div style={styles.spacedRowStyle}>
+            <div style={styles.spacedRowStyle2}>
                 <p style={styles.footerTextStyle}>Version {this.props.sVersion}</p>
                 <p style={styles.footerTextStyle}>&copy;{currentYear} Dividia Technologies, LLC</p>
-                { !this.state.isIOS && !this.state.isWin ?
-                    <p style={styles.footerTextStyle} className={'hoverable'} onClick={() => this.props.screenChange('full')}>full</p> :
+                { !this.state.isIOS && !this.state.isAndroid ?
+                    <a href={ this.state.isWin ? 
+                                "http://205.209.241.49:7000/launcher.php": 
+                                "http://205.209.241.49:7000/dview.php"
+                             } 
+                      alt="full viewer"
+                      style={styles.footerLinkStyle}
+                      className={'hoverable'}>
+                      full
+                    </a> :
                     null
                 }
 
                 { this.props.fEview ? 
-                    <p style={styles.footerTextStyle} className={'hoverable'} onClick={() => this.props.screenChange('enterprise')}>eview</p> :
+                     <a href={ this.state.isWin ? 
+                                "http://205.209.241.49:7000/elauncher.php": 
+                                "http://205.209.241.49:7000/eview.php"
+                              } 
+                        alt="eView"
+                        style={styles.footerLinkStyle}
+                        className={'hoverable'}>
+                        eView
+                      </a> :
                 null
                 }
             </div>
 
             { this.state.isWin ? 
-                <p style={ styles.launcherDownloadStyle } className={'hoverable'} onClick={() => this.props.screenChange('launcher')}>download launcher</p> :
+                <a href={ this.state.isWin ? 
+                            "http://205.209.241.49:7000/elauncher.php": 
+                            "http://205.209.241.49:7000/eview.php"
+                         } 
+                   alt="launcher"
+                   style={styles.launcherDownloadStyle}
+                   className={'hoverable'}>
+                  download launcher
+                </a> :
                 null
             }
 
@@ -360,7 +424,7 @@ const styles = {
     fontSize: 13
   },
   bottomButtonStyle: {
-    width: '30%',
+    width: '23%',
     padding: 2,
     fontSize: 12,
     fontWeight: 'bold',
@@ -381,20 +445,31 @@ const styles = {
     marginTop: -90,
     zIndex: 10
   },
-  spacedRowStyle: {
+  spacedRowStyle1: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
     color: 'black',
-    marginTop: 16
+    marginTop: 12
+  },
+  spacedRowStyle2: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    color: 'black'
   },
   footerTextStyle: {
     fontSize: 10
   },
+  footerLinkStyle: {
+    fontSize: 10,
+    textDecoration: 'none',
+    marginTop: 10
+  },
   launcherDownloadStyle: {
     textAlign: 'right',
     fontSize: 10,
-    padding: 0,
-    margin: 0
+    textDecoration: 'none',
+    marginTop: 10
   }
 };
