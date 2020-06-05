@@ -1,0 +1,167 @@
+Pre login 
+'config.general.getAll'
+
+Post Login
+
+'config.system.getAll' - [sSess] // need bAutoScanTimeout, also has sName if needed as well as several system configs
+'config.device.getDeviceTypes' - [sSess] // not neded for lite viewer - returns a device array with properties for each device
+'config.device.getAllDevices' - [sSess] // not needed for lite viewer - returns a list of capture cards / analog
+'config.dtime.getAll' - [sSess] // returns time information, timezones as well as a system time sTimestamp
+'config.report.getTypes' - [sSess] // not needed for lite viewer - returns a list of available report types
+'config.report.getAllReports' - [sSess] // not needed for lite viewer - returns an array of reports
+'config.ptz.getAllConfigs' - [sSess] // not needed for lite viewer
+'config.pos.getAllPos' - [sSess] // not needed for lite viewer
+'config.camera.getAllCameras' - [sSess] //returns an array of cameras with their various settings 
+'config.server.getAllAuthServers' - [sSess, sName] // returns all system the user (sName) has access to with sIP, sLocalIP, bPort, bTimestamp, sName, sVersion data
+'config.user.getAllUsers' - [sSess] // returns a list of system users with sName, bInactivityTimeout, bType and some other data for each user
+'util.checkNetworkEnabled' - [sSess] // i guess returns wheter the network is enabled?
+'info.getMachineStatus' - [sSess] // returns a list of stats - looks like # of days recording, harddrive sixe, hard drives/ or might be total hardrive space amount used, storage %
+'config.user.getUserByName' - [sSess, sName] // returns all system the user (sName)
+'config.user.getRights' - [sSess, bID, bSerial] // returns a list of rights for a user on specified system
+'config.user.getCameras' - [sSess, bID] // returns an array of systems and camera access. first item in each array is bSerial followed by cameras that user has access to.
+'config.user.getCameras' - [sSess, bID, bSerial] // returns an array of camera access for specified user and system.
+
+
+
+oServer calls
+
+"config.server.getCamerasBySerial" - [sSess,bSerial]
+"config.user.getRights" - [sSess,bUser,bServer]
+"config.user.getCameras" - [sSess,bUser,bServer]
+"info.getSerial" - []
+"info.isAlive" - []
+"auth.checkHasAdmin" - [sName, sPass]
+"auth.logoutUser" - [sSess]
+if fEview -> "auth.logoutUserEnterfrise" - [sSess]
+"auth.loginUser" - [sName,sPass,fForce,fLocal]
+if fEview -> "auth.loginUserEnterfrise" - [sName,sPass,fForce,fLocal]
+"auth.checkExists" - [sSess] // has side effect of updateing dLastAccess
+"ptz.cameraControl" - [sSess,bCamera,sAction,bSpeed,sExtra]
+
+oMonarch calls
+"stats.lookupServerByCompanyCode" - [code]
+"stats.autocompleteServer" - [search]
+
+_________ SytemModel.java
+// startup
+		rgsLookup.put( "config.general.getAll", "config.meta.getStartup" );
+		rgsLookup.put( "config.server.getAllServers", "config.meta.getStartup" );
+		rgsLookup.put( "online.getUserList", "config.meta.getStartup");
+		// post-login
+		rgsLookup.put( "config.system.getAll", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.device.getDeviceTypes", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.device.getAllDevices", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.dtime.getAll", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.report.getTypes", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.report.getAllReports", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.ptz.getAllPresets", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.ptz.getAllConfigs", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.pos.getAllPos", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.camera.getAllCameras", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.user.getUserByName", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.user.getRights", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.user.getCameras", "config.meta.getPostLogin" );
+		//rgsLookup.put( "config.user.getInactivityTimeout", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.server.getAllAuthServers", "config.meta.getPostLogin" );
+		rgsLookup.put( "config.user.getAllUsers", "config.meta.getPostLogin" );
+		rgsLookup.put( "util.checkNetworkEnabled", "config.meta.getPostLogin" );
+		rgsLookup.put( "pos.getFields", "config.meta.getPostLogin" );
+		rgsLookup.put( "pos.getAllSearches", "config.meta.getPostLogin" );
+		// Setup
+		rgsLookup.put( "config.port.getAllPorts", "config.meta.getSetup" );
+		rgsLookup.put( "config.pos.getAllTypes", "config.meta.getSetup" );
+		rgsLookup.put( "config.pos.getAllPtz", "config.meta.getSetup" );
+		rgsLookup.put( "config.pos.getAllValve", "config.meta.getSetup" );
+		rgsLookup.put( "config.pos.getAllScaleTypes", "config.meta.getSetup" );
+		rgsLookup.put( "config.pos.getAllScale", "config.meta.getSetup" );
+		rgsLookup.put( "config.pos.getAllDigiOutput", "config.meta.getSetup" );
+		rgsLookup.put( "config.network.getAll", "config.meta.getSetup" );
+		rgsLookup.put( "config.ptz.getAllProtocols", "config.meta.getSetup" );
+		rgsLookup.put( "config.camera.getAllMasks", "config.meta.getSetup" );
+		rgsLookup.put( "config.lpr.getAllConfigs", "config.meta.getSetup" );
+		rgsLookup.put( "enterprise.getControllerSerial", "config.meta.getSetup" );
+
+_______________________ RDAServer.java
+        // Startup
+		if ( sFunc.equals( "config.general.getAll" ) )
+			return configGeneralGetAll();
+		
+		if ( sFunc.equals( "config.server.getAllServers" ) )
+			return configServerGetAllServers();
+		
+		if ( sFunc.equals( "online.getUserList" ) )
+			return onlineGetUserList();
+		
+		// Post-Login
+		if ( sFunc.equals( "config.system.getAll" ) )
+			return configSystemGetAll();
+		
+		if ( sFunc.equals( "config.device.getDeviceTypes" ) )
+			return configDeviceGetDeviceTypes();
+		
+		if ( sFunc.equals( "config.device.getAllDevices" ) )
+			return configDeviceGetAllDevices();
+		
+		if ( sFunc.equals( "config.dtime.getAll" ) )
+			return configDtimeGetAll();
+		
+		if ( sFunc.equals( "config.report.getTypes" ) )
+			return configReportGetTypes();
+		
+		if ( sFunc.equals( "config.report.getAllReports" ) )
+			return configReportGetAllReports();
+		
+		if ( sFunc.equals( "config.ptz.getAllPresets" ) )
+			return configPtzGetAllPresets();
+		
+		if ( sFunc.equals( "config.ptz.getAllConfigs" ) )
+			return configPtzGetAllConfigs();
+		
+		if ( sFunc.equals( "config.pos.getAllPos" ) )
+			return configPosGetAllPos();
+		
+		if ( sFunc.equals( "config.camera.getAllCameras" ) )
+			return configCameraGetAllCameras();
+		
+		if ( sFunc.equals( "config.camera.getCameraList" ) )
+			return configCameraGetCameraList( oParam );
+		
+		if ( sFunc.equals( "config.user.getUserByName" ) )
+			return configUserGetUserByName();
+		
+		if ( sFunc.equals( "config.user.getRights" ) )
+			return configUserGetRights();
+		
+		if ( sFunc.equals( "config.user.getCameras" ) )
+			return configUserGetCameras();
+		
+		if ( sFunc.equals( "config.server.getAllAuthServers" ) )
+			return configServerGetAllServers();
+		
+		if ( sFunc.equals( "config.user.getAllUsers" ) )
+			return configUserGetAllUsers();
+		
+		if ( sFunc.equals( "util.checkNetworkEnabled" ) )
+			return utilCheckNetworkEnabled();
+		
+		if ( sFunc.equals( "pos.getFields" ) )
+			return posGetFields();
+		
+		if ( sFunc.equals( "pos.getAllSearches" ) )
+			return posGetAllSearches();
+		
+		// Machine Status
+		if ( sFunc.equals( "info.getMachineStatus" ) )
+			return infoGetMachineStatus();
+		
+		// Meta
+		if ( sFunc.equals( "config.meta.getStartup" ) )
+			return configMetaGetStartup();
+		
+		if ( sFunc.equals( "config.meta.getPostLogin" ) )
+			return configMetaGetPostLogin();
+		
+		if ( sFunc.equals( "config.meta.getMachineStatus" ) )
+			return configMetaGetMachineStatus();
+		
+

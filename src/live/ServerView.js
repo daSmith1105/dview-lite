@@ -1,19 +1,32 @@
 import React from 'react';
-import servers from './test_servers.json'
+import { connect } from 'react-redux';
 
 const ServerView = props => {
+
     return (
         <div style={ styles.serverViewContainerStyle }>
-            <select style={{ padding: 2, border: '2px solid grey', borderRadius: 5 }}>
-                <option value="none">Jump System</option>
-                <option value="null">-----------</option>
-                {servers.map( s => <option key={s.bSerial} value={s.bSerial}>{s.sName}</option>)}
+            <select value={''} 
+                    onChange={ e => { if(e.target.value !== ''){alert(e.target.value)} } }
+                    style={{ padding: 2, border: '2px solid grey', borderRadius: 5, textAlign: 'left' }}>
+                <option value="">Jump System</option>
+                <option value="">-----------</option>
+                { props.authServers.map( server => 
+                                            <option key={server.bSerial} value={server.bSerial}>
+                                                {props.sVersionMajor !== server.sVersion.split('.')[0] ? `* ${server.sName}` : server.sName }
+                                            </option>)}
+                {/* need to handle nvrs that are offline in the dropdown */}
             </select>
         </div>
     )
 }
-
-export default ServerView;
+const mapStateToProps = state => {
+    const { authServers, sVersionMajor } = state.server;
+    return{
+        authServers,
+        sVersionMajor
+    }
+}
+export default connect(mapStateToProps, {})(ServerView);
 
 const styles = {
     serverViewContainerStyle: {

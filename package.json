@@ -40,5 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://205.209.241.49:7000/JSON"
+  "proxy": "http://205.209.241.49:7000"
 }

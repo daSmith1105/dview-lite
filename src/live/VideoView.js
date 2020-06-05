@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import dividia_logo from '../images/dividia_logo.jpg';
 import cams from './test_cams.json';
+import CameraStreamContainer from './CameraStreamContainer';
+
+// implement this.updateHandler = 0; function here and pass the updated timestamp to each component as props
 
 const VideoView = props => {
     const qv1 = cams.length > 4 ? cams.slice(0,4) : cams;
@@ -55,11 +58,12 @@ const VideoView = props => {
                             { cams.map( c => <img key={c.id.toString()}src={c.url} height='25%' width='25%' alt='' style={{ float: 'left' }}/> )}
                         </div>
 
+    // console.log(props.cameras)
     return (
         <div style={ styles.videoViewContainerStyle }>
             <div style={ styles.videoViewHeaderStyle }>
                 <img src={ dividia_logo } height='100%' width='auto' alt='' />
-                <p style={ styles.dvsNameStyle }>Rosa's Cafe #04-1</p>
+                <p style={ styles.dvsNameStyle }>{props.sName}</p>
             </div>
             <div style={ styles.videoViewStreamStyle }>
                 { props.conf === "conf-1" && singleView }
@@ -68,14 +72,24 @@ const VideoView = props => {
                 { props.conf === "conf-9" && nineView }
                 { props.conf === "conf-16" && sixteenView }
             </div>
+            {/* <div style={{ display: 'flex', jusifyContent: 'center', alignItems: 'center' }}>
+                <CameraStreamContainer camNum='1'/>
+                <CameraStreamContainer camNum='2'/>
+                <CameraStreamContainer camNum='3'/>
+                <CameraStreamContainer camNum='4'/>
+            </div> */}
         </div>
     )
 }
 
 const mapStateToProps = state => {
-    const { conf, currentCamView } = state.config;return {
+    const { conf, currentCamView } = state.config;
+    const { sName, cameras } = state.server;
+    return {
         conf,
-        currentCamView
+        currentCamView,
+        sName,
+        cameras
     }
 }
 

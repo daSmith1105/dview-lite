@@ -5,9 +5,8 @@ import LiveView from './live/LiveView';
 import PlaybackView from './playback/PlaybackView';
 import Error from './PageError';
 import { connect } from 'react-redux';
-import { getServer, checkExists,logoutUser, expireSession } from './actions';
+import { getServer, checkExists,logoutUser, expireSession, getPlatform } from './actions';
 import './App.css';
-import history from './history';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,7 +20,8 @@ class App extends React.Component {
 };
 
 componentDidMount = () => {
-  this.props.getServer('/');
+  this.props.getPlatform();
+  this.props.getServer('/JSON/');
   this.verifySession();
 }
 
@@ -30,14 +30,14 @@ componentWillUnmount = () => {
 };
 
 verifySession = async() => {
-  const sessionValidation = this.props.checkExists(this.props.sSess, '/');
+  const sessionValidation = this.props.checkExists(this.props.sSess, '/JSON/');
   Promise.all([sessionValidation])
   .then( (exists) => {
       if(exists[0] === false) {
         if(this.props.isLoggedIn) {
           // we never logged out, but we no longer have a valid session
           // set session expiration
-          this.props.expireSession(this.props.sSess, '/', this.props.autoLoginStatus);
+          this.props.expireSession(this.props.sSess, '/JSON/', this.props.autoLoginStatus);
         }
         console.log('session is invaild')
         this.verifySessionHandler = setTimeout( () => { this.verifySession(); this.verifySessionHandler = 0 }, 10000 );
@@ -71,4 +71,38 @@ const mapStateToProps = state => {
     autoLoginStatus
   }
 }
-export default connect( mapStateToProps, { getServer, checkExists, logoutUser, expireSession })(App);
+export default connect( mapStateToProps, { getServer, checkExists, logoutUser, expireSession, getPlatform })(App);
+
+
+// whichIP: function( sIPbase, oServ )
+// 		{
+// 			var oServerTemp = new RDAServer();
+// 			var sServer;
+// 			var sUrl;
+
+// 			/*
+// 			 * Since we use rpcproxy.cgi and the standard case is
+// 			 * we probably are not local, try public first.
+// 			 * This fixes bug: http://tickets.dividia.net/show_bug.cgi?id=16612
+// 			 */
+
+// 			// Special case so we can direct connect back to our sIPbase
+// 			if ( sIPbase != '' ) {
+// 				sServer = oServ.getIP();
+// 				if ( oServ.getPort() != 80 )
+// 					sServer += ":" + oServ.getPort();
+// 				if ( sIPbase == sServer )
+// 					return sServer;
+// 			}
+
+// 			// Try Public IP
+// 			try {
+// 				sServer = oServ.getIP();
+// 				if ( oServ.getPort() != 80 )
+// 					sServer += ":" + oServ.getPort();
+// 				sUrl = "http://" + sServer;
+// 				oServerTemp.setServer( sUrl );
+// 				oServerTemp.Query( "info.isAlive" );
+// 				return sServer;
+// 			} catch ( e ) {
+// 			}

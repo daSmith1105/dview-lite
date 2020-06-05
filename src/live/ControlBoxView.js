@@ -14,11 +14,26 @@ const ControlBoxView = props => {
             </button>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton">
-                <Link className="link" to="/dview.php">FullViewer</Link>
+                <Link className="link" to="/dview.php">Camera Browser</Link>
             </button>
+            { props.platform !== 'Ios' && props.platform !== 'Android' ?
+                <button style={ styles.controlBoxButtonStyle }
+                        className="hoverableButton">
+                    <a href={ props.platform === 'Win' ? 
+                                "http://205.209.241.49:7000/launcher.php": 
+                                "http://205.209.241.49:7000/dview.php"
+                             } 
+                      alt="full viewer"
+                      style={styles.linkStyle}
+                      className={'hoverableButton'}>
+                      Full Viewer
+                    </a>
+                </button> :
+                null
+            }
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton"
-                    onClick={ () => props.logoutUser(props.sSess, '/') }>
+                    onClick={ () => props.logoutUser(props.sSess, '/JSON/') }>
                 <Link className="link" to="/">Logout</Link>
             </button>
         </div>
@@ -27,8 +42,10 @@ const ControlBoxView = props => {
 
 const mapStateToProps = state => {
     const { sSess } = state.auth;
+    const { platform } = state.utility;
     return {
-        sSess
+        sSess,
+        platform
     };
 }
 
@@ -46,5 +63,10 @@ const styles = {
         margin: 10,
         border: 'none',
         borderRadius: 5
-    }
+    },
+    linkStyle: {
+        fontSize: 14,
+        textDecoration: 'none',
+        marginTop: 10
+      },
 }

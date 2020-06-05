@@ -8,7 +8,15 @@ import {
   CLEAR_SESSION_MODAL,
   LOGOUT_USER,
   SET_SESSION_FROM_STORAGE,
-  EXPIRE_SESSION
+  EXPIRE_SESSION,
+  SET_AUTOSCAN_TIMEOUT,
+  SET_PTZ_CONFIG,
+  SET_ALL_CAMERAS,
+  SET_PTZ_PRESETS,
+  SET_AUTH_SERVERS,
+  SET_USER_DATA,
+  SET_USER_RIGHTS,
+  SET_USER_CAMERAS
 } from './types';
 
 import axios from 'axios';
@@ -49,11 +57,12 @@ export const checkExists = (sSess, serverUrl) => {
                 session = await localStorage.getItem('sSess');
                 dispatch({ type: SET_SESSION_FROM_STORAGE, payload: session }); 
             }
-            const reqBody = {   "jsonrpc": 2.0,
-                                "method": "auth.checkExists",
-                                "id": 200,
-                                "params": [session]
-                            };
+            const reqBody = {   
+                "jsonrpc": 2.0,
+                "method": "auth.checkExists",
+                "id": 200,
+                "params": [session]
+            };
             await axios({
                 method: 'post',
                 url: serverUrl,
@@ -81,10 +90,11 @@ export const checkExists = (sSess, serverUrl) => {
 
 const isAlive = async(serverUrl) => {
     return new Promise( async(resolve,reject) => {
-        const reqBody = {   "jsonrpc": 2.0,
-                            "method": "info.isAlive",
-                            "id": 200
-                        };
+        const reqBody = {   
+            "jsonrpc": 2.0,
+            "method": "info.isAlive",
+            "id": 200
+        };
         await axios({
             method: 'post',
             url: serverUrl,
@@ -111,7 +121,7 @@ const isAlive = async(serverUrl) => {
     })
 };
 
-export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto ) => {
+export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto, bSerial ) => {
     return async ( dispatch ) => {
         dispatch({ type: LOGIN_USER_START });
         if(sName.trim().length < 1 || sPass.trim().length < 1) {
@@ -124,10 +134,11 @@ export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto ) => {
         .then( async(result) => {
             if(result[0]){
             // if server is alive attempt login
-                const reqBody = {   "jsonrpc": 2.0,
+                const reqBody = {   
+                    "jsonrpc": 2.0,
                     "method": "auth.loginUser",
                     "id": 200,
-                    "params": [ sName, sPass, fForce ? true : false, fLocal ? true : false ] // sName, sPass,fForce, fLocal
+                    "params": [ sName, sPass, fForce ? true : false, fLocal ? true : false ] // [sName, sPass, fForce, fLocal]
                 };
                 await axios({
                     method: 'post',
@@ -155,14 +166,17 @@ export const loginUser = ( sName, sPass, fForce, fLocal, sServer, fAuto ) => {
                                 localStorage.removeItem('username', sName);
                                 localStorage.removeItem('password', sPass);
                             }
-                            // we recieved a session key - push to live page
+                            // get all the data we need for user and system
+                            getPostLogin(dispatch, result, sServer, sName, sPass, bSerial);
+                            dispatch({ type: LOGIN_SUCCESS, payload: result });
+                            // push to live page
                             history.push('/live');
-                            return dispatch({ type: LOGIN_SUCCESS, payload: result });
+
                         } else {
-                            return dispatch({ type: LOGIN_RESULT, payload: result });
+                            dispatch({ type: LOGIN_RESULT, payload: result });
                         }
                     } else {
-                        return dispatch({ type: LOGIN_RESULT, payload: "error" });  
+                        dispatch({ type: LOGIN_RESULT, payload: "error" });  
                     }
                 })
                 .catch(error => {
@@ -217,11 +231,12 @@ export const logoutUser = ( sSess, serverUrl) => {
         localStorage.removeItem('sSess');
         dispatch({ type: LOGOUT_USER });
 
-        const reqBody = {   "jsonrpc": 2.0,
-                            "method": "auth.logoutUser",
-                            "id": 200,
-                            "params": [ sSess ]
-                        };
+        const reqBody = {   
+            "jsonrpc": 2.0,
+            "method": "auth.logoutUser",
+            "id": 200,
+            "params": [ sSess ]
+        };
         axios({
             method: 'post',
             url: serverUrl,
@@ -240,4 +255,238 @@ export const logoutUser = ( sSess, serverUrl) => {
             history.push('/');
         }); 
     }
+}
+
+const getPostLogin = (dispatch, sSess, sServer, sName, sPass, bSerial ) => {
+    // Get/set all config data needed to display live and playback screens (Standard Viewer)
+    systemGetAll(dispatch, sSess, sServer);
+    ptzGetConfigs(dispatch, sSess, sServer);
+    getAllCameras(dispatch, sSess, sServer);
+    ptzGetPresets(dispatch, sSess, sServer);
+    getAuthServers(dispatch, sSess, sName, sServer);
+    getUserByName(dispatch, sSess, sName, sPass, bSerial, sServer); // this function also calls getUSerRights() and getUserCameras()
+}
+
+const systemGetAll = (dispatch, sSess, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.system.getAll",
+        "id": 200,
+        "params": [ sSess ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        dispatch({ type: SET_AUTOSCAN_TIMEOUT, payload: data.bAutoScanTimeout })
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        dispatch({ type: SET_AUTOSCAN_TIMEOUT, payload: 10 })
+    }); 
+}
+
+const ptzGetConfigs = (dispatch, sSess, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.ptz.getAllConfigs",
+        "id": 200,
+        "params": [ sSess ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        dispatch({ type: SET_PTZ_CONFIG, payload: data })
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
+}
+
+const getAllCameras = (dispatch, sSess, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.camera.getAllCameras",
+        "id": 200,
+        "params": [ sSess ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        dispatch({ type: SET_ALL_CAMERAS, payload: data })
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
+}
+
+const ptzGetPresets = (dispatch, sSess, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.ptz.getAllPresets",
+        "id": 200,
+        "params": [ sSess ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        dispatch({ type: SET_PTZ_PRESETS, payload: data })
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
+}
+
+const getAuthServers = (dispatch, sSess, sName, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.server.getAllAuthServers",
+        "id": 200,
+        "params": [ sSess, sName ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        // organize this data by sName
+        let sortedByName = data.sort((a,b) => (a.sName > b.sName) ? 1 : 0); 
+        dispatch({ type: SET_AUTH_SERVERS, payload: sortedByName })
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
+}
+
+const getUserByName = (dispatch, sSess, sName, sPass, bSerial, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.user.getUserByName",
+        "id": 200,
+        "params": [ sSess, sName ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        // after we have the user's id we can call to get user rights
+        getUserRights(dispatch, sSess, data.bID, bSerial, sServer); // sSess, bID, bSerial, sServer
+        getUserCameras(dispatch, sSess, data.bID, bSerial, sServer)
+        dispatch({ 
+            type: SET_USER_DATA, 
+            bID: data.bID ? data.bID : 0,
+            bInactivityTimeout: data.bInactivityTimeout ? data.bInactivityTimeout : 0,
+            bType: data.bType ? data.bType : 0,
+            sDescription: data.sDescription ? data.sDescription : '',
+            sName: data.sName ? data.sName : '',
+            sPass: sPass
+        })
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
+}
+
+const getUserRights = (dispatch, sSess, bID, bSerial, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.user.getRights",
+        "id": 200,
+        "params": [ sSess, bID, bSerial ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        dispatch({ type: SET_USER_RIGHTS, payload: data })
+       
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
+}
+
+const getUserCameras = (dispatch, sSess, bID, bSerial, sServer) => {
+    const reqBody = {   
+        "jsonrpc": 2.0,
+        "method": "config.user.getCameras",
+        "id": 200,
+        "params": [ sSess, bID, bSerial ]
+    };
+    axios({
+        method: 'post',
+        url: sServer,
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        data: reqBody,
+        timeout: 6000
+    })
+    .then( (response) => {
+        let data = response.data.result[1];
+        dispatch({ type: SET_USER_CAMERAS, payload: data })
+    
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); 
 }

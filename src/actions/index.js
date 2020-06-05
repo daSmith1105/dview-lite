@@ -3,3 +3,4 @@ export * from './NavigationActions';
 export * from './ServerActions';
 export * from './ConfButtonsActions';
 export * from './CamButtonsActions';
+export * from './UtilityActions';

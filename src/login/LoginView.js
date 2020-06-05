@@ -1,6 +1,5 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
-import { Link } from 'react-router-dom';
 import dividia_logo from '../images/dividia_logo.jpg';
 import SessionExistsModal from './SessionExistsModal';
 import SessionExpiredModal from './SessionExpiredModal';
@@ -23,10 +22,6 @@ class Login extends React.Component {
         super(props);
 
         this.state = {
-            isWin: null,
-            isMac: null,
-            isIos: null,
-            isAndroid: null,
             showPassword: false
         };
     };
@@ -45,38 +40,9 @@ class Login extends React.Component {
       const sSess = await localStorage.getItem('sSess');
 
       if(autoLogin && username && password && sSess ) {
-        this.props.loginUser( username, password, true, false, '/', true ); // sName, sPass, fForce, fLocal, sServer, fAuto
+        this.props.loginUser( username, password, true, false, '/JSON/', true ); // sName, sPass, fForce, fLocal, sServer, fAuto
       };
-
-      this.isWindows();
-      this.isMacintosh();
-      this.isIOS();
-      this.isAndroid()
     };
-
-    isWindows = () => {
-      this.setState({
-        isWin: navigator.platform.indexOf('Win') > -1
-      });
-    }
-
-    isMacintosh = () => {
-      this.setState({
-        isMac: navigator.platform.indexOf('Mac') > -1
-      });
-    }
-
-    isIOS = () => {
-      this.setState({
-        isIos: navigator.platform.indexOf('iPad') > -1 || navigator.platform.indexOf('iPhone') > -1
-      });
-    }
-
-    isAndroid = () => {
-      this.setState({
-        isAndroid: navigator.platform.indexOf('Android') > -1
-      });
-    }
 
     handleUsernameChange = (e) => {
         this.props.usernameChanged(e.target.value);
@@ -97,14 +63,13 @@ class Login extends React.Component {
     keyPressed = (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        this.props.loginUser( this.props.username, this.props.password, false, false, '/', this.props.autoLoginStatus ) 
+        this.props.loginUser( this.props.username, this.props.password, false, false, '/JSON/', this.props.autoLoginStatus, this.props.bSerial ) 
       }
     }
 
     onSubmit = ( e ) => {
         e.preventDefault();
-        // need to sanitize/verify user, pass, autologin and dispatch action
-        this.props.loginUser( this.props.username, this.props.password, false, false, '/', this.props.autoLoginStatus ) // sName, sPass, fForce, fLocal, sServer, fAuto
+        this.props.loginUser( this.props.username, this.props.password, false, false, '/JSON/', this.props.autoLoginStatus, this.props.bSerial ) //[sName,sPass,fForce,fLocal,sServer,fAuto,bSerial]
     };
 
     // showInactivity = () => {		
@@ -137,7 +102,7 @@ class Login extends React.Component {
             <div style={ modalContainerStyle }>
                 <SessionExistsModal 
                     onDeny={ () => this.props.clearSessionModal() }
-                    onAccept={ () => this.props.loginUser(this.props.username, this.props.password, true, false, '/', this.props.autoLoginStatus) } />  {/* sName, sPass, fForce, fLocal, sServer, fAuto */}
+                    onAccept={ () => this.props.loginUser(this.props.username, this.props.password, true, false, '/JSON/', this.props.autoLoginStatus) } />  {/* sName, sPass, fForce, fLocal, sServer, fAuto */}
             </div> :
             null  
         }
@@ -239,9 +204,9 @@ class Login extends React.Component {
                 }
 
                 <div style={styles.spacedRowStyle1}>
-                    { !this.state.isIOS && !this.state.isAndroid ? 
+                    { this.props.platform !== 'Ios' && this.props.platform !== 'Android' ? 
                         <button style={ bottomButtonStyle} onClick={() => this.props.screenChange('full')}>
-                          <a href={ this.state.isWin ? 
+                          <a href={ this.props.platform === 'Win' ? 
                                       "http://205.209.241.49:7000/launcher.php": 
                                       "http://205.209.241.49:7000/dview.php"
                                    } 
@@ -255,12 +220,13 @@ class Login extends React.Component {
 
                     { this.props.fEview ? 
                         <button style={ bottomButtonStyle }>
-                          <a href={ this.state.isWin ? 
+                          <a href={ this.props.platform === 'Win'? 
                                       "http://205.209.241.49:7000/elauncher.php": 
                                       "http://205.209.241.49:7000/eview.php" 
                                   } 
                              alt="eView" 
                              target="_blank"
+                             rel="noopener noreferrer"
                              style={{ textDecoration: 'none', color: 'black' }}>
                             eView
                           </a>
@@ -268,14 +234,15 @@ class Login extends React.Component {
                         null
                     }
 
-                    { this.state.isMac || this.state.isIOS ? 
+                    { this.props.platform === 'Ios' || this.props.platform === 'Mac' ? 
                           <button style={ bottomButtonStyle }>
-                            <a href={ this.state.isMac ? 
+                            <a href={ this.props.platform === 'Mac' ? 
                                         "https://geo.itunes.apple.com/us/app/dividia-viewer/id1130011776?mt=12" : 
                                         "https://itunes.apple.com/us/app/dividia-viewer/id1143269725?mt=8" 
                                      } 
                                alt="app store" 
                                target="_blank"
+                               rel="noopener noreferrer"
                                style={{ textDecoration: 'none', color: 'black' }}>
                               App Store
                             </a>
@@ -299,10 +266,7 @@ class Login extends React.Component {
                 <p style={styles.footerTextStyle}>Version {this.props.sVersion}</p>
                 <p style={styles.footerTextStyle}>&copy;{currentYear} Dividia Technologies, LLC</p>
                 { !this.state.isIOS && !this.state.isAndroid ?
-                    <a href={ this.state.isWin ? 
-                                "http://205.209.241.49:7000/launcher.php": 
-                                "http://205.209.241.49:7000/dview.php"
-                             } 
+                    <a href={ this.props.platform === 'Win' ? "http://205.209.241.49:7000/launcher.php" : "http://205.209.241.49:7000/dview.php" } 
                       alt="full viewer"
                       style={styles.footerLinkStyle}
                       className={'hoverable'}>
@@ -312,7 +276,7 @@ class Login extends React.Component {
                 }
 
                 { this.props.fEview ? 
-                     <a href={ this.state.isWin ? 
+                     <a href={ this.props.platform === 'Win' ? 
                                 "http://205.209.241.49:7000/elauncher.php": 
                                 "http://205.209.241.49:7000/eview.php"
                               } 
@@ -325,11 +289,8 @@ class Login extends React.Component {
                 }
             </div>
 
-            { this.state.isWin ? 
-                <a href={ this.state.isWin ? 
-                            "http://205.209.241.49:7000/elauncher.php": 
-                            "http://205.209.241.49:7000/eview.php"
-                         } 
+            { this.props.platform ==='Win' ? 
+                <a href={ '// download launcher url' } 
                    alt="launcher"
                    style={styles.launcherDownloadStyle}
                    className={'hoverable'}>
@@ -346,7 +307,8 @@ class Login extends React.Component {
 
 const mapStateToProps = state => {
     const { username, password, autoLoginStatus, loginStatus, loginResult, loading } = state.auth;
-    const { sName, sVersion, serverUrl, fEview } = state.server;
+    const { sName, sVersion, serverUrl, bSerial, fEview } = state.server;
+    const { platform } = state.utility;
     return {
         username,
         password,
@@ -357,7 +319,9 @@ const mapStateToProps = state => {
         sName,
         sVersion,
         serverUrl,
-        fEview
+        bSerial,
+        fEview,
+        platform
     }
 };
 
