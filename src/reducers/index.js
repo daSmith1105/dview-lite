@@ -5,6 +5,7 @@ import ConfButtonsReducer from './ConfButtonsReducer';
 import UserReducer from './UserReducer';
 import UtilityReducer from './UtilityReducer';
 import CamButtonsReducer from './CamButtonsReducer';
+import VideoReducer from './VideoReducer';
 
 export default combineReducers({
     auth: AuthReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     config: ConfButtonsReducer,
     camera: CamButtonsReducer,
     user: UserReducer,
-    utility: UtilityReducer
+    utility: UtilityReducer,
+    video: VideoReducer
 });

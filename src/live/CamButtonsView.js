@@ -1,4 +1,5 @@
 import React from 'react';
+import { setAutoScroll } from '../actions';
 import { connect } from 'react-redux';
 import { camViewChange } from '../actions';
 import '../App.css';
@@ -85,9 +86,9 @@ const CamButtonsView = props => {
                             onClick={ () => props.camViewChange('cam-16')}>
                         16
                     </button>
-                    <button style={ styles.camButtonStyle } 
-                            className="hoverable"
-                            onClick={ () => props.camViewChange('single-as')}>AS</button>
+                    <button style={{ color: props.autoScrollEnabled ? 'white' : 'black', backgroundColor: props.autoScrollEnabled ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
+                                className="hoverable"
+                                onClick={ () => props.autoScrollEnabled ? props.setAutoScroll('', '') : props.setAutoScroll( props.conf, props.bAutoScanTimeout) }>AS</button>
                   </div>
 
     const quadView = <div>
@@ -111,9 +112,9 @@ const CamButtonsView = props => {
                                 onClick={ () => props.camViewChange('cam-13-16')}>
                             13 -16
                         </button>
-                        <button style={ styles.camButtonStyle } 
+                        <button style={{ color: props.autoScrollEnabled ? 'white' : 'black', backgroundColor: props.autoScrollEnabled ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
                                 className="hoverable"
-                                onClick={ () => props.camViewChange('quad-as')}>AS</button>
+                                onClick={ () => props.autoScrollEnabled ? props.setAutoScroll('', '') : props.setAutoScroll( props.conf, props.bAutoScanTimeout) }>AS</button>
                     </div>
 
     const octoView = <div>
@@ -127,9 +128,9 @@ const CamButtonsView = props => {
                                 onClick={ () => props.camViewChange('cam-9-16')}>
                             9 - 16
                         </button>
-                        <button style={ styles.camButtonStyle } 
+                        <button style={{ color: props.autoScrollEnabled ? 'white' : 'black', backgroundColor: props.autoScrollEnabled ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
                                 className="hoverable"
-                                onClick={ () => props.camViewChange('octo-as')}>AS</button>
+                                onClick={ () => props.autoScrollEnabled ? props.setAutoScroll('', '') : props.setAutoScroll( props.conf, props.bAutoScanTimeout) }>AS</button>
                     </div>
 
     const nineView = <div>
@@ -143,16 +144,23 @@ const CamButtonsView = props => {
                                 onClick={ () => props.camViewChange('cam-8-16')}>
                             8 - 16
                         </button>
-                        <button style={ styles.camButtonStyle } 
+                        <button style={{ color: props.autoScrollEnabled ? 'white' : 'black', backgroundColor: props.autoScrollEnabled ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
                                 className="hoverable"
-                                onClick={ () => props.camViewChange('nine-as')}>AS</button>
+                                onClick={ () => props.autoScrollEnabled ? props.setAutoScroll('', '') : props.setAutoScroll( props.conf, props.bAutoScanTimeout) }>AS</button>
                     </div>
 
     const sixteenView = <div>
                             <button style={{ color: props.currentCamView === "cam-1-16" ? 'white' : 'black', backgroundColor: props.currentCamView === "cam-1-16" ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
                                     className="hoverable"
                                     onClick={ () => props.camViewChange('cam-1-16')}>1 - 16</button>
+                            <button style={{ color: props.autoScrollEnabled ? 'white' : 'black', backgroundColor: props.autoScrollEnabled ? 'dodgerblue' : 'lightgrey', margin: 4, paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5 }}
+                                    className="hoverable"
+                                    onClick={ () => props.autoScrollEnabled ? props.setAutoScroll('', '') : props.setAutoScroll( props.conf, props.bAutoScanTimeout) }>
+                                AS
+                            </button>
                         </div>
+
+    console.log('current cam view: ', props.currentCamView)
     return (
         <div style={ StyleSheet.camButtonsViewContainerStyle }>
             {/* get the number of cams and map out buttons, temp below */}
@@ -166,14 +174,18 @@ const CamButtonsView = props => {
 }
 
 const mapStateToProps = state => {
-    const {conf, currentCamView } = state.config;
+    const { conf} = state.config;
+    const { bAutoScanTimeout } = state.server;
+    const { autoScrollEnabled, currentCamView } = state.camera;
     return {
         conf,
-        currentCamView
+        currentCamView,
+        bAutoScanTimeout,
+        autoScrollEnabled
     }
 }
 
-export default connect(mapStateToProps, { camViewChange })(CamButtonsView);
+export default connect(mapStateToProps, { camViewChange, setAutoScroll })(CamButtonsView);
 
 const styles = {
     camButtonsViewContainerStyle: {

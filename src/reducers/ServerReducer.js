@@ -19,11 +19,13 @@ import {
     sVersionMajor: '',
     bTimestamp: 0,
     bTimeDiffmax: 36000,
-    bAutoScanTimeout: 0,
+    bAutoScanTimeout: 5,
     ptzConfig: [],
     ptzPresets: [],
     cameras: [],
-    authServers: []
+    authServers: [],
+    sServer: '',
+    sServerLiveMPE: '/mpe/'
   };
   
   export default ( state = INITIAL_STATE, action ) => {

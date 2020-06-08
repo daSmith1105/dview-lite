@@ -62,10 +62,11 @@ const styles = {
         paddingBottom: 3,
         margin: 10,
         border: 'none',
-        borderRadius: 5
+        borderRadius: 5,
+        fontSize: 12
     },
     linkStyle: {
-        fontSize: 14,
+        fontSize: 12,
         textDecoration: 'none',
         marginTop: 10
       },
