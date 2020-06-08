@@ -49,7 +49,7 @@ const ConfButtonsView = props => {
                     </button> :
                     null
                 }
-                <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.conf === "conf-fs" ? 'white' : 'black', backgroundColor: props.conf === "conf-fs" ? 'dodgerblue' : 'lightgrey' }} 
+                <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.fullScreenEnabled ? 'white' : 'black', backgroundColor: props.fullScreenEnabled ? 'dodgerblue' : 'lightgrey' }} 
                         className="hoverable"
                         onClick={ () => props.configChange("conf-fs")}>
                     FS
@@ -60,9 +60,10 @@ const ConfButtonsView = props => {
 }
 
 const mapStateToProps = state => {
-    const { conf } = state.config;
+    const { conf, fullScreenEnabled } = state.config;
     return {
-        conf
+        conf,
+        fullScreenEnabled
     }
 };
 

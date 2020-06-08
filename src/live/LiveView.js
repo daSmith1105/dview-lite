@@ -17,15 +17,60 @@ class Live extends React.Component {
     };
     
     render() {
+
+        const styles = {
+          liveContainerStyle: {
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'row',
+            height: '100vh',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'lightgrey',
+            position: 'relative',
+            // backgroundColor: 'green'
+          },
+          leftSubContainerStyle: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white',
+            position: 'relative',
+            // backgroundColor: 'red',
+            height: this.props.fullScreenEnabled ? '100vmin' : '68vmin',
+            width: this.props.fullScreenEnabled ? '160vmin' : '80vmin',
+            marginRight: 10
+          },
+          rightSubContainerStyle: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            width: this.props.fullScreenEnabled ? '14vmin' : '16vmin',
+            maxWidth: 180,
+            // backgroundColor: 'yellow',
+            height: '68vmin',
+            marginTop: 'auto',
+            marginBottom: 'auto',
+            padding: 10,
+            paddingTop: '1vmin',
+            backgroundColor: 'white'
+          }
+        };
+
         const { liveContainerStyle } = styles;
+        
 
         return (
             <div style={ liveContainerStyle }>
                 <div style={ styles.leftSubContainerStyle }>
-                    <div>
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, margin: 'auto', width: '100%', height: this.props.fullScreenEnabled ? '88%' : '80%', padding: 5 }}>
                         <VideoView />
                     </div>
-                    <CamButtonsView />
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, margin: 'auto', height: this.props.fullScreenEnabled ? '5%' : '8%', width: '100%' }}>
+                      <CamButtonsView />
+                    </div>
                 </div>
                 <div style={ styles.rightSubContainerStyle }>
                     <ConfButtonsView />
@@ -41,52 +86,14 @@ class Live extends React.Component {
 
 const mapStateToProps = state => {
     const { dvsName, dvsVersion, serverUrl, fEview } = state.server;
+    const {fullScreenEnabled  } = state.config;
     return {
         dvsName,
         dvsVersion,
         serverUrl,
-        fEview
+        fEview,
+        fullScreenEnabled
     }
 };
 
 export default connect(mapStateToProps, {})(Live);
-
-const styles = {
-  liveContainerStyle: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    height: '100vh',
-    justifyContent: 'center',
-    color: 'lightgrey',
-    position: 'relative',
-    // backgroundColor: 'green'
-  },
-  subContainer: {
-    height: '70vmin',
-    width: '90vmin',
-    backgroundColor: 'white',
-    paddingRight: 40,
-    paddingleft: 40
-  },
-  leftSubContainerStyle: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  rightSubContainerStyle: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    width: '20vmin',
-    // backgroundColor: 'yellow',
-    height: '68vmin',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    paddingTop: '1vmin',
-    backgroundColor: 'white'
-  }
-};

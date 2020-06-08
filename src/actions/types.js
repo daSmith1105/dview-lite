@@ -32,6 +32,7 @@ export const CONFIG_CHANGED = 'CONFIG_CHANGED';
 
 // CamButtonsActions
 export const CAM_VIEW_CHANGED = 'CAM_VIEW_CHANGED';
+export const SET_SINGLE_VIEW = 'SET_SINGLE_VIEW';
 
 //UtilityActions
 export const SET_PLATFORM_TYPE = 'SET_PLATFORM_TYPE';

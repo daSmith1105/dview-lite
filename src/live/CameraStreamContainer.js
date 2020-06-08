@@ -36,7 +36,7 @@ class CameraStreamContainer extends React.Component {
     render() {
         return (
             // allow for component to be called with a variable height depending on our config layout
-            <div style={{ height: 200, width: 200 }}>
+            <div style={{ height: 200, width: 200 }} onDoubleClick={ () => alert('double clicked!')}>
                 <img src={ 'http://205.209.241.49:7000/mpe/cam' + this.props.camNum + '.jpg?sess=' + this.props.sSess + '&ts=' + this.state.timestamp } alt='camera_stream' height={'100%'} width={'100%'} />
             </div>
         )
