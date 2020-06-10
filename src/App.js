@@ -5,7 +5,7 @@ import LiveView from './live/LiveView';
 import PlaybackView from './playback/PlaybackView';
 import Error from './PageError';
 import { connect } from 'react-redux';
-import { getServer, checkExists,logoutUser, expireSession, getPlatform } from './actions';
+import { getServer, checkExists,logoutUser, expireSession, getPlatform, updateCurrentTime } from './actions';
 import './App.css';
 
 class App extends React.Component {
@@ -20,8 +20,9 @@ class App extends React.Component {
 };
 
 componentDidMount = () => {
+  setInterval(() => this.props.updateCurrentTime(), 1000);
   this.props.getPlatform();
-  this.props.getServer('/JSON/');
+  this.props.getServer('/JSON/'); //this.props.sServer 
   this.verifySession();
 }
 
@@ -30,14 +31,14 @@ componentWillUnmount = () => {
 };
 
 verifySession = async() => {
-  const sessionValidation = this.props.checkExists(this.props.sSess, '/JSON/');
+  const sessionValidation = this.props.checkExists(this.props.sSess, '/JSON/'); //this.props.sServer 
   Promise.all([sessionValidation])
   .then( (exists) => {
       if(exists[0] === false) {
         if(this.props.isLoggedIn) {
           // we never logged out, but we no longer have a valid session
           // set session expiration
-          this.props.expireSession(this.props.sSess, '/JSON/', this.props.autoLoginStatus);
+          this.props.expireSession(this.props.sSess, '/JSON/', this.props.autoLoginStatus); //this.props.sServer 
         }
         console.log('session is invaild')
         this.verifySessionHandler = setTimeout( () => { this.verifySession(); this.verifySessionHandler = 0 }, 10000 );
@@ -65,13 +66,15 @@ verifySession = async() => {
 
 const mapStateToProps = state => {
   const { sSess, isLoggedIn, autoLoginStatus } = state.auth;
+  const { sServer } = state.server;
   return {
     sSess,
     isLoggedIn,
-    autoLoginStatus
+    autoLoginStatus,
+    sServer
   }
 }
-export default connect( mapStateToProps, { getServer, checkExists, logoutUser, expireSession, getPlatform })(App);
+export default connect( mapStateToProps, { getServer, checkExists, logoutUser, expireSession, getPlatform, updateCurrentTime })(App);
 
 
 // whichIP: function( sIPbase, oServ )

@@ -7,7 +7,7 @@ const ServerView = props => {
         <div style={ styles.serverViewContainerStyle }>
             <select value={''} 
                     onChange={ e => { if(e.target.value !== ''){alert(e.target.value)} } }
-                    style={{ fontSize: 12, height: 24, padding: 2, border: '2px solid grey', borderRadius: 5, textAlign: 'left' }}>
+                    style={{ fontSize: '1.5vmin', padding: '.2vw', border: '2px solid grey', maxWidth: 180, borderRadius: 5, textAlign: 'left' }}>
                 <option value="">Jump System</option>
                 <option value="">-----------</option>
                 { props.authServers.map( server => 
@@ -30,6 +30,7 @@ export default connect(mapStateToProps, {})(ServerView);
 
 const styles = {
     serverViewContainerStyle: {
-        margin: 20
+        margin:'3vw',
+        width: '90%'
     }
 }

@@ -6,15 +6,36 @@ class CameraStreamContainer extends React.Component {
         super(props);
 
         this.state = {
-            url: 'http://205.209.241.49:7000/',
-            source: 'cam1.jpg?',
-            timestamp: ''
+            loading: false,
+            timestamp: '',
+            enabled: false
         }
 
         this.updateHandler = 0;
     }
 
     componentDidMount = () => {
+        this.setState({ 
+            loading: true
+        }, () => {
+            setTimeout( () => {
+                let cam = this.props.enabled;
+                console.log(cam)
+                if(cam && cam.fEnable){ 
+                    this.setState({
+                        enabled: cam.fEnable
+                    }, () => {
+                        this.setState({
+                            loading: false
+                        })
+                    })
+                } else {
+                    this.setState({
+                        loading: false
+                    })
+                }
+            }, 200)
+        })
        this.updateTimestamp();
         // set a timer to call and replace our image with an updated one
     }
@@ -34,10 +55,15 @@ class CameraStreamContainer extends React.Component {
     };
 
     render() {
+
         return (
-            // allow for component to be called with a variable height depending on our config layout
             <div style={{ float: 'left', height: this.props.height, width: this.props.width }} onDoubleClick={ () => this.props.onDoubleClick() }>
-                <img src={ 'http://205.209.241.49:7000/mpe/cam' + this.props.camNum + '.jpg?sess=' + this.props.sSess + '&ts=' + this.state.timestamp } alt='camera_stream' height={'100%'} width={'100%'} />
+                { this.state.enabled && !this.state.loading ?
+                    <img src={ this.props.sServer + '/mpe/cam' + this.props.camNum + '.jpg?sess=' + this.props.sSess + '&ts=' + this.state.timestamp } alt='camera_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} />  :
+                    <img src={ 'https://cdn.clipart.email/cf083e6fbd18d88e5458a3e6e813de19_eye-icon-png-vector-pixsector_560-560.png' } alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> 
+                }
+                {/* { this.state.loading && 
+                    <img src={ 'https://media.giphy.com/media/l4FGtP1BqMzxz8Gbu/giphy.gif' } alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> } */}
             </div>
         )
     }
@@ -45,10 +71,13 @@ class CameraStreamContainer extends React.Component {
 
 const mapStateToProps = state => {
     const { sSess, sServerLiveMPE, isLoggedIn } = state.auth;
+    const { sServer, cameras } = state.server;
     return {
         sSess,
         sServerLiveMPE,
-        isLoggedIn
+        isLoggedIn,
+        sServer,
+        cameras
     }
 }
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setSingleView } from '../actions';
 import dividia_logo from '../images/dividia_logo.jpg';
-import cams from './test_cams.json';
 import CameraStreamContainer from './CameraStreamContainer';
 
 // implement this.updateHandler = 0; function here and pass the updated timestamp to each component as props
@@ -20,50 +19,71 @@ const VideoView = props => {
     const ninev2 = props.cameras.length > 9 ? props.cameras.slice(7,props.cameras.length) : null;
 
     const forcedSingleView = <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-                                <CameraStreamContainer height={'100%'} width={'100%'} camNum={ props.singleCamSelected } style={{ float: 'left' }} onDoubleClick={() => props.setSingleView('') } />
-                                {/* <img src={ props.fSingle ? props.cameras.find(c => c.id === props.singleprops.cameraselected).url : '' } height='100%' width='100%' alt='' style={{ position: 'absolute', top: 0, left: 0 }} onDoubleClick={() => props.setSingleView('') } /> */}
+                                <CameraStreamContainer enabled={ props.cameras.filter( c => c.bID === props.singleCamSelected)[0] } height={'100%'} width={'100%'} camNum={ props.singleCamSelected } style={{ float: 'left' }} onDoubleClick={() => props.setSingleView('') } />
                              </div>
 
     const singleView =  <div style={{ height: '100%', width: '100%', position: 'relative' }}>
                             { isNaN(parseInt(props.currentCamView.charAt(props.currentCamView.length -2))) ?
-                                <CameraStreamContainer height={'100%'} width={'100%'} camNum={ props.currentCamView.slice(-1) } style={{ float: 'left' }} onDoubleClick={ () => console.log('nope') } /> :
-                                <CameraStreamContainer height={'100%'} width={'100%'} camNum={ props.currentCamView.slice(-2) } style={{ float: 'left' }} onDoubleClick={ () => console.log('nope') } />
+                                <CameraStreamContainer height={'100%'} width={'100%'} enabled={ props.cameras.filter( c => c.bID.toString() === props.currentCamView.slice(-1))[0] } camNum={ props.currentCamView.slice(-1) } style={{ float: 'left' }} onDoubleClick={ () => console.log('nope') } /> :
+                                <CameraStreamContainer height={'100%'} width={'100%'} enabled={ props.cameras.filter( c => c.bID.toString() === props.currentCamView.slice(-2))[0] } camNum={ props.currentCamView.slice(-2) } style={{ float: 'left' }} onDoubleClick={ () => console.log('nope') } />
                             }
                         </div>
     
     const quadView = <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-                        { props.currentCamView === "cam-1-4" && qv1.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} camNum={c.bDeviceSubID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'left' }} />) }
-                        { props.currentCamView === "cam-5-8" && qv2.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} camNum={c.bDeviceSubID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'left' }} />) }
-                        { props.currentCamView === "cam-9-12" && qv3.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} camNum={c.bDeviceSubID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'left' }} />) }   
-                        { props.currentCamView === "cam-13-16" && qv4.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} camNum={c.bDeviceSubID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'left' }} />) }
+                        { props.currentCamView === "cam-1-4" && qv1.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) }
+                        { props.currentCamView === "cam-5-8" && qv2.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) }
+                        { props.currentCamView === "cam-9-12" && qv3.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) }   
+                        { props.currentCamView === "cam-13-16" && qv4.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) }
+                        {/* { props.currentCamView === "cam-17-20" && qv4.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) } */}
+                        {/* { props.currentCamView === "cam-21-24" && qv4.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) } */}
+                        {/* { props.currentCamView === "cam-25-28" && qv4.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) } */}
+                        {/* { props.currentCamView === "cam-29-32" && qv4.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'50%'} width={'50%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) } */}
                      </div>
     
     const octoView = <div style={{ height: '100%', width: '100%', position: 'relative' }}>
                     { props.currentCamView === "cam-1-8" ?
                         <div style={{ height: '100%', width: '100%' }}>
-                            <CameraStreamContainer height={'75%'} width={'75%'} camNum={ 1 } style={{ float: 'left' }} />
-                            { eightv1.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} height={'25%'} width={'25%'} camNum={c.bDeviceSubID } onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'right' }} />) }
+                            <CameraStreamContainer height={'75%'} width={'75%'} enabled={ props.cameras.filter( c => c.bID === 1)[0] } camNum={ 1 } style={{ float: 'left' }} />
+                            { eightv1.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} height={'25%'} width={'25%'} camNum={c.bID } onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'right' }} />) }
                         </div> :
                         null
                     }
                     { props.currentCamView === "cam-9-16" ?
                         <div style={{ height: '100%', width: '100%' }}>
-                            <CameraStreamContainer height={'75%'} width={'75%'} camNum={ 9 } style={{ float: 'left' }} />
-                            { eightv2.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} height={'25%'} width={'25%'} camNum={c.bDeviceSubID } onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'right' }} />) }
+                            <CameraStreamContainer height={'75%'} enabled={ props.cameras.filter( c => c.bID === 9)[0] } width={'75%'} camNum={ 9 } style={{ float: 'left' }} />
+                            { eightv2.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c}  height={'25%'} width={'25%'} camNum={c.bID } onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'right' }} />) }
                         </div> :
                         null
                     }
+                     {/* { props.currentCamView === "cam-17-24" ?
+                        <div style={{ height: '100%', width: '100%' }}>
+                            <CameraStreamContainer height={'75%'} enabled={ props.cameras.filter( c => c.bID === 9)[0] } width={'75%'} camNum={ 9 } style={{ float: 'left' }} />
+                            { eightv2.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c}  height={'25%'} width={'25%'} camNum={c.bID } onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'right' }} />) }
+                        </div> :
+                        null
+                    } */}
+                     {/* { props.currentCamView === "cam-25-32" ?
+                        <div style={{ height: '100%', width: '100%' }}>
+                            <CameraStreamContainer height={'75%'} enabled={ props.cameras.filter( c => c.bID === 9)[0] } width={'75%'} camNum={ 9 } style={{ float: 'left' }} />
+                            { eightv2.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c}  height={'25%'} width={'25%'} camNum={c.bID } onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'right' }} />) }
+                        </div> :
+                        null
+                    } */}
                  </div>
     
     const nineView = <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-                        { props.currentCamView === "cam-1-9" && ninev1.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} camNum={c.bDeviceSubID } height={'33.3%'} width={'33.3%'} onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'left' }} />) }
-                        { props.currentCamView === "cam-8-16" && ninev2.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} camNum={c.bDeviceSubID } height={'33.3%'} width={'33.3%'} onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'left' }} />) }
+                        { props.currentCamView === "cam-1-9" && ninev1.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'33.3%'} width={'33.3%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) }
+                        { props.currentCamView === "cam-8-16" && ninev2.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'33.3%'} width={'33.3%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) }
+                        {/* { props.currentCamView === "cam-16-24" && ninev2.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'33.3%'} width={'33.3%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) } */}
+                        {/* { props.currentCamView === "cam-24-32" && ninev2.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'33.3%'} width={'33.3%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) } */}
                      </div>
                     
     const sixteenView = <div style={{ height: '100%', width: '100%', position: 'relative' }}>
-                            { props.cameras.map( c => <CameraStreamContainer key={c.bDeviceSubID.toString()} height={'25%'} width={'25%'} camNum={c.bDeviceSubID } onDoubleClick={() => props.setSingleView(c.bDeviceSubID) } style={{ float: 'left' }} /> )}
+                            { props.currentCamView === "cam-1-16" && props.cameras.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} height={'25%'} width={'25%'} camNum={c.bID } onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} /> )}
+                            {/* { props.currentCamView === "cam-17-32" && ninev1.map( c => <CameraStreamContainer key={c.bID.toString()} enabled={c} camNum={c.bID } height={'33.3%'} width={'33.3%'} onDoubleClick={() => props.setSingleView(c.bID) } style={{ float: 'left' }} />) } */}
                         </div>
-
+    console.log('conf: ', props.conf)
+    console.log(props.cameras)
     return (
         <div style={ styles.videoViewContainerStyle }>
             { !props.fFullscreen ? 
@@ -89,12 +109,7 @@ const VideoView = props => {
                     null
                 }   
             </div>
-            {/* <div style={{ display: 'flex', jusifyContent: 'center', alignItems: 'center' }}>
-                <CameraStreamContainer camNum='1'/>
-                <CameraStreamContainer camNum='2'/>
-                <CameraStreamContainer camNum='3'/>
-                <CameraStreamContainer camNum='4'/>
-            </div> */}
+
         </div>
     )
 }
@@ -123,7 +138,8 @@ const styles = {
     videoViewContainerStyle: {
         height: '100%',
         width: '100%',
-        position: 'relative'
+        position: 'relative',
+        marginLeft: '-1.5vmin'
     },
     videoViewHeaderStyle: {
         paddingRight: 20,
@@ -139,7 +155,9 @@ const styles = {
         fontWeight: 'bold'
     },
     videoViewStreamStyle: {
-        backgroundColor: 'grey',
+        border: 'nmone',
+        borderRadius: 10,
+        backgroundColor: 'lightgrey',
         height: '100%',
         width: '100%'
     }

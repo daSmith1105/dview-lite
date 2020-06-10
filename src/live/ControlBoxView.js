@@ -10,18 +10,18 @@ const ControlBoxView = props => {
         <div style={ styles.controlBoxViewContainerStyle }>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton">
-                <Link className="link" to="/playback">Playback</Link>
+                <Link className="hoverableButton link" to="/playback">Playback</Link>
             </button>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton">
-                <Link className="link" to="/dview.php">Camera Browser</Link>
+                <Link className="hoverableButton link" to="/dview.php">Camera Browser</Link>
             </button>
             { props.platform !== 'Ios' && props.platform !== 'Android' ?
                 <button style={ styles.controlBoxButtonStyle }
                         className="hoverableButton">
                     <a href={ props.platform === 'Win' ? 
-                                "http://205.209.241.49:7000/launcher.php": 
-                                "http://205.209.241.49:7000/dview.php"
+                                props.sServer + "/launcher.php": 
+                                props.sServer + "/dview.php"
                              } 
                       alt="full viewer"
                       style={styles.linkStyle}
@@ -31,10 +31,11 @@ const ControlBoxView = props => {
                 </button> :
                 null
             }
+            <br/>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton"
-                    onClick={ () => props.logoutUser(props.sSess, '/JSON/') }>
-                <Link className="link" to="/">Logout</Link>
+                    onClick={ () => props.logoutUser(props.sSess, '/JSON/') }> {/* this.props.sServer  */}
+                <Link className="hoverableButton link" to="/">Logout</Link>
             </button>
         </div>
     )
@@ -43,9 +44,11 @@ const ControlBoxView = props => {
 const mapStateToProps = state => {
     const { sSess } = state.auth;
     const { platform } = state.utility;
+    const { sServer } = state.server;
     return {
         sSess,
-        platform
+        platform,
+        sServer
     };
 }
 
@@ -63,10 +66,10 @@ const styles = {
         margin: 10,
         border: 'none',
         borderRadius: 5,
-        fontSize: 12
+        fontSize: '1.5vmin'
     },
     linkStyle: {
-        fontSize: 12,
+        fontSize: '1.5vmin',
         textDecoration: 'none',
         marginTop: 10
       },

@@ -40,7 +40,7 @@ class Login extends React.Component {
       const sSess = await localStorage.getItem('sSess');
 
       if(autoLogin && username && password && sSess ) {
-        this.props.loginUser( username, password, true, false, '/JSON/', true ); // sName, sPass, fForce, fLocal, sServer, fAuto
+        this.props.loginUser( username, password, true, false, '/JSON/', true ); // sName, sPass, fForce, fLocal, this.props.sServer + , fAuto
       };
     };
 
@@ -63,13 +63,13 @@ class Login extends React.Component {
     keyPressed = (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        this.props.loginUser( this.props.username, this.props.password, false, false, '/JSON/', this.props.autoLoginStatus, this.props.bSerial ) 
+        this.props.loginUser( this.props.username, this.props.password, false, false, '/JSON/', this.props.autoLoginStatus, this.props.bSerial )  //this.props.sServer + 
       }
     }
 
     onSubmit = ( e ) => {
         e.preventDefault();
-        this.props.loginUser( this.props.username, this.props.password, false, false, '/JSON/', this.props.autoLoginStatus, this.props.bSerial ) //[sName,sPass,fForce,fLocal,sServer,fAuto,bSerial]
+        this.props.loginUser( this.props.username, this.props.password, false, false, '/JSON/', this.props.autoLoginStatus, this.props.bSerial ) //[sName,sPass,fForce,fLocal,this.props.sServer + ,fAuto,bSerial]
     };
 
     // showInactivity = () => {		
@@ -102,7 +102,7 @@ class Login extends React.Component {
             <div style={ modalContainerStyle }>
                 <SessionExistsModal 
                     onDeny={ () => this.props.clearSessionModal() }
-                    onAccept={ () => this.props.loginUser(this.props.username, this.props.password, true, false, '/JSON/', this.props.autoLoginStatus) } />  {/* sName, sPass, fForce, fLocal, sServer, fAuto */}
+                    onAccept={ () => this.props.loginUser(this.props.username, this.props.password, true, false, '/JSON/', this.props.autoLoginStatus) } />  {/* sName, sPass, fForce, fLocal, this.props.sServer +, fAuto */}
             </div> :
             null  
         }
@@ -207,8 +207,8 @@ class Login extends React.Component {
                     { this.props.platform !== 'Ios' && this.props.platform !== 'Android' ? 
                         <button style={ bottomButtonStyle} onClick={() => this.props.screenChange('full')}>
                           <a href={ this.props.platform === 'Win' ? 
-                                      "http://205.209.241.49:7000/launcher.php": 
-                                      "http://205.209.241.49:7000/dview.php"
+                                      this.props.sServer + "/launcher.php": 
+                                      this.props.sServer + "/dview.php"
                                    } 
                              alt="full viewer"
                              style={{ textDecoration: 'none', color: 'black' }}>
@@ -221,8 +221,8 @@ class Login extends React.Component {
                     { this.props.fEview ? 
                         <button style={ bottomButtonStyle }>
                           <a href={ this.props.platform === 'Win'? 
-                                      "http://205.209.241.49:7000/elauncher.php": 
-                                      "http://205.209.241.49:7000/eview.php" 
+                                      this.props.sServer + "/elauncher.php": 
+                                      this.props.sServer + "/eview.php" 
                                   } 
                              alt="eView" 
                              target="_blank"
@@ -266,7 +266,7 @@ class Login extends React.Component {
                 <p style={styles.footerTextStyle}>Version {this.props.sVersion}</p>
                 <p style={styles.footerTextStyle}>&copy;{currentYear} Dividia Technologies, LLC</p>
                 { !this.state.isIOS && !this.state.isAndroid ?
-                    <a href={ this.props.platform === 'Win' ? "http://205.209.241.49:7000/launcher.php" : "http://205.209.241.49:7000/dview.php" } 
+                    <a href={ this.props.platform === 'Win' ? this.props.sServer + "/launcher.php" : this.props.sServer + "/dview.php" } 
                       alt="full viewer"
                       style={styles.footerLinkStyle}
                       className={'hoverable'}>
@@ -277,8 +277,8 @@ class Login extends React.Component {
 
                 { this.props.fEview ? 
                      <a href={ this.props.platform === 'Win' ? 
-                                "http://205.209.241.49:7000/elauncher.php": 
-                                "http://205.209.241.49:7000/eview.php"
+                                this.props.sServer + "/elauncher.php": 
+                                this.props.sServer + "/eview.php"
                               } 
                         alt="eView"
                         style={styles.footerLinkStyle}
@@ -307,7 +307,7 @@ class Login extends React.Component {
 
 const mapStateToProps = state => {
     const { username, password, autoLoginStatus, loginStatus, loginResult, loading } = state.auth;
-    const { sName, sVersion, serverUrl, bSerial, fEview } = state.server;
+    const { sServer, sName, sVersion, serverUrl, bSerial, fEview } = state.server;
     const { platform } = state.utility;
     return {
         username,
@@ -316,6 +316,7 @@ const mapStateToProps = state => {
         loginStatus,
         loginResult,
         loading,
+        sServer,
         sName,
         sVersion,
         serverUrl,

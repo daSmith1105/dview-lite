@@ -1,59 +1,64 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { configChange, camViewChange } from '../actions';
+import { configChange, camViewChange, setSingleView } from '../actions';
 import '../App.css';
-import cams from './test_cams.json';
+import conf1 from '../images/Nconf1.png';
+import conf4 from '../images/Nconf4.png';
+import conf8 from '../images/Nconf8.png';
+import conf9 from '../images/Nconf9.png';
+import conf16 from '../images/Nconf16.png';
+import confFS from '../images/NconfFS.png';
 
 const ConfButtonsView = props => {
     return (
         <div style={ styles.confButtonsViewContainerStyle }>
             <div style={ styles.confButtonsRowStyle }>
-                <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.conf === "conf-1" ? 'white' : 'black', backgroundColor: props.conf === "conf-1" ? 'dodgerblue' : 'lightgrey' }} 
-                        className="hoverable"
-                        onClick={ () => { props.configChange("conf-1"); props.camViewChange("cam-1") } }>
-                    1
-                </button>
-                {cams.length > 1 ? 
-                    <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.conf === "conf-4" ? 'white' : 'black', backgroundColor: props.conf === "conf-4" ? 'dodgerblue' : 'lightgrey' }}  
-                            className="hoverable"
-                            onClick={ () => { props.configChange("conf-4"); props.camViewChange("cam-1-4") } }>
-                        4
-                    </button> :
+                <div style={ styles.confButtonStyle } 
+                     className="hoverable"
+                     onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-1"); props.camViewChange("cam-1") } }>
+                    <img src={conf1} alt='conf-1' height='100%' width='100%' />
+                </div>
+                { props.bNumCams > 1 ? 
+                    <div style={ styles.confButtonStyle }  
+                         className="hoverable"
+                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-4"); props.camViewChange("cam-1-4") } }>
+                        <img src={conf4} alt='conf-4' height='100%' width='100%' />
+                    </div> :
                     null
                 }
             </div>
             <div style={ styles.confButtonsRowStyle }>
-                { cams.length > 4 ? 
-                    <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.conf === "conf-8" ? 'white' : 'black', backgroundColor: props.conf === "conf-8" ? 'dodgerblue' : 'lightgrey' }} 
-                            className="hoverable"
-                            onClick={ () => { props.configChange("conf-8"); props.camViewChange("cam-1-8") } }>
-                        8
-                    </button> :
+                { props.bNumCams > 4 ? 
+                    <div style={ styles.confButtonStyle } 
+                         className="hoverable"
+                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-8"); props.camViewChange("cam-1-8") } }>
+                        <img src={conf8} alt='conf-8' height='100%' width='100%' />
+                    </div> :
                     null
                 }
-                { cams.length > 8 ? 
-                    <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.conf === "conf-9" ? 'white' : 'black', backgroundColor: props.conf === "conf-9" ? 'dodgerblue' : 'lightgrey' }} 
-                            className="hoverable"
-                            onClick={ () => { props.configChange("conf-9"); props.camViewChange("cam-1-9") } }>
-                        9
-                    </button> :
+                { props.bNumCams > 8 ? 
+                    <div style={ styles.confButtonStyle } 
+                         className="hoverable"
+                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-9"); props.camViewChange("cam-1-9") } }>
+                        <img src={conf9} alt='conf-9' height='100%' width='100%' />
+                    </div> :
                     null
                 }           
             </div>
             <div style={ styles.confButtonsRowStyle }>
-                { cams.length > 9 ? 
-                    <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.conf === "conf-16" ? 'white' : 'black', backgroundColor: props.conf === "conf-16" ? 'dodgerblue' : 'lightgrey' }} 
-                            className="hoverable"
-                            onClick={ () => { props.configChange("conf-16"); props.camViewChange("cam-1-16") } }>
-                        16
-                    </button> :
+                { props.bNumCams > 9 ? 
+                    <div style={ styles.confButtonStyle } 
+                         className="hoverable"
+                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-16"); props.camViewChange("cam-1-16") } }>
+                        <img src={conf16} alt='conf-16' height='100%' width='100%' />
+                    </div> :
                     null
                 }
-                <button style={{ border: 'none', borderRadius: 5, paddingTop: 4, paddingBottom: 4, width: 36, marginTop: 6, color: props.fFullscreen ? 'white' : 'black', backgroundColor: props.fFullscreen ? 'dodgerblue' : 'lightgrey' }} 
-                        className="hoverable"
-                        onClick={ () => props.configChange("conf-fs")}>
-                    FS
-                </button>
+                <div style={ styles.confButtonStyle } 
+                     className="hoverable"
+                     onClick={ () => props.configChange("conf-fs")}>
+                    <img src={confFS} alt='conf-fs' height='100%' width='100%' />
+                </div>
             </div>
         </div>
     )
@@ -61,24 +66,31 @@ const ConfButtonsView = props => {
 
 const mapStateToProps = state => {
     const { conf } = state.config;
-    const { fFullscreen } = state.video;
+    const { fFullscreen, singleCamSelected } = state.video;
+    const { bNumCams } = state.server;
     return {
         conf,
-        fFullscreen
+        fFullscreen,
+        singleCamSelected,
+        bNumCams
     }
 };
 
-export default connect(mapStateToProps, { configChange, camViewChange })(ConfButtonsView);
+export default connect(mapStateToProps, { configChange, camViewChange, setSingleView })(ConfButtonsView);
 
 const styles = {
     confButtonsViewContainerStyle: {
         display: 'flex',
-        flexDirection: 'column',
-        width: '10vmin'
+        flexDirection: 'column'
     },
     confButtonsRowStyle: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center'
+    },
+    confButtonStyle: {
+        width: '6vmin', 
+        height: '6vmin', 
+        margin: 6
     }
 }

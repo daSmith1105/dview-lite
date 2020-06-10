@@ -5,8 +5,9 @@ import {
   } from './types';
   
 import axios from 'axios';
+
 export const getServer = ( sServer ) => {
-    // console.log('called')
+    console.log(sServer)
     return (dispatch) => {
         // make an axios request to json-rpc
         const reqBody = {   
@@ -27,6 +28,7 @@ export const getServer = ( sServer ) => {
         })
         .then( response => {
             const data = response.data.result[1];
+            console.log(data)
             dispatch({
                 type: GET_SERVER,
                 bSerial: data.bSerial,

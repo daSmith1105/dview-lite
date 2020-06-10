@@ -24,7 +24,7 @@ import {
     ptzPresets: [],
     cameras: [],
     authServers: [],
-    sServer: '',
+    sServer: 'http://192.168.0.22',
     sServerLiveMPE: '/mpe/'
   };
   

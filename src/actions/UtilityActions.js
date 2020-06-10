@@ -1,5 +1,6 @@
 import { 
-    SET_PLATFORM_TYPE
+    SET_PLATFORM_TYPE,
+    UPDATE_CURRENT_TIME
   } from './types';
   
   export const getPlatform = () => {
@@ -21,3 +22,9 @@ import {
         dispatch({ type: SET_PLATFORM_TYPE, payload: type });
     };
 };  
+
+export const updateCurrentTime = () => {
+    return {
+        type: UPDATE_CURRENT_TIME
+    }
+}

@@ -37,3 +37,4 @@ export const SET_AUTO_SCROLL = 'SET_AUTO_SCROLL';
 
 //UtilityActions
 export const SET_PLATFORM_TYPE = 'SET_PLATFORM_TYPE';
+export const UPDATE_CURRENT_TIME = 'UPDATE_CURRENT_TIME';

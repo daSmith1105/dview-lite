@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import HeaderButtonGroup from './HeaderButtonGroup';
 import '../App.css';
+import SearchContainer from './SearchContainer';
+import PlayerContainer from './PlayerContainer';
+import ClipContainer from './ClipContainer';
 
 class Playback extends React.Component {
     constructor(props) {
@@ -14,18 +17,24 @@ class Playback extends React.Component {
     
   render() {
     const { 
-      liveContainerStyle
+      playbackContainerStyle
     } = styles;
 
     return (
-        <div style={ liveContainerStyle }>
-           <h1 style={{ color: 'black' }}>Playback View</h1>
-           <div style={{ marginTop: 60}}>
-            <Link to="/live">Go to Live View</Link>
-           </div>
-           <div style={{ marginTop: 40}}>
-            <Link to="/">Go to Logout</Link>
-           </div>
+        <div style={ playbackContainerStyle }>
+            <HeaderButtonGroup />
+            <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start'}}>
+
+              <div style={{ height: '65vw', width: '40vw' }}>
+                <SearchContainer />
+                <div style={{ height: '2vw'}}></div>
+                <ClipContainer />
+              </div>
+
+              <div style={{ height: '43vw', width: '55vw' }}>
+                <PlayerContainer />
+              </div>
+            </div>
       </div>
     );
   };
@@ -40,16 +49,11 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {})(Playback);
 
 const styles = {
-  liveContainerStyle: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'column',
+  playbackContainerStyle: {
+    width: '100%',
     height: '100vh',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'lightgrey',
-    position: 'relative',
-    // backgroundColor: 'green'
+    // backgroundColor: 'green',
+    margin: 'auto'
   }
   
 };
