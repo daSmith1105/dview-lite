@@ -34,6 +34,7 @@ export const CONFIG_CHANGED = 'CONFIG_CHANGED';
 export const CAM_VIEW_CHANGED = 'CAM_VIEW_CHANGED';
 export const SET_SINGLE_VIEW = 'SET_SINGLE_VIEW';
 export const SET_AUTO_SCROLL = 'SET_AUTO_SCROLL';
+export const SET_CAM_BROWSER_CAM = 'SET_CAM_BROWSER_CAM';
 
 //UtilityActions
 export const SET_PLATFORM_TYPE = 'SET_PLATFORM_TYPE';

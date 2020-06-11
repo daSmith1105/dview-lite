@@ -1,10 +1,12 @@
 import { 
   CAM_VIEW_CHANGED,
-  SET_AUTO_SCROLL
+  SET_AUTO_SCROLL,
+  SET_CAM_BROWSER_CAM
 } from '../actions/types';
 
 const INITIAL_STATE = { 
   currentCamView: 'cam-1',
+  camBrowserCam: '01',
   autoScrollEnabled: false
 };
 
@@ -16,11 +18,18 @@ export default ( state = INITIAL_STATE, action ) => {
             currentCamView: action.payload 
         }
       case SET_AUTO_SCROLL:
-        let conf = action.conf;
-        let delay = action.delay;
         return { 
           ...state, 
-          autoScrollEnabled:  delay !== '' ? true : false
+          autoScrollEnabled:  action.payload ? true : false
+        }
+      case SET_CAM_BROWSER_CAM:
+        let cam = action.payload.toString();
+        if(action.payload < 10){
+          cam = '0' + action.payload
+        }
+        return { 
+          ...state, 
+          camBrowserCam:  cam
         }
       default:
           return state;

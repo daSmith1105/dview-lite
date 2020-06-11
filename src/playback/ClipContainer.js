@@ -7,7 +7,7 @@ const ClipContainer = props => {
   const previewBlock = <div style={{ height: '8.3vw', width: '11vw', border: 'none', borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.8)', margin: '1vw', float: 'left', position: 'relative' }}
                             className="hoverable"
                             onClick={ () => alert('preview clip clicked')}>
-                          <img src={"https://www.bmw-yemen.com/content/dam/bmw/common/all-models/4-series/gran-coupe/2017/images-and-videos/images/BMW-4-series-gran-coupe-images-and-videos-1920x1200-11.jpg.asset.1519121502322.jpg"} alt='image' height="86%" width="100%" style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
+                          <img src={"https://www.bmw-yemen.com/content/dam/bmw/common/all-models/4-series/gran-coupe/2017/images-and-videos/images/BMW-4-series-gran-coupe-images-and-videos-1920x1200-11.jpg.asset.1519121502322.jpg"} alt='' height="86%" width="100%" style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
                           <p style={{ textAlign: 'center', color: 'white', fontSize: '.8vw', margin: 0, marginTop: '-.2vw', marginBottom: 2 }}>{ moment(new Date()).format('MM/DD/yyy hh:mm:ss a') }</p>
                        </div>
 

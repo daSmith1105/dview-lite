@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const CurrentTimeContainer = props => {
   return (
-    <p style={{ margin: 0, marginTop: 6, fontSize: 14 }}>Current Time: {props.currentTimeLong}</p>
+    <p style={{ margin: 0, marginTop: 6, fontSize: '1.4vmin', fontWeight: 'bold' }}>Current Time: {props.currentTimeLong}</p>
   )
 }
 

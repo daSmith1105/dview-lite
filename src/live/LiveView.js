@@ -30,7 +30,9 @@ class Live extends React.Component {
             flex: 1,
             flexDirection: 'row',
             height: '100vh',
-            justifyContent: 'center',
+            maxHeight: '100vh',
+            overflow: 'hidden', 
+            justifyContent: 'space-around',
             alignItems: 'center',
             color: 'black',
             position: 'relative',
@@ -46,24 +48,21 @@ class Live extends React.Component {
             // backgroundColor: 'red',
             height: this.props.fFullscreen ? '100%' : '100vmin',
             width: this.props.fFullscreen ? '100%' : '160vmin',
-            marginRight: this.props.fFullscreen ? 0 : '4vmin' 
+            marginRight: 0
           },
           rightSubContainerStyle: {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-around',
-            // width: '16vmin',
-            maxWidth: 190,
-            // backgroundColor: 'yellow',
+            width: '16vmin', 
             height: '68vmin',
             marginTop: 'auto',
             marginBottom: 'auto',
-            padding: '1vmin',
             paddingTop: '1vmin',
             backgroundColor: 'white',
-            marginLeft: '-5vmin', 
-            zIndex: 1
+            marginLeft: '-6vmin', 
+            zIndex: 2
           }
         };
 
@@ -72,17 +71,19 @@ class Live extends React.Component {
 
         return (
             <div style={ liveContainerStyle } id="live_view">
+
                 <div style={ styles.leftSubContainerStyle }>
-                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, margin: 'auto', width: this.props.fFullscreen ? '101%' : '90%', height: this.props.fFullscreen ? '100%' : '84%' }}>
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, margin: 'auto', width: this.props.fFullscreen ? '101%' : '88%', height: this.props.fFullscreen ? '100%' : '82%' }}>
                         <VideoView />
                     </div>
                     { !this.props.fFullscreen ?
-                      <div style={{ position: 'absolute', bottom: '4vmin', left: 0, right: 0, margin: 'auto', height: '5%', width: '94%' }}>
+                      <div style={{ position: 'absolute', bottom: '6vmin', left: 0, right: 0, margin: 'auto', height: '5%', width: '94%' }}>
                         <CamButtonsView />
                       </div> :
                       null
                     }
                 </div>
+
                 { !this.props.fFullscreen ?
                   <div style={ styles.rightSubContainerStyle }>
                       <ConfButtonsView />
@@ -105,6 +106,11 @@ class Live extends React.Component {
                         }
                       ]} /> :
                       null 
+                }
+                {/* spacer to move the previous container to the left */}
+                { !this.props.fFullscreen ?
+                    <div style={{ width: '10vmin', height: '100%' }}></div> :
+                    null
                 }
         </div>
         );

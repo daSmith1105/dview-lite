@@ -52,7 +52,7 @@ verifySession = async() => {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" style={{ padding: this.props.fFullscreen ? 0 : 10 }}>
         <Switch>
           <Route exact path="/" component={LoginView} />
           <Route exact path="/live" component={LiveView} />
@@ -67,11 +67,13 @@ verifySession = async() => {
 const mapStateToProps = state => {
   const { sSess, isLoggedIn, autoLoginStatus } = state.auth;
   const { sServer } = state.server;
+  const { fFullscreen } = state.video;
   return {
     sSess,
     isLoggedIn,
     autoLoginStatus,
-    sServer
+    sServer,
+    fFullscreen
   }
 }
 export default connect( mapStateToProps, { getServer, checkExists, logoutUser, expireSession, getPlatform, updateCurrentTime })(App);

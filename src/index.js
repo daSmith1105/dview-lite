@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
-import { store } from './store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { store, persistor} from './store';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -10,9 +11,11 @@ import history from './history';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
+    <PersistGate persistor={persistor}> {/* loading={<LoadingView />}  */}
+      <Router history={history}>
+        <App />
+      </Router>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );

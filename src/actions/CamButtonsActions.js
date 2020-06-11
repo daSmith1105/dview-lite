@@ -1,7 +1,8 @@
 import { 
     CAM_VIEW_CHANGED,
     SET_SINGLE_VIEW,
-    SET_AUTO_SCROLL
+    SET_AUTO_SCROLL,
+    SET_CAM_BROWSER_CAM
   } from './types';
   
 export const camViewChange = camset => {
@@ -19,10 +20,16 @@ export const camViewChange = camset => {
     };
   }
 
-  export const setAutoScroll = (conf, delay) => {
+  export const setAutoScroll = (delay) => {
+    console.log(delay)
     return {
       type: SET_AUTO_SCROLL,
-      conf,
-      delay
+      payload: delay
+    };
+  }
+  export const setCameraBrowerCam = cam => {
+    return {
+      type: SET_CAM_BROWSER_CAM,
+      payload: cam
     };
   }

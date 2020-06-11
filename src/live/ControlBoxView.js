@@ -12,10 +12,18 @@ const ControlBoxView = props => {
                     className="hoverableButton">
                 <Link className="hoverableButton link" to="/playback">Playback</Link>
             </button>
-            <button style={ styles.controlBoxButtonStyle }
-                    className="hoverableButton">
-                <Link className="hoverableButton link" to="/dview.php">Camera Browser</Link>
-            </button>
+            <br />
+
+            {/* show the camera browser button if we are accessing locally - same network */}
+            { props.conf === 'conf-1' ? 
+                <button style={ styles.controlBoxButtonStyle }
+                        className="hoverableButton">
+                    <a href={ props.sServer + ":434" + props.camBrowserCam } target="_blank" rel="noopener noreferrer" className="hoverableButton link">
+                        Cam Browser
+                    </a>
+                </button> :
+                null
+            }
             { props.platform !== 'Ios' && props.platform !== 'Android' ?
                 <button style={ styles.controlBoxButtonStyle }
                         className="hoverableButton">
@@ -45,10 +53,14 @@ const mapStateToProps = state => {
     const { sSess } = state.auth;
     const { platform } = state.utility;
     const { sServer } = state.server;
+    const { conf } = state.config;
+    const { camBrowserCam } = state.camera;
     return {
         sSess,
         platform,
-        sServer
+        sServer,
+        conf,
+        camBrowserCam
     };
 }
 
@@ -66,7 +78,7 @@ const styles = {
         margin: 10,
         border: 'none',
         borderRadius: 5,
-        fontSize: '1.5vmin'
+        fontSize: '1.5vmin',
     },
     linkStyle: {
         fontSize: '1.5vmin',

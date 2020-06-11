@@ -20,8 +20,7 @@ const SearchContainer = props => {
                   // backgroundColor: 'red',
                   border: '2px solid grey',
                   borderRadius: 10,
-                  paddingTop: '1vw',
-                  position: 'relative'
+                  paddingTop: '1vw'
                 }}>
       <p style={{ padding: 0, fontSize: '1vw', color: 'black', backgroundColor: 'white', position: 'absolute', top: '-1.8vw', left: 20, paddingRight: '.5vw', paddingLeft: '.5vw' }}>Search</p>
 

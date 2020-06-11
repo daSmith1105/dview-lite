@@ -16,6 +16,9 @@ import {
               conf: action.payload 
             }
           }
+          return { 
+            ...state
+          }
         default:
             return state;
     };

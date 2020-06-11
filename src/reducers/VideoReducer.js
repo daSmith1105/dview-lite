@@ -29,6 +29,9 @@ export default ( state = INITIAL_STATE, action ) => {
             fFullscreen: state.fFullscreen ? false : true
           }
         }
+        return { 
+          ...state
+        }
       default:
           return state;
   };
