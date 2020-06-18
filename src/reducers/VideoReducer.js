@@ -6,7 +6,6 @@ import {
 const INITIAL_STATE = { 
   singleCamView: false,
   singleCamSelected: '',
-  autoScrollEnabled: false,
   bConf: 0,
   fSingle: false,
   fFullscreen: false,
@@ -15,7 +14,6 @@ const INITIAL_STATE = {
 export default ( state = INITIAL_STATE, action ) => {
   switch ( action.type ) {
     case SET_SINGLE_VIEW:
-      console.log(action.payload)
       let cam = action.payload;
         return { 
           ...state, 

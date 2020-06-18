@@ -40,10 +40,10 @@ verifySession = async() => {
           // set session expiration
           this.props.expireSession(this.props.sSess, '/JSON/', this.props.autoLoginStatus); //this.props.sServer 
         }
-        console.log('session is invaild')
+
         this.verifySessionHandler = setTimeout( () => { this.verifySession(); this.verifySessionHandler = 0 }, 10000 );
       } else {
-        console.log('session is vaild: ', this.props.sSess)
+
         clearTimeout(this.verifySessionHandler);
         this.verifySessionHandler = setTimeout( () => { this.verifySession(); this.verifySessionHandler = 0 }, 10000 );
       }
@@ -51,6 +51,8 @@ verifySession = async() => {
 };
 
   render() {
+
+    console.log(this.props.sSess)
     return (
       <div className="App" style={{ padding: this.props.fFullscreen ? 0 : 10 }}>
         <Switch>

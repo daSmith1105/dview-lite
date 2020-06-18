@@ -6,6 +6,7 @@ import UserReducer from './UserReducer';
 import UtilityReducer from './UtilityReducer';
 import CamButtonsReducer from './CamButtonsReducer';
 import VideoReducer from './VideoReducer';
+import PlaybackReducer from './PlaybackReducer';
 
 export default combineReducers({
     auth: AuthReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     camera: CamButtonsReducer,
     user: UserReducer,
     utility: UtilityReducer,
-    video: VideoReducer
+    video: VideoReducer,
+    playback: PlaybackReducer
 });

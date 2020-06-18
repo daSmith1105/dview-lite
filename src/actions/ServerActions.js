@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 
 export const getServer = ( sServer ) => {
-    console.log(sServer)
+
     return (dispatch) => {
         // make an axios request to json-rpc
         const reqBody = {   
@@ -28,7 +28,7 @@ export const getServer = ( sServer ) => {
         })
         .then( response => {
             const data = response.data.result[1];
-            console.log(data)
+ 
             dispatch({
                 type: GET_SERVER,
                 bSerial: data.bSerial,
@@ -74,9 +74,9 @@ export const isAlive = (serverUrl) => {
             timeout: 2000
         })
         .then( response => {
-            console.log(response)
+   
             const data = response.data.result[1]
-            console.log(response.data.result[1])
+        
             if(!data) {
                 return false;
             }

@@ -4,14 +4,16 @@ import { configChange, camViewChange, setSingleView } from '../actions';
 import '../App.css';
 import conf1 from '../images/Nconf1.png';
 import conf4 from '../images/Nconf4.png';
-import conf8 from '../images/Nconf8.png';
+import conf6 from '../images/Nconf6.png';
 import conf9 from '../images/Nconf9.png';
+import conf12 from '../images/Nconf12.png';
 import conf16 from '../images/Nconf16.png';
 import confFS from '../images/NconfFS.png';
 import dConf1 from '../images/Dconf1.png';
 import dConf4 from '../images/Dconf4.png';
-import dConf8 from '../images/Dconf8.png';
+import dConf6 from '../images/Dconf6.png';
 import dConf9 from '../images/Dconf9.png';
+import dConf12 from '../images/Dconf12.png';
 import dConf16 from '../images/Dconf16.png';
 import dConfFS from '../images/DconfFS.png';
 import CurrentTimeContainer from '../playback/CurrentTimeContainer';
@@ -24,18 +26,20 @@ const ConfButtonsView = props => {
             </div>
 
             <div style={ styles.confButtonsRowStyle }>
+    {/* 1 */}
                 <div style={ styles.confButtonStyle } 
                      className="hoverable"
-                     onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-1"); props.camViewChange("cam-1") } }>
+                     onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-1"); props.camViewChange("cam_1") } }>
                         { props.conf === 'conf-1' ?
                             <img src={dConf1} alt='conf-1' height='100%' width='100%' /> :
                             <img src={conf1} alt='conf-1' height='100%' width='100%' />
                         }
                 </div>
+    {/* 4 */}
                 { props.bNumCams > 1 ? 
                     <div style={ styles.confButtonStyle }  
                          className="hoverable"
-                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-4"); props.camViewChange("cam-1-4") } }>
+                         onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-4"); props.camViewChange("cam_1-4") } }>
                         { props.conf === 'conf-4' ?
                             <img src={dConf4} alt='conf-4' height='100%' width='100%' /> :
                             <img src={conf4} alt='conf-4' height='100%' width='100%' /> 
@@ -44,20 +48,21 @@ const ConfButtonsView = props => {
                     null
                 }
             </div>
+   
             <div style={ styles.confButtonsRowStyle }>
-
+    {/* 6 */}
                 <div style={ styles.confButtonStyle } 
                         className="hoverable"
-                        onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-8"); props.camViewChange("cam-1-8") } }>
-                    { props.conf === 'conf-8' ?
-                        <img src={dConf8} alt='conf-8' height='100%' width='100%' /> :
-                        <img src={conf8} alt='conf-8' height='100%' width='100%' /> 
+                        onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-6"); props.camViewChange("cam_1-6") } }>
+                    { props.conf === 'conf-6' ?
+                        <img src={dConf6} alt='conf-6' height='100%' width='100%' /> :
+                        <img src={conf6} alt='conf-6' height='100%' width='100%' /> 
                     }   
                 </div>
-            
+    {/* 9  */}
                 <div style={ styles.confButtonStyle } 
                         className="hoverable"
-                        onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-9"); props.camViewChange("cam-1-9") } }>
+                        onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-9"); props.camViewChange("cam_1-9") } }>
                     { props.conf === 'conf-9' ?
                         <img src={dConf9} alt='conf-9' height='100%' width='100%' /> :
                         <img src={conf9} alt='conf-9' height='100%' width='100%' />
@@ -65,27 +70,38 @@ const ConfButtonsView = props => {
                 </div> 
                       
             </div>
+    
             <div style={ styles.confButtonsRowStyle }>
-
+    {/* 12 */}
                 <div style={ styles.confButtonStyle } 
                         className="hoverable"
-                        onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-16"); props.camViewChange("cam-1-16") } }>
+                        onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-12"); props.camViewChange("cam_1-12") } }>
+                    { props.conf === 'conf-12' ?
+                        <img src={dConf12} alt='conf-9' height='100%' width='100%' /> :
+                        <img src={conf12} alt='conf-9' height='100%' width='100%' />
+                    }
+                </div> 
+    {/* 16 */}
+                <div style={ styles.confButtonStyle } 
+                        className="hoverable"
+                        onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-16"); props.camViewChange("cam_1-16") } }>
                     { props.conf === 'conf-16' ?
                         <img src={dConf16} alt='conf-16' height='100%' width='100%' /> :
                         <img src={conf16} alt='conf-16' height='100%' width='100%' />
                     }
                 </div> 
 
-                <div style={ styles.confButtonStyle } 
-                     className="hoverable"
-                     onClick={ () => props.configChange("conf-fs")}>
-                    { props.conf === 'conf-fs' ?
-                        <img src={dConfFS} alt='conf-fs' height='100%' width='100%' /> :
-                        <img src={confFS} alt='conf-fs' height='100%' width='100%' />
-                    }
-                </div>
-
             </div>
+    {/* Fullscreen */}
+            <div style={ styles.confButtonStyle } 
+                    className="hoverable"
+                    onClick={ () => props.configChange("conf-fs")}>
+                { props.conf === 'conf-fs' ?
+                    <img src={dConfFS} alt='conf-fs' height='100%' width='100%' /> :
+                    <img src={confFS} alt='conf-fs' height='100%' width='100%' />
+                }
+            </div>
+
         </div>
     )
 }

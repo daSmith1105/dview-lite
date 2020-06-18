@@ -7,18 +7,22 @@ import '../App.css';
 
 const HeaderButtonGroup = props => {
   return (
-    <div style= {{ width: '100%', paddingTop: '3vw', marginBottom: '.5vw' }}>
-      <div style={{ float: 'left', marginLeft: '10vw', marginTop: '.2vw' }}>
-        <CurrentTimeContainer />
+    <div style= {{ width: '90vw', margin: 'auto' }}>
+      <div style={{ float: 'left' }}>
+        <CurrentTimeContainer inline />
       </div>
-      <div style={{ float: 'right', marginRight: '10vw'}}>
-        <button className="hoverableButton" style={ styles.buttonGroupButtonStyle }>
+      <div style={{ float: 'right' }}>
+        <button style={ styles.headerButtonStyle }
+                        className="hoverableButton">
           <Link style={{ color: 'black', textDecoration : 'none' }} to="/live" >Live</Link>
         </button>
-        <button className="hoverableButton" style={ styles.buttonGroupButtonStyleSelected }>
+        <button style={ styles.headerButtonStyleSelected }
+                        className="hoverableButton">
           Playback
         </button>
-        <button className="hoverableButton" style={ styles.buttonGroupButtonStyle } onClick={ () => props.logoutUser(props.sSess, '/JSON/')}> {/* sServer + */}
+        <button style={ styles.headerButtonStyle }
+                        className="hoverableButton"
+                        onClick={ () => props.logoutUser(props.sSess, '/JSON/')}> {/* sServer + */}
           Logout
         </button>
       </div>
@@ -36,27 +40,26 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, { logoutUser })(HeaderButtonGroup);
 
 const styles = {
-  headerButtonGroupContainerStyle: {
-    fontSize: '1vw'
-  },
-  buttonGroupButtonStyle: {
-    fontSize: 12,
-    margin: 5,
-    borderRadius: 5,
-    padding: 3,
-    paddingRight: 5, 
-    paddingLeft : 5,
-    border: 'none'
-  },
-  buttonGroupButtonStyleSelected: {
-    fontSize: 12,
-    margin: 8,
-    borderRadius: 5,
-    padding: 3,
-    paddingRight: 8, 
-    paddingLeft : 8,
-    backgroundColor: 'dodgerblue',
+  headerButtonStyle: {
+    paddingRight: 10,
+    paddingLeft: 10,
+    paddingTop: 3,
+    paddingBottom: 3,
+    margin: 10,
     border: 'none',
+    borderRadius: 5,
+    fontSize: '1.5vmin',
+  },
+  headerButtonStyleSelected: {
+    paddingRight: 10,
+    paddingLeft: 10,
+    paddingTop: 3,
+    paddingBottom: 3,
+    margin: 10,
+    border: 'none',
+    borderRadius: 5,
+    fontSize: '1.5vmin',
+    backgroundColor: 'dodgerblue',
     color: 'white'
   }
 }

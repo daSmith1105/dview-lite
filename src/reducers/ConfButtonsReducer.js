@@ -9,7 +9,6 @@ import {
   export default ( state = INITIAL_STATE, action ) => {
     switch ( action.type ) {
         case CONFIG_CHANGED:
-          console.log('got - ', action.payload)
           if(action.payload !== 'conf-fs') {
             return { 
               ...state, 

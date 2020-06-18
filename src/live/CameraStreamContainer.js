@@ -20,7 +20,7 @@ class CameraStreamContainer extends React.Component {
         }, () => {
             setTimeout( () => {
                 let cam = this.props.enabled;
-                console.log(cam)
+
                 if(cam && cam.fEnable){ 
                     this.setState({
                         enabled: cam.fEnable
@@ -55,16 +55,12 @@ class CameraStreamContainer extends React.Component {
     };
 
     render() {
-        console.log( this.props.sServer + '/mpe/cam' + this.props.camNum + '.jpg?sess=' + this.props.sSess)
         return (
             <div style={{ float: 'left', height: this.props.height, width: this.props.width }} onDoubleClick={ () => this.props.onDoubleClick() }>
                 { this.state.enabled && !this.state.loading && this.props.enabled !== 'false' ?
                     <img src={ 'http://192.168.0.22/mpe/cam' + this.props.camNum + '.jpg?user=' + this.props.username + '&pass=' + this.props.password +'&ts=' + this.state.timestamp } alt='camera_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} />  :
-                    <img src={ 'https://cdn.clipart.email/cf083e6fbd18d88e5458a3e6e813de19_eye-icon-png-vector-pixsector_560-560.png' } alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> 
+                    <img src={ 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU' } alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> 
                 }
-                {/*this.props.sServer*/} 
-                {/* { this.state.loading && 
-                    <img src={ 'https://media.giphy.com/media/l4FGtP1BqMzxz8Gbu/giphy.gif' } alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> } */}
             </div>
         )
     }

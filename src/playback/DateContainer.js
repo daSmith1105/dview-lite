@@ -1,92 +1,37 @@
 import React from 'react';
-import DatePicker from "react-datepicker";
 import { connect } from 'react-redux';
+import { setDate } from '../actions';
 import moment from 'moment';
-import "react-datepicker/dist/react-datepicker.css";
 import '../App.css'
 
 class DateContainer extends React.Component {
- 
-  state = {
-    date: new Date(),
-    time: new Date(),
-  };
 
- 
-  handleDateChange = date => {
-    this.setState({
-      date: date
-    });
-  };
-
-  handleTimeChange = time => {
-    console.log(time)
-    // need to transform this to get the actual time since it includes the date as well - moment(time).format('hh:mm a')
-    this.setState({
-      time: time
-    });
-  };
+  handleDateSelect = (e) => {
+    this.props.setDate(e.target.value);
+  }
 
   render() {
-
     return (
-      
-      <div style={ styles.dateTimeContainerStyle }>
-        <div style={ styles.dateTimeSubcontainerStyle }>
-          <p style={ styles.labelTextStyle }>Date</p>
-          <DatePicker
-            selected={this.state.date}
-            onChange={this.handleDateChange}
-            dateFormat="Pp"
-            title="date picker"
-            ariaLabelledBy="date picker"
-            dateFormat={'MM/dd/yyyy'}
-            todayButton="today"
-            maxDate={ new Date() }
-          />      
-        </div>
-        <div style={ styles.dateTimeSubcontainerStyle }>
-          <p style={ styles.labelTextStyle }>Time</p>
-          <DatePicker
-            selected={this.state.time}
-            onChange={this.handleTimeChange}
-            showTimeSelect
-            dateFormat="Pp"
-            timeIntervals={5}
-            title="time picker"
-            ariaLabelledBy="time picker"
-            dateFormat={'hh:mm a'}
-            showTimeSelectOnly
-            todayButton="now"
-          />      
-        </div>
+      <div>
+        <p style={ styles.labelTextStyle }>Date</p>
+        <input type="date" value={moment(this.props.playbackDate).format('YYYY-MM-DD') }  onChange={this.handleDateSelect} max={ moment(new Date()).format('YYYY-MM-DD') } style={{ fontFamily: 'sans-serif', fontSize: '1.5vmin', height: '1.2vw' }} />
       </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-  const { currentTimeLong } = state.utility;
+  const { playbackDate } = state.playback;
   return {
-    currentTimeLong
+    playbackDate
   }
 }
 
-export default connect(mapStateToProps, {})(DateContainer);
+export default connect(mapStateToProps, { setDate })(DateContainer);
 
 const styles = {
-  dateTimeContainerStyle: {
-    width: '20vw'
-  },
-  dateTimeSubcontainerStyle: {
-    margin: 'auto', 
-    width: '50%'
-  },
   labelTextStyle: {
-    margin: 0, 
-    textAlign: 'left',
-    fontSize: '1vw',
-    marginBottom: '.2vw',
-    marginTop: '.5vw'
+    fontSize: '1.5vmin',
+    margin: '.2vw'
   }
 }

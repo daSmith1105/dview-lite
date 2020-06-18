@@ -1,19 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { resetPlayback } from '../actions';
 import HeaderButtonGroup from './HeaderButtonGroup';
 import '../App.css';
 import SearchContainer from './SearchContainer';
-import PlayerContainer from './PlayerContainer';
+import PlayerWindow from './PlayerWindow';
 import ClipContainer from './ClipContainer';
 
 class Playback extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+      super(props);
 
-        this.state = {
-            temp: ''
-        };
-    };
+      this.state = {
+          temp: ''
+      };
+  };
+
+  componentDidMount = () => {
+    this.props.resetPlayback();
+  }
     
   render() {
     const { 
@@ -23,18 +28,9 @@ class Playback extends React.Component {
     return (
         <div style={ playbackContainerStyle }>
             <HeaderButtonGroup />
-            <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-
-              <div style={{ height: '65vw', width: '40vw' }}>
-                <SearchContainer />
-                <div style={{ height: '2vw'}}></div>
-                <ClipContainer />
-              </div>
-
-              <div style={{ height: '43vw', width: '55vw' }}>
-                <PlayerContainer />
-              </div>
-            </div>
+            <SearchContainer />
+            <PlayerWindow />
+            <ClipContainer />
       </div>
     );
   };
@@ -46,14 +42,14 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps, {})(Playback);
+export default connect(mapStateToProps, { resetPlayback })(Playback);
 
 const styles = {
   playbackContainerStyle: {
+   
     width: '100%',
     height: '100vh',
-    // backgroundColor: 'green',
-    margin: 'auto'
+    // backgroundColor: 'green'
   }
   
 };

@@ -1,67 +1,101 @@
 import React from 'react';
-import moment from 'moment';
+import { connect } from 'react-redux';
+import { setCurrentClipPlaying } from '../actions';
+import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 import '../App.css';
 
-const ClipContainer = props => {
-
-  const previewBlock = <div style={{ height: '8.3vw', width: '11vw', border: 'none', borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.8)', margin: '1vw', float: 'left', position: 'relative' }}
-                            className="hoverable"
-                            onClick={ () => alert('preview clip clicked')}>
-                          <img src={"https://www.bmw-yemen.com/content/dam/bmw/common/all-models/4-series/gran-coupe/2017/images-and-videos/images/BMW-4-series-gran-coupe-images-and-videos-1920x1200-11.jpg.asset.1519121502322.jpg"} alt='' height="86%" width="100%" style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
-                          <p style={{ textAlign: 'center', color: 'white', fontSize: '.8vw', margin: 0, marginTop: '-.2vw', marginBottom: 2 }}>{ moment(new Date()).format('MM/DD/yyy hh:mm:ss a') }</p>
-                       </div>
+const PreviewBlock = props => {
+  const year = props.video.sTimestamp.slice(0,4);
+  const month = props.video.sTimestamp.slice(4,6);
+  const day = props.video.sTimestamp.slice(6,8);
+  const hour = props.video.sTimestamp.slice(8,10);
+  const min = props.video.sTimestamp.slice(10,12);
+  const sec = props.video.sTimestamp.slice(12,14);
+  const timestamp = `${month}/${day}/${year}  ${hour}:${min}:${sec}`
 
   return (
-    <div style={ styles.clipContainerStyle }>
-      <p style={{ padding: 0, fontSize: '1vw', color: 'black', backgroundColor: 'white', position: 'absolute', top: '-1.6vw', left: 20, paddingRight: '.5vw', paddingLeft: '.5vw' }}>Preview Clips</p>
-      <div style={ styles.rowStyle }>
-        <button className="hoverableButton" style={ styles.buttonGroupButtonStyle } onClick={ () => alert('back clicked')}>
-          Back
-        </button>
-        <button className="hoverableButton" style={ styles.buttonGroupButtonStyle }  onClick={ () => alert('forward clicked')}>
-          Forward
-        </button>
-      </div>
-        {previewBlock}
-        {previewBlock}
-        {previewBlock}
-        {previewBlock}
-        {previewBlock}
-        {previewBlock}
-        {previewBlock}
-        {previewBlock}
-        {previewBlock}
+    <div key={props.video.bID} 
+         style={{  height: '6.3vw', width: '11vw', borderRadius: 5, backgroundColor: props.component.currentClipPlayingId === props.video.bID ? 'yellow' : 'rgba(0,0,0,0.8)', margin: '.8vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)' }}
+         className="hoverable"
+         onClick={ () => props.component.setCurrentClipPlaying(props.video.bID)}>
+      <img src={props.component.sServer + '/camstream/?cmd=fetch&session=' + props.component.sSess + '&file=' + props.video.sPreview + '.112x84'} alt='' height="86%" width="100%" style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
+      <p style={{ textAlign: 'center', color: props.component.currentClipPlayingId === props.video.bID ? 'rgba(0,0,0,0.9)' : 'white', fontSize: '.7vw', margin: 0, marginTop :'-.2vw' }}>{timestamp}</p> 
     </div>
   )
 }
 
-export default ClipContainer;
+const ClipContainer = props => {
+  return (
+    <div style={ styles.clipContainerStyle }>
+
+        { props.videoClipsRequested.length > 0 ?
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <FaChevronCircleLeft className="hoverable" style={{ height: '2.5vw', width: '2.5vw' }}  onClick={ () => alert('back clicked')} />
+              {props.videoClipsRequested.map( v => <PreviewBlock key={v.bID} video={v} component={props} />)}
+              <FaChevronCircleRight className="hoverable" style={{ height: '2.5vw', width: '2.5vw' }} onClick={ () => alert('forward clicked')} />
+            </div> :
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <FaChevronCircleLeft className="hoverable" style={{ height: '2.5vw', width: '2.5vw' }}  onClick={ () => alert('back clicked')} />
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)' }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)'  }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)'  }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)'  }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)' }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)'  }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)'  }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)'  }} />
+              </div>
+              <div style={ styles.clipPlaceholderStyle }>
+                <img src={'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU'} alt='' height="100%" width="100%" style={{ borderRadius: '.5vw', boxShadow: '2px 2px 10px 1px rgba(0,0,0,0.7)'  }} />
+              </div>
+              <FaChevronCircleRight className="hoverable" style={{ height: '2.5vw', width: '2.5vw' }} onClick={ () => alert('forward clicked')} />
+            </div>
+        }
+    </div>
+  )
+}
+
+const mapStateToProps = state => {
+  const { videoClipsRequested, currentClipPlayingId } = state.playback;
+  const { sSess } = state.auth;
+  const { sServer } = state.server;
+  return {
+    videoClipsRequested,
+    currentClipPlayingId,
+    sSess,
+    sServer
+  }
+}
+
+export default connect(mapStateToProps, { setCurrentClipPlaying })(ClipContainer);
 
 const styles = {
   clipContainerStyle: {
-    height: '59%',
-    width: '100%',
-    border: '2px solid grey',
-    borderRadius: 10,
     position: 'relative',
-    // backgroundColor: 'lightblue'
+    width: '90vw',
+    margin: 'auto',
+    marginTop: -4
   },
-  rowStyle: {
-    display: 'flex',
-    alignItems: 'center', 
-    justifyContent:'space-between',
-    marginTop: '2vw',
-    marginBottom: 10,
-    paddingRight: 14,
-    paddingLeft: 14
-  },
-  buttonGroupButtonStyle: {
-    fontSize: '1vw',
-    margin: 5,
-    borderRadius: 5,
-    padding: 4,
-    paddingRight: 8, 
-    paddingLeft : 8,
-    border: 'none'
-  },
+  clipPlaceholderStyle: {
+    height: '6.3vw', 
+    width: '11vw', 
+    border: 'none', 
+    borderRadius: '.5vw', 
+    margin: '.8vw'
+  }
 }
