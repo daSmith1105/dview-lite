@@ -1,6 +1,6 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
-import dividia_logo from '../images/dividia_logo.jpg';
+import dividia_logo from '../images/dividia_logo.png';
 import SessionExistsModal from './SessionExistsModal';
 import SessionExpiredModal from './SessionExpiredModal';
 import MaxSessionsModal from './MaxSessionsModal';
@@ -212,7 +212,7 @@ class Login extends React.Component {
                                    } 
                              alt="full viewer"
                              style={{ textDecoration: 'none', color: 'black' }}>
-                            FullViewer
+                            Full Viewer
                           </a>
                         </button> :
                         null
@@ -345,16 +345,20 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     color: 'lightgrey',
-    position: 'relative'
+    position: 'relative',
+    top: 0, left: 0, 
+    backgroundColor: 'rgba(10,14,25,0.7)'
   },
   innerContainerStyle: {
     width: 300,
+    borderRadius: 5
   },
   formStyle: {
     padding: 3,
     paddingBottom: 15,
     backgroundColor: '#135ba2',
-    borderRadius: 5
+    borderRadius: 10,
+    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
   },
   headingStyle: {
     fontSize: 16,
@@ -398,7 +402,8 @@ const styles = {
     paddingTop: 5,
     paddingBottom: 5,
     backgroundColor: 'lightgrey',
-    height: 26
+    height: 26,
+    boxShadow: '1px 2px 4px 2px rgba(0,0,0,0.3), -1px -1px 4px 2px rgba(0,0,0,0.3)'
   },
   modalContainerStyle: {
     height: 180,
@@ -424,17 +429,24 @@ const styles = {
     color: 'black'
   },
   footerTextStyle: {
-    fontSize: 10
+    fontSize: 10,
+    color: 'white',
+    fontWeight: 'bold',
   },
   footerLinkStyle: {
     fontSize: 10,
     textDecoration: 'none',
-    marginTop: 10
+    marginTop: 10,
+    color: 'white',
+    fontWeight: 'bold',
+    letterSpacing: 1.5
   },
   launcherDownloadStyle: {
     textAlign: 'right',
     fontSize: 10,
     textDecoration: 'none',
-    marginTop: 10
+    marginTop: 10,
+    color: 'white',
+    fontWeight: 'bold'
   }
 };

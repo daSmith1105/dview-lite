@@ -18,6 +18,8 @@ const INITIAL_STATE = {
   archiveFilterState: false,
   exportFilterState: false,
   videoClipsRequested: [],
+  prevClipsetTimestamp: '',
+  nextClipsetTimestamp: '',
   curretClipPlayingId: 0,
   currentClipPlayingUrl: '',
   currentClipPlayingTimestamp: '',
@@ -36,7 +38,9 @@ export default ( state = INITIAL_STATE, action ) => {
         currentClipPlayingUrl: '',
         currentClipPlayingTimestamp: '',
         currentClipPlayingCameraId: action.payload,
-        videoClipsRequested: []
+        videoClipsRequested: [],
+        prevClipsetTimestamp: '',
+        nextClipsetTimestamp: ''
       }
     case SET_DATE:
       return { 
@@ -85,14 +89,14 @@ export default ( state = INITIAL_STATE, action ) => {
 
       if(action.filter === 'archive') {
         archiveFilterValue = !state.archiveFilterState
-        if(archiveFilterValue = true) {
+        if(archiveFilterValue === true) {
           exportFilterValue = false
         }
       }
 
       if(action.filter === 'export') {
         exportFilterValue = !state.exportFilterState;
-        if(exportFilterValue = true) {
+        if(exportFilterValue === true) {
           archiveFilterValue = false
         }
       }
@@ -101,6 +105,7 @@ export default ( state = INITIAL_STATE, action ) => {
         archiveFilterState: archiveFilterValue,
         exportFilterState: exportFilterValue
       }
+
     case SET_VIDEO:
       let newClip1;
       let newUrl1;
@@ -121,9 +126,12 @@ export default ( state = INITIAL_STATE, action ) => {
         let sec1 = tempTime1.slice(12,14);
         newTimestamp1 = `${month1}/${day1}/${year1}  ${hour1}:${min1}:${sec1}`
       }
+
       return { 
         ...state, 
         videoClipsRequested: action.payload,
+        prevClipsetTimestamp: action.prevClipsetTimestamp,
+        nextClipsetTimestamp: action.nextClipsetTimestamp,
         currentClipPlayingId: newClip1 || state.currentClipPlayingId,
         currentClipPlayingUrl: newUrl1 || state.currentClipPlayingUrl,
         currentClipPlayingTimestamp: newTimestamp1 || state.currentClipPlayingTimestamp,
@@ -139,6 +147,8 @@ export default ( state = INITIAL_STATE, action ) => {
         archiveFilterState: false,
         exportFilterState: false,
         videoClipsRequested: [],
+        prevClipsetTimestamp: '',
+        nextClipsetTimestamp: '',
         curretClipPlayingId: 0,
         currentClipPlayingUrl: '',
         currentClipPlayingTimestamp: ''

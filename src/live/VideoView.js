@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setSingleView } from '../actions';
-import dividia_logo from '../images/dividia_logo.jpg';
+import dividia_logo from '../images/dividia_logo.png';
 import CameraStreamContainer from './CameraStreamContainer';
 
 const VideoView = props => {
@@ -118,7 +118,7 @@ const styles = {
         height: '100%',
         width: '100%',
         position: 'relative',
-        marginLeft: '-1.5vmin',
+        marginLeft: '-1.5vmin'
     },
     videoViewHeaderStyle: {
         paddingRight: 20,
@@ -130,16 +130,17 @@ const styles = {
         marginBottom: '1vmin'
     },
     dvsNameStyle: {
-        color: 'black',
-        fontSize: 14,
+        fontSize: '1.5vmin',
         fontWeight: 'bold',
-        marginBottom: 0
+        marginBottom: 0,
+        color: 'white',
+        letterSpacing: 1.0, 
     },
     videoViewStreamStyle: {
         border: 'none',
-        borderRadius: 10,
-        backgroundColor: 'lightgrey',
+        backgroundColor: 'rgba(10,14,25,0.6)',
         height: '100%',
-        width: '100%'
+        width: '100%',
+        boxShadow: '2px 3px 4px 2px rgba(40,120,255,0.7), -2px -2px 4px 2px rgba(40,120,255,0.7)'
     }
 }

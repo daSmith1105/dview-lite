@@ -13,7 +13,7 @@ class TimeContainer extends React.Component {
     return (
       <div>
         <p style={ styles.labelTextStyle }>Time</p>
-        <input type="time" default={this.props.playbackTime} value={this.props.playbackTime }  onChange={this.handleTimeSelect} style={{ fontFamily: 'sans-serif', fontSize: '1.5vmin', height: '1.2vw' }} />
+        <input type="time" default={this.props.playbackTime} value={this.props.playbackTime }  onChange={this.handleTimeSelect} style={{ paddingLeft: '.5vmin', paddingRight: '.5vmin', borderRadius: 5, fontFamily: 'sans-serif', fontSize: '1.5vmin', height: '1.3vw' }} />
       </div>
     )
   }
@@ -31,6 +31,7 @@ export default connect(mapStateToProps, { setTime })(TimeContainer);
 const styles = {
   labelTextStyle: {
     fontSize: '1.5vmin',
-    margin: '.2vw'
+    margin: '.2vw',
+    color: 'white'
   }
 }

@@ -18,7 +18,7 @@ const ControlBoxView = props => {
             { props.conf === 'conf-1' ? 
                 <button style={ styles.controlBoxButtonStyle }
                         className="hoverableButton">
-                    <a href={ props.sServer + ":434" + props.camBrowserCam } target="_blank" rel="noopener noreferrer" className="hoverableButton link">
+                    <a href={ props.sServer + ":434" + props.camBrowserCam } target="_blank" rel="noopener noreferrer" className="hoverableButton" style={{ textDecoration :'none'}}>
                         Cam Browser
                     </a>
                 </button> :
@@ -43,7 +43,7 @@ const ControlBoxView = props => {
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton"
                     onClick={ () => props.logoutUser(props.sSess, '/JSON/') }> {/* this.props.sServer  */}
-                <Link className="hoverableButton link" to="/">Logout</Link>
+                <Link className="hoverableButton" to="/" style={{ textDecoration :'none'}}>Logout</Link>
             </button>
         </div>
     )
@@ -79,6 +79,7 @@ const styles = {
         border: 'none',
         borderRadius: 5,
         fontSize: '1.5vmin',
+        boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)'
     },
     linkStyle: {
         fontSize: '1.5vmin',

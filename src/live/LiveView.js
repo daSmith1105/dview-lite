@@ -9,7 +9,6 @@ import ControlBoxView from './ControlBoxView';
 import ContextMenu from 'react-context-menu';
 import '../App.css';
 
-let autoScanTimerHandler = 0;
 let camIndex = 0;
 
 class Live extends React.Component {
@@ -47,8 +46,6 @@ class Live extends React.Component {
 
     startAutoScan = () => {
       // get index of current cam selected in our enabled Cams array
-      console.log(camIndex)
-      console.log(this.props.singleViewEnabledArr)
       switch (this.props.conf) {
         case "conf-1":
           let cam1 = this.props.singleViewEnabledArr.indexOf(parseInt(this.props.currentCamView.slice(4, this.props.currentCamView.length)));
@@ -93,8 +90,6 @@ class Live extends React.Component {
         default:
           camIndex = 0;
       }
-
-      console.log(camIndex)
 
       this.setState({ 
         autoScanning: true
@@ -197,30 +192,27 @@ class Live extends React.Component {
 
     render() {
 
-        console.log(this.props.currentCamView)
-
         const styles = {
           liveContainerStyle: {
             display: 'flex',
             flex: 1,
             flexDirection: 'row',
             height: '100vh',
-            maxHeight: '100vh',
             overflow: 'hidden', 
             justifyContent: 'space-around',
             alignItems: 'center',
             color: 'black',
             position: 'relative',
-            // backgroundColor: 'green'
+            paddingTop: 10,
+            backgroundColor: 'rgba(10,14,25,0.7)'
           },
           leftSubContainerStyle: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'white',
             position: 'relative',
-            // backgroundColor: 'red',
+            // backgroundColor: 'rgba(10,14,25,0.6)',
             height: this.props.fFullscreen ? '100%' : '100vmin',
             width: this.props.fFullscreen ? '100%' : '160vmin',
             marginRight: 0
@@ -230,14 +222,15 @@ class Live extends React.Component {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-around',
-            width: '16vmin', 
-            height: '68vmin',
-            marginTop: 'auto',
-            marginBottom: 'auto',
+            width: '18vmin', 
+            height: '78vmin',
+            marginBottom: '4vmin',
             paddingTop: '1vmin',
-            backgroundColor: 'white',
             marginLeft: '-6vmin', 
-            zIndex: 2
+            zIndex: 2,
+            backgroundColor: 'rgba(10,14,25,0.6)',
+            borderRadius: 5,
+            boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
           }
         };
 

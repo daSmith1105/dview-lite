@@ -1,5 +1,5 @@
 import React from 'react';
-import dividia_logo from '../../assets/images/dividia_logo.jpg';
+import dividia_logo from '../../assets/images/dividia_logo.png';
 
 const Header = props => {
 

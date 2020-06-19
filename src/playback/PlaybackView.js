@@ -46,10 +46,9 @@ export default connect(mapStateToProps, { resetPlayback })(Playback);
 
 const styles = {
   playbackContainerStyle: {
-   
     width: '100%',
     height: '100vh',
-    // backgroundColor: 'green'
+    backgroundColor: 'rgba(10,14,25,0.7)'
   }
   
 };

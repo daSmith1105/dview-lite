@@ -20,6 +20,7 @@ export const SET_USER_CAMERAS = 'SET_USER_CAMERAS';
 
 // NavigationActions
 export const SCREEN_CHANGE = 'SCREEN_CHANGE';
+export const JUMP_SYSTEM = 'JUMP_SYSTEM';
 
 // ServerActions
 export const GET_SERVER = 'GET_SERVER';

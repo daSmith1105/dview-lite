@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import placeholderImage from '../images/placeholder.jpeg';
 
 class CameraStreamContainer extends React.Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class CameraStreamContainer extends React.Component {
         this.state = {
             loading: false,
             timestamp: '',
-            enabled: false
+            enabled: false,
+            imgError: false
         }
 
         this.updateHandler = 0;
@@ -16,7 +18,8 @@ class CameraStreamContainer extends React.Component {
 
     componentDidMount = () => {
         this.setState({ 
-            loading: true
+            loading: true, 
+            imgError: false
         }, () => {
             setTimeout( () => {
                 let cam = this.props.enabled;
@@ -41,7 +44,7 @@ class CameraStreamContainer extends React.Component {
     }
 
     componentWillUnmount = () => {
-        clearTimeout(this.updateHandler)
+        clearTimeout(this.updateHandler);
     }
 
     updateTimestamp = () => {
@@ -58,8 +61,12 @@ class CameraStreamContainer extends React.Component {
         return (
             <div style={{ float: 'left', height: this.props.height, width: this.props.width }} onDoubleClick={ () => this.props.onDoubleClick() }>
                 { this.state.enabled && !this.state.loading && this.props.enabled !== 'false' ?
-                    <img src={ 'http://192.168.0.22/mpe/cam' + this.props.camNum + '.jpg?user=' + this.props.username + '&pass=' + this.props.password +'&ts=' + this.state.timestamp } alt='camera_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} />  :
-                    <img src={ 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU' } alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> 
+                    <img src={ 'http://192.168.0.22/mpe/cam' + this.props.camNum + '.jpg?user=' + this.props.username + '&pass=' + this.props.password +'&ts=' + this.state.timestamp } 
+                         alt='camera_stream' 
+                         height={'100%'} 
+                         width={'100%'} 
+                         style={{ border: '1px solid grey' }} />  :
+                    <img src={placeholderImage} alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> 
                 }
             </div>
         )

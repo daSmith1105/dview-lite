@@ -36,7 +36,6 @@ export const setCamera = (cam) => {
 }
 
 export const setDate = (date) => {
-  console.log('DATE: ', date)
   return {
     type: SET_DATE,
     payload: date
@@ -140,8 +139,9 @@ export const setCurrentClipPlaying = (id) => {
   }
 }
 
+
 export const getVideo = (sServer, sSess, bID, sYMDHMS, bFlags, bNumEvents) => {
-  console.log(sServer, sSess, bID, sYMDHMS, bFlags, bNumEvents)
+  // console.log(sServer, sSess, bID, sYMDHMS, bFlags, bNumEvents)
   return( dispatch ) => {
     const reqBody = {   
         "jsonrpc": 2.0,
@@ -160,9 +160,14 @@ export const getVideo = (sServer, sSess, bID, sYMDHMS, bFlags, bNumEvents) => {
         timeout: 6000
     })
     .then( (response) => {
-        let data = response.data.result[1][2];
-        console.log('DATA: ', data)
-        dispatch({ type: SET_VIDEO, payload: data }); 
+        let data = response.data.result[1];
+        // console.log('DATA: ', data)
+        dispatch({ 
+          type: SET_VIDEO, 
+          payload: data[2],
+          prevClipsetTimestamp: data[0],
+          nextClipsetTimestamp: data[1]
+        }); 
     })
     .catch(error => {
         console.error('Error:', error);

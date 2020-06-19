@@ -54,7 +54,7 @@ verifySession = async() => {
 
     console.log(this.props.sSess)
     return (
-      <div className="App" style={{ padding: this.props.fFullscreen ? 0 : 10 }}>
+      <div className="App">
         <Switch>
           <Route exact path="/" component={LoginView} />
           <Route exact path="/live" component={LiveView} />

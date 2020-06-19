@@ -7,11 +7,12 @@ import '../App.css';
 
 const HeaderButtonGroup = props => {
   return (
-    <div style= {{ width: '90vw', margin: 'auto' }}>
-      <div style={{ float: 'left' }}>
+    <div style= {{ width: '90vw', margin: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '.5vmin' }}>
+      <p style={{ margin: 0, padding: 0, fontSize: '2vmin', fontWeight: 'bold',  marginLeft: '2vmin', color: 'white', marginTop: '2.5vmin' }}>Search</p>
+      <div style={{ marginLeft: '12vmin' }}>
         <CurrentTimeContainer inline />
       </div>
-      <div style={{ float: 'right' }}>
+      <div style={{ marginTop: '2vmin' }}>
         <button style={ styles.headerButtonStyle }
                         className="hoverableButton">
           <Link style={{ color: 'black', textDecoration : 'none' }} to="/live" >Live</Link>
@@ -49,6 +50,7 @@ const styles = {
     border: 'none',
     borderRadius: 5,
     fontSize: '1.5vmin',
+    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
   },
   headerButtonStyleSelected: {
     paddingRight: 10,

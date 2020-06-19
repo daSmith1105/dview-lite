@@ -14,7 +14,7 @@ class DateContainer extends React.Component {
     return (
       <div>
         <p style={ styles.labelTextStyle }>Date</p>
-        <input type="date" value={moment(this.props.playbackDate).format('YYYY-MM-DD') }  onChange={this.handleDateSelect} max={ moment(new Date()).format('YYYY-MM-DD') } style={{ fontFamily: 'sans-serif', fontSize: '1.5vmin', height: '1.2vw' }} />
+        <input type="date" value={moment(this.props.playbackDate).format('YYYY-MM-DD') }  onChange={this.handleDateSelect} max={ moment(new Date()).format('YYYY-MM-DD') } style={{ paddingLeft: '.5vmin', paddingRight: '.5vmin', borderRadius: 5, fontFamily: 'sans-serif', fontSize: '1.5vmin', height: '1.3vw' }} />
       </div>
     )
   }
@@ -32,6 +32,7 @@ export default connect(mapStateToProps, { setDate })(DateContainer);
 const styles = {
   labelTextStyle: {
     fontSize: '1.5vmin',
-    margin: '.2vw'
+    margin: '.2vw',
+    color: 'white'
   }
 }

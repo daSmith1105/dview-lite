@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { logoutUser } from '../actions';
 
 
 
@@ -16,15 +17,31 @@ import { connect } from 'react-redux';
 
 const ServerView = props => {
 
+    const initiateServerJump = (e) => {
+        let value = JSON.parse(e.target.value);
+        console.log(value)
+        if(value !== ''){
+            alert(JSON.stringify(value));
+            if( value.sName.charAt( value.sName.length - 1 ) === '*' ) {
+                // server we are jumping to is an incompatible version
+                // alert user and push back to previous server
+                return;
+            }
+            // if we check and can get to the new system, then ----->
+            // we need to logout of this dvr and then push to the jump system url set that ip in our state so that we can append our '/JSON' calls and force a login to the new system
+            // props.logoutUser(props.sSess, '/JSON/');
+        }
+    }
+
     return (
         <div style={ styles.serverViewContainerStyle }>
             <select value={''} 
-                    onChange={ e => { if(e.target.value !== ''){alert(e.target.value)} } }
+                    onChange={ e => initiateServerJump(e) }
                     style={{ fontSize: '1.5vmin', padding: '.2vw', border: '2px solid grey', width: '100%', borderRadius: 5, textAlign: 'left' }}>
                 <option value="">Jump System</option>
                 <option value="">-----------</option>
                 { props.authServers.map( server => 
-                                            <option key={server.bSerial} value={server.sIP + "-" + server.sLocalIP}> {/*use the value to call this.props.getServer(value + '/JSON/'); */} 
+                                            <option key={server.bSerial} value={JSON.stringify(server)}> {/*use the value to call this.props.getServer(value + '/JSON/'); */} 
                                                 {props.sVersionMajor !== server.sVersion.split('.')[0] ? `* ${server.sName}` : server.sName }
                                             </option>)}
                 {/* need to handle nvrs that are offline in the dropdown */}
@@ -34,12 +51,14 @@ const ServerView = props => {
 }
 const mapStateToProps = state => {
     const { authServers, sVersionMajor } = state.server;
+    const { sSess } = state.auth;
     return{
         authServers,
-        sVersionMajor
+        sVersionMajor,
+        sSess
     }
 }
-export default connect(mapStateToProps, {})(ServerView);
+export default connect(mapStateToProps, { logoutUser })(ServerView);
 
 const styles = {
     serverViewContainerStyle: {

@@ -21,7 +21,7 @@ import CurrentTimeContainer from '../playback/CurrentTimeContainer';
 const ConfButtonsView = props => {
     return (
         <div style={ styles.confButtonsViewContainerStyle }>
-            <div style={{position: 'relative', width: '11vmin', whiteSpace: 'nowrap', top: '-8vmin', right: 0, marginLeft: '.5vmin', overflow: 'visible'}}>
+            <div style={{ marginBottom: '2vmin', marginTop: props.conf === 'conf-1' ? '1vmin' : 0 }}>
                 <CurrentTimeContainer />
             </div>
 
@@ -32,7 +32,7 @@ const ConfButtonsView = props => {
                      onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-1"); props.camViewChange("cam_1") } }>
                         { props.conf === 'conf-1' ?
                             <img src={dConf1} alt='conf-1' height='100%' width='100%' /> :
-                            <img src={conf1} alt='conf-1' height='100%' width='100%' />
+                            <img src={conf1} alt='conf-1' height='100%' width='100%' style={{ borderRadius: 10, boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
                         }
                 </div>
     {/* 4 */}
@@ -42,7 +42,7 @@ const ConfButtonsView = props => {
                          onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-4"); props.camViewChange("cam_1-4") } }>
                         { props.conf === 'conf-4' ?
                             <img src={dConf4} alt='conf-4' height='100%' width='100%' /> :
-                            <img src={conf4} alt='conf-4' height='100%' width='100%' /> 
+                            <img src={conf4} alt='conf-4' height='100%' width='100%' style={{ borderRadius: 10, boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  /> 
                         }
                     </div> :
                     null
@@ -56,7 +56,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-6"); props.camViewChange("cam_1-6") } }>
                     { props.conf === 'conf-6' ?
                         <img src={dConf6} alt='conf-6' height='100%' width='100%' /> :
-                        <img src={conf6} alt='conf-6' height='100%' width='100%' /> 
+                        <img src={conf6} alt='conf-6' height='100%' width='100%' style={{ borderRadius: 10, boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  /> 
                     }   
                 </div>
     {/* 9  */}
@@ -65,7 +65,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-9"); props.camViewChange("cam_1-9") } }>
                     { props.conf === 'conf-9' ?
                         <img src={dConf9} alt='conf-9' height='100%' width='100%' /> :
-                        <img src={conf9} alt='conf-9' height='100%' width='100%' />
+                        <img src={conf9} alt='conf-9' height='100%' width='100%' style={{ borderRadius: 10, boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
                     }
                 </div> 
                       
@@ -78,7 +78,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-12"); props.camViewChange("cam_1-12") } }>
                     { props.conf === 'conf-12' ?
                         <img src={dConf12} alt='conf-9' height='100%' width='100%' /> :
-                        <img src={conf12} alt='conf-9' height='100%' width='100%' />
+                        <img src={conf12} alt='conf-9' height='100%' width='100%' style={{ borderRadius: 10, boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
                     }
                 </div> 
     {/* 16 */}
@@ -87,7 +87,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.killAutoScan(); props.singleCamSelected && props.setSingleView(''); props.configChange("conf-16"); props.camViewChange("cam_1-16") } }>
                     { props.conf === 'conf-16' ?
                         <img src={dConf16} alt='conf-16' height='100%' width='100%' /> :
-                        <img src={conf16} alt='conf-16' height='100%' width='100%' />
+                        <img src={conf16} alt='conf-16' height='100%' width='100%' style={{ borderRadius: 10, boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
                     }
                 </div> 
 
@@ -98,7 +98,7 @@ const ConfButtonsView = props => {
                     onClick={ () => props.configChange("conf-fs")}>
                 { props.conf === 'conf-fs' ?
                     <img src={dConfFS} alt='conf-fs' height='100%' width='100%' /> :
-                    <img src={confFS} alt='conf-fs' height='100%' width='100%' />
+                    <img src={confFS} alt='conf-fs' height='100%' width='100%' style={{ borderRadius: 10, boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
                 }
             </div>
 
@@ -123,7 +123,8 @@ export default connect(mapStateToProps, { configChange, camViewChange, setSingle
 const styles = {
     confButtonsViewContainerStyle: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        jusifyContent: 'space-between'
     },
     confButtonsRowStyle: {
         display: 'flex',
@@ -133,6 +134,6 @@ const styles = {
     confButtonStyle: {
         width: '6vmin', 
         height: '6vmin', 
-        margin: 6
+        margin: '1vmin'
     }
 }

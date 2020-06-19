@@ -69,7 +69,6 @@ import {
           ptzPresets: action.payload
         }
       case SET_ALL_CAMERAS:
-        let i = 1;
         let cameraArr = [];
         let singleViewEnabledArr = [];
         let quadView = [ ["1-4", true] ];
@@ -84,7 +83,7 @@ import {
         let sixteenViewEnabledArr = [ "1-16" ];
 
         console.log(action.payload)
-        while( i < action.payload.length + 1) {
+        for( let i = 1; i < action.payload.length + 1; i++) {
             // check if camera is enabled
             let camEnabled = action.payload.filter(c => c.bID === i)[0] && action.payload.filter(c => c.bID === i)[0].fEnable ? action.payload.filter(c => c.bID === i)[0].fEnable : false;
             if(camEnabled){
@@ -93,7 +92,6 @@ import {
             }
             // set cam as string, index number and whether cam is enabled - all cameras
             cameraArr.push([`cam_${i}`, i, camEnabled]);
-            i++;
         };
 
       // > 4 Cams
