@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { logoutUser, jumpSystem } from '../actions';
+import { logoutUser, jumpSystem } from '../../actions';
 
 
 
@@ -15,7 +15,7 @@ import { logoutUser, jumpSystem } from '../actions';
 //      sVersion: "5.2.90"
 //      bRtspPort: 554
 
-const ServerView = props => {
+const ServerViewM = props => {
 
     const initiateServerJump = (e) => {
         let value = JSON.parse(e.target.value);
@@ -37,7 +37,7 @@ const ServerView = props => {
         <div style={ styles.serverViewContainerStyle }>
             <select value={''} 
                     onChange={ e => initiateServerJump(e) }
-                    style={{ fontSize: '1.5vmin', padding: '.2vw', border: '2px solid grey', width: '100%', borderRadius: 5, textAlign: 'left' }}>
+                    style={{ fontSize: 12, padding: '.2vw', border: '2px solid grey', width: '100%', borderRadius: 5, textAlign: 'left' }}>
                 <option value="">Jump System</option>
                 <option value="">-----------</option>
                 { props.authServers.map( server => 
@@ -58,11 +58,10 @@ const mapStateToProps = state => {
         sSess
     }
 }
-export default connect(mapStateToProps, { logoutUser, jumpSystem })(ServerView);
+export default connect(mapStateToProps, { logoutUser, jumpSystem })(ServerViewM);
 
 const styles = {
     serverViewContainerStyle: {
-        margin:'3vw',
-        width: '90%'
+        width: '100%'
     }
 }

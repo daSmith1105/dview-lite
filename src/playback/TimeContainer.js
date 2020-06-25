@@ -1,28 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import TimePicker from 'react-time-picker';
 import { setTime } from '../actions';
+import { FaClock } from 'react-icons/fa';
 import '../App.css'
 
 class TimeContainer extends React.Component {
 
-  handleTimeSelect = (e) => {
-    this.props.setTime(e.target.value)
+  state = {
+    time: new Date()
+  }
+
+  handleTimeSelect = (time) => {
+   console.log(time)
+    this.props.setTime(time)
+    this.setState({ time })
   }
 
   render() {
     return (
       <div>
         <p style={ styles.labelTextStyle }>Time</p>
-        <input type="time" default={this.props.playbackTime} value={this.props.playbackTime }  onChange={this.handleTimeSelect} style={{ paddingLeft: '.5vmin', paddingRight: '.5vmin', borderRadius: 5, fontFamily: 'sans-serif', fontSize: '1.5vmin', height: '1.3vw' }} />
+        <div style={{ backgroundColor: 'white', borderRadius: 5 }}>
+          <TimePicker value={this.state.time}
+                      onChange={time => this.handleTimeSelect(time)}
+                      calendarIcon={ <FaClock style={{ color: 'grey' }} /> }
+                      clearIcon={null}
+                      format={'hh:mm a'} />
+        </div>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-  const { playbackTime } = state.playback;
+  const { playbackTime, playbackDate } = state.playback;
   return {
-    playbackTime
+    playbackTime,
+    playbackDate
   }
 }
 

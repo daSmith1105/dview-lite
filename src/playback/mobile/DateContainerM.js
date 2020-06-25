@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setDate } from '../actions';
+import { setDate } from '../../actions';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
-import '../App.css';
+import '../../App.css';
 
-class DateContainer extends React.Component {
+class DateContainerM extends React.Component {
 
   state = {
     date: new Date()
@@ -28,19 +28,34 @@ class DateContainer extends React.Component {
   
   render() {
     return (
-      <div>
-        <p style={ styles.labelTextStyle }>Date / Time</p>
+      <div style={{ width: '100%' }}>
           <DatePicker
             selected={this.state.date}
             onChange={date => this.handleDateSelect(date)}
-            showTimeSelect
+            showTimeInput
+            timeInputLabel="Time:"
             timeFormat="HH:mm"
             timeIntervals={5}
-            timeCaption="time"
+            showPopperArrow={false}
+            shouldCloseOnSelect={false}
+            disabledKeyboardNavigation
+            popperModifiers={{
+              offset: {
+                enabled: true,
+                offset: "36px, 1px"
+              },
+              preventOverflow: {
+                enabled: true,
+                escapeWithReference: false,
+                boundariesElement: "viewport"
+              }
+            }}
             dateFormat="MM/d/yyyy h:mm aa"
             maxDate={new Date()}
-            className="datetime-input">
-             <div className="hoverable" style={{ color: 'dodgerblue', fontSize: '1.2vmin', marginBottom: '.2vmin' }} onClick={() => alert('this needs to be implemented') }>Today</div>
+            timeClassName="time-input-lite"
+            className="datetime-input-lite">
+            
+             <div className="hoverable" style={{ color: 'dodgerblue', fontSize: 14, marginBottom: '.2vmin' }} onClick={() => alert('this needs to be implemented') }>Today</div>
              </DatePicker>
       </div>
     )
@@ -54,7 +69,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { setDate })(DateContainer);
+export default connect(mapStateToProps, { setDate })(DateContainerM);
 
 const styles = {
   labelTextStyle: {

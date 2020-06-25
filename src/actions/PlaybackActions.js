@@ -36,6 +36,7 @@ export const setCamera = (cam) => {
 }
 
 export const setDate = (date) => {
+  console.log(date)
   return {
     type: SET_DATE,
     payload: date
@@ -138,7 +139,6 @@ export const setCurrentClipPlaying = (id) => {
     payload: id
   }
 }
-
 
 export const getVideo = (sServer, sSess, bID, sYMDHMS, bFlags, bNumEvents) => {
   // console.log(sServer, sSess, bID, sYMDHMS, bFlags, bNumEvents)

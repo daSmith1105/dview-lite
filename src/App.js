@@ -3,6 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import LoginView from './login/LoginView';
 import LiveView from './live/LiveView';
 import PlaybackView from './playback/PlaybackView';
+import LoginViewM from './login/mobile/LoginViewM';
+import LiveViewM from './live/mobile/LiveViewM';
+import PlaybackViewM from './playback/mobile/PlaybackViewM';
 import Error from './PageError';
 import { connect } from 'react-redux';
 import { getServer, checkExists,logoutUser, expireSession, getPlatform, updateCurrentTime } from './actions';
@@ -22,7 +25,7 @@ class App extends React.Component {
 componentDidMount = () => {
   setInterval(() => this.props.updateCurrentTime(), 1000);
   this.props.getPlatform();
-  this.props.getServer('/JSON/'); //this.props.sServer 
+  this.props.getServer('/JSON/');
   this.verifySession();
 }
 
@@ -52,13 +55,12 @@ verifySession = async() => {
 
   render() {
 
-    console.log(this.props.sSess)
     return (
       <div className="App">
         <Switch>
-          <Route exact path="/" component={LoginView} />
-          <Route exact path="/live" component={LiveView} />
-          <Route exact path="/playback" component={PlaybackView} />
+          <Route exact path="/" component={this.props.getPlatform() === 'Ios' || this.props.getPlatform() === 'Android' ? LoginViewM : LoginView} />
+          <Route exact path="/live" component={this.props.getPlatform() === 'Ios' || this.props.getPlatform() === 'Android' ? LiveViewM : LiveView} />
+          <Route exact path="/playback" component={this.props.getPlatform() === 'Ios' || this.props.getPlatform() === 'Android' ? PlaybackViewM : PlaybackView} />
           <Route component={Error} />
         </Switch>
       </div>

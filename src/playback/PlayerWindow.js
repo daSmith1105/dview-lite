@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setCurrentClipPlaying, setPlaybackRate, setCamera, getVideo } from '../actions';
 import moment from 'moment';
+import poster_img from '../images/poster_img.png';
+import testVideo from '../images/test_video.mp4';
 import '../App.css';
 
 let node;
@@ -57,7 +59,6 @@ class PlayerWindow extends React.Component {
   };
 
   getPreviousClipset = () => {
-    // need to figure out how to get the nine clips before the provided timestamp
     if(this.props.prevClipsetTimestamp !== ''){
       this.props.getVideo('/JSON/', this.props.sSess, parseInt(this.props.playbackCamera), this.props.prevClipsetTimestamp, 0, 9);
     }
@@ -102,14 +103,14 @@ class PlayerWindow extends React.Component {
       }
 
        <video ref={this.video}
+              // src={ testVideo } 
               src={ this.props.sServer + '/camstream/?cmd=fetch&session=' + this.props.sSess + '&file=' + this.props.currentClipPlayingUrl } 
-              poster={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQVzVtxIzD77TuNLFAf_HplOOfbvOMHxj8BBdzzUDNUu-bu4BWk&usqp=CAU"}
+              poster={poster_img}
               style={ styles.videoPlayerStyle }
               type="video/mp4"
               muted
               autoPlay
-              controls 
-              disablePictureInPicture >
+              controls='true' >
           Sorry, your browser doesn't support viewing this video. PLease try viewing using another browser.
         </video>
         { this.props.currentClipPlayingTimestamp && this.props.currentClipPlayingTimestamp.length ?

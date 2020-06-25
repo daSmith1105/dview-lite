@@ -56,12 +56,13 @@ class CameraStreamContainer extends React.Component {
                 clearTimeout(this.updateHandler)
         });
     };
-
+    
     render() {
+        console.log(this.props.sServer)
         return (
             <div style={{ float: 'left', height: this.props.height, width: this.props.width }} onDoubleClick={ () => this.props.onDoubleClick() }>
                 { this.state.enabled && !this.state.loading && this.props.enabled !== 'false' ?
-                    <img src={ 'http://192.168.0.22/mpe/cam' + this.props.camNum + '.jpg?user=' + this.props.username + '&pass=' + this.props.password +'&ts=' + this.state.timestamp } 
+                    <img src={ this.props.sServer + '/mpe/cam' + this.props.camNum + '.jpg?user=' + this.props.username + '&pass=' + this.props.password +'&ts=' + this.state.timestamp } 
                          alt='camera_stream' 
                          height={'100%'} 
                          width={'100%'} 

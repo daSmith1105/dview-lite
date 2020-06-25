@@ -19,7 +19,7 @@ export const camViewChange = camset => {
     };
   }
 
-  export const setCameraBrowerCam = cam => {
+  export const setCameraBrowserCam = cam => {
     return {
       type: SET_CAM_BROWSER_CAM,
       payload: cam

@@ -1,7 +1,7 @@
 import React from 'react';
-import Button from '../components/Button';
+import Button from '../../components/Button';
 
-const SessionExpiredModal = props => {
+const SessionExpiredModalM = props => {
 
   const { modalContainerStyle } = styles;
 
@@ -18,14 +18,15 @@ const SessionExpiredModal = props => {
       <Button onClick={ props.onAccept } 
               buttonText='OK' 
               background='lightgrey'
-              height={24}
+              height={30}
+              fontSize ={14}
               radius />
       </div>
     </div>
   );
 };
 
-export default SessionExpiredModal;
+export default SessionExpiredModalM;
 
 const styles = {
   modalContainerStyle: {
@@ -40,6 +41,7 @@ const styles = {
     borderRadius: 5,
     color: 'lightgrey',
     marginTop: '5%',
-    marginLeft:5
+    marginLeft: 5,
+    marginBottom: 30
   }
 };

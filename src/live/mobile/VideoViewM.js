@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setSingleView } from '../actions';
-import dividia_logo from '../images/dividia_logo.png';
-import CameraStreamContainer from './CameraStreamContainer';
+import { setSingleView } from '../../actions';
+import dividia_logo from '../../images/dividia_logo.png';
+import CameraStreamContainer from '../CameraStreamContainer';
 
 
-const VideoView = props => {
+const VideoViewM = props => {
 
     const forcedSingleView = <div style={{ height: '100%', width: '100%', position: 'relative' }}>
                                 <CameraStreamContainer enabled={ props.cameras.filter( c => c.bID === props.singleCamSelected)[0] } height={'100%'} width={'100%'} camNum={ props.singleCamSelected } style={{ float: 'left' }} onDoubleClick={() => props.setSingleView('') } />
@@ -114,7 +114,7 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { setSingleView } )(VideoView);
+export default connect(mapStateToProps, { setSingleView } )(VideoViewM);
 
 const styles = {
     videoViewContainerStyle: {

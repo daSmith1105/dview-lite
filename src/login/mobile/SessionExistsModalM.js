@@ -1,7 +1,7 @@
 import React from 'react';
-import Button from '../components/Button';
+import Button from '../../components/Button';
 
-const SessionExistsModal = props => {
+const SessionExistsModalM = props => {
 
   const { modalContainerStyle } = styles;
 
@@ -13,19 +13,21 @@ const SessionExistsModal = props => {
       <Button onClick={ props.onDeny } 
               buttonText='Cancel'
               background='lightgrey'
-              height={24}
+              height={30}
+              fontSize={14}
               radius />
       <Button onClick={ props.onAccept } 
               buttonText='OK' 
               background='lightgrey'
-              height={24}
+              height={30}
+              fontSize={14}
               radius />
       </div>
     </div>
   );
 };
 
-export default SessionExistsModal;
+export default SessionExistsModalM;
 
 const styles = {
   modalContainerStyle: {
@@ -40,6 +42,7 @@ const styles = {
     borderRadius: 5,
     color: 'lightgrey',
     padding: 9,
-    marginTop: '5%'
+    marginTop: '5%',
+    marginBottom: 30
   }
 };

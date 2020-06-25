@@ -1,9 +1,9 @@
 import React from 'react';
 import DateContainer from './DateContainer';
-import TimeContainer from './TimeContainer';
 import { connect } from 'react-redux';
 import { setFilter, setCamera, getVideo } from '../actions';
 import { FaChevronCircleRight } from 'react-icons/fa';
+import moment from 'moment';
 import '../App.css';
 
 const SearchContainer = props => {
@@ -20,9 +20,7 @@ const SearchContainer = props => {
 
   const requestVideoEvents = () => {
     let flags = 0
-    let date = props.playbackDate.split('-').join(" ").replace(/\s/g,'');
-    let time = props.playbackTime.split(':').join(" ").replace(/\s/g,'') + '00';
-    let dateTime = date + time;
+    let date = moment(props.playbackDate).format('YYYYMMDDHHmmss');
     if(props.archiveFilterState && !props.exportFilterState){
       flags = 1;
     };
@@ -30,7 +28,7 @@ const SearchContainer = props => {
       flags = 2;
     }
 
-    props.getVideo('/JSON/', props.sSess, parseInt(props.playbackCamera), dateTime, flags, 9)   // sServer, sSess, camID, sYMDHMS, bFlags, bNumEvents    0 - all, 1 -fArchive, 2 - fExport
+    props.getVideo('/JSON/', props.sSess, parseInt(props.playbackCamera), date, flags, 9)   // sServer, sSess, camID, sYMDHMS, bFlags, bNumEvents    0 - all, 1 -fArchive, 2 - fExport
   }
 
   return (
@@ -47,9 +45,9 @@ const SearchContainer = props => {
 
         <DateContainer />
 
-        <FaChevronCircleRight style={{ height: '3vmin', width: '3vmin', marginTop: '1vmin', color: 'lightgrey', opacity: 0.5 }} />
+        {/* <FaChevronCircleRight style={{ height: '3vmin', width: '3vmin', marginTop: '1vmin', color: 'lightgrey', opacity: 0.5 }} />
 
-        <TimeContainer />
+        <TimeContainer /> */}
 
         <FaChevronCircleRight style={{ height: '3vmin', width: '3vmin', marginTop: '1vmin', color: 'lightgrey', opacity: 0.5 }} />
 

@@ -20,6 +20,7 @@ import {
         };
 
         dispatch({ type: SET_PLATFORM_TYPE, payload: type });
+        return(type)
     };
 };  
 

@@ -11,6 +11,7 @@ export const screenChange = screen => {
 };
 
 export const jumpSystem = (system) => {
+  console.log(system)
   return {
     type: JUMP_SYSTEM,
     payload: system

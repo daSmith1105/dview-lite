@@ -6,6 +6,7 @@ import '../App.css';
 import SearchContainer from './SearchContainer';
 import PlayerWindow from './PlayerWindow';
 import ClipContainer from './ClipContainer';
+import moment from 'moment';
 
 class Playback extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Playback extends React.Component {
     const { 
       playbackContainerStyle
     } = styles;
-
+    console.log(moment(new Date()).format('LLLL'))
     return (
         <div style={ playbackContainerStyle }>
             <HeaderButtonGroup />
@@ -37,8 +38,9 @@ class Playback extends React.Component {
 };
 
 const mapStateToProps = state => {
+  const { isLoggedIn } = state.auth;
     return {
-        state
+        isLoggedIn
     }
 };
 

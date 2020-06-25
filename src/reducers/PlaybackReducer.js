@@ -13,8 +13,8 @@ import moment from 'moment';
 
 const INITIAL_STATE = { 
   playbackCamera: 1,
-  playbackDate: moment(new Date()).format('YYYY-MM-DD'),
-  playbackTime: moment(new Date()).format('HH:mm'),
+  playbackDate: new Date(),
+  playbackTime: new Date(),
   archiveFilterState: false,
   exportFilterState: false,
   videoClipsRequested: [],
@@ -43,6 +43,7 @@ export default ( state = INITIAL_STATE, action ) => {
         nextClipsetTimestamp: ''
       }
     case SET_DATE:
+      console.log(action.payload)
       return { 
         ...state, 
         playbackDate: action.payload
@@ -53,6 +54,7 @@ export default ( state = INITIAL_STATE, action ) => {
         playbackRate: action.payload 
       }
     case SET_TIME:
+      console.log(action.payload)
       return { 
         ...state, 
         playbackTime: action.payload 

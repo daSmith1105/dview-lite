@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { camViewChange, setSingleView, setCameraBrowerCam } from '../actions';
+import { camViewChange, setSingleView, setCameraBrowserCam } from '../actions';
 import '../App.css';
 
 const CamButtonsView = props => {
 
     const setSingleCamData = cam => {
         props.camViewChange(cam[0]);  
-        props.setCameraBrowerCam(cam[1]);
+        props.setCameraBrowserCam(cam[1]);
     }
 
     const setMultipleCamData = cam => {
@@ -15,11 +15,10 @@ const CamButtonsView = props => {
         props.camViewChange(cam);
     }
 
-    // modify to change color for cameras that are note enabled/available
     const singleView = <div>
                             { props.cameraArr.map(c => 
                                 <button key={c[1]}
-                                        style={{ color: !c[2] ? 'rgba(0,0,0,0.4)' : props.currentCamView === c[0] ? 'white' : 'black', backgroundColor: !c[2] ? 'white' : props.currentCamView === c[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: !c[2] ? '2px solid lightgrey' : props.currentCamView === c[0] ? '2px solid dodgerblue' : '2px solid lightgrey', borderRadius: 5, boxShadow: !c[2] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)'}} 
+                                        style={{ color: !c[2] ? 'rgba(0,0,0,0.4)' : props.currentCamView === c[0] ? 'white' : 'black', backgroundColor: !c[2] ? 'white' : props.currentCamView === c[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: !c[2] ? '2px solid lightgrey' : props.currentCamView === c[0] ? '2px solid dodgerblue' : '2px solid lightgrey', borderRadius: 5, boxShadow: !c[2] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }} 
                                         className={ c[2] ?  "hoverableButton" : null }
                                         onClick={ () => c[2] ? setSingleCamData(c) : null }>
                                     { c[1] }
@@ -168,4 +167,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { camViewChange, setSingleView, setCameraBrowerCam })(CamButtonsView);
+export default connect(mapStateToProps, { camViewChange, setSingleView, setCameraBrowserCam })(CamButtonsView);
