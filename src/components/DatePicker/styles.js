@@ -71,7 +71,7 @@ export const DatePickerDropdownMenu = styled(DropdownMenu)`
   position: absolute;
   top: 0;
   left: 0;
-  width: 120%;
+  width: 120%; 
   border: none;
   padding: 0;
   margin: 0;

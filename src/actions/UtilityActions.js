@@ -15,7 +15,7 @@ import {
             type = 'Ios'
         } else if(platform.indexOf('iPhone') > -1) {
             type = 'Ios'
-        } else if(platform.indexOf('Android') > -1) {
+        } else if(platform.indexOf('Android') > -1 || platform.indexOf('Linux') > -1 ) {
             type = 'Android'
         };
 

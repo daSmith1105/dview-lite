@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { setCurrentClipPlaying, setPlaybackRate, setCamera, getVideo } from '../actions';
 import moment from 'moment';
 import poster_img from '../images/poster_img.png';
-import testVideo from '../images/test_video.mp4';
 import '../App.css';
 
 let node;
@@ -104,13 +103,14 @@ class PlayerWindow extends React.Component {
 
        <video ref={this.video}
               // src={ testVideo } 
-              src={ this.props.sServer + '/camstream/?cmd=fetch&session=' + this.props.sSess + '&file=' + this.props.currentClipPlayingUrl } 
+              src={ '/camstream/?cmd=fetch&session=' + this.props.sSess + '&file=' + this.props.currentClipPlayingUrl } 
               poster={poster_img}
               style={ styles.videoPlayerStyle }
               type="video/mp4"
               muted
               autoPlay
-              controls='true' >
+              playsInline
+              controls >
           Sorry, your browser doesn't support viewing this video. PLease try viewing using another browser.
         </video>
         { this.props.currentClipPlayingTimestamp && this.props.currentClipPlayingTimestamp.length ?
@@ -181,7 +181,7 @@ const styles = {
     marginBottom: 30,
     position: 'relative',
     backgroundColor: 'rgba(0,0,0,0.7)',
-    boxShadow: '2px 16px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4), 2px 2px 4px 2px rgba(40,120,255,0.4), -2px 2px 4px 2px rgba(40,120,255,0.4)',
+    // boxShadow: '2px 16px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4), 2px 2px 4px 2px rgba(40,120,255,0.4), -2px 2px 4px 2px rgba(40,120,255,0.4)',
   },
   videoPlayerStyle: {
     width:'100%',

@@ -143,7 +143,6 @@ const styles = {
         border: 'none',
         backgroundColor: 'rgba(10,14,25,0.6)',
         height: '100%',
-        width: '100%',
-        boxShadow: '2px 3px 4px 2px rgba(40,120,255,0.7), -2px -2px 4px 2px rgba(40,120,255,0.7)'
+        width: '100%'
     }
 }

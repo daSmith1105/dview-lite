@@ -1,8 +1,7 @@
 import { 
     GET_SERVER,
     GET_VERSION,
-    GET_IP,
-    JUMP_SYSTEM
+    GET_IP
   } from './types';
   
 import axios from 'axios';

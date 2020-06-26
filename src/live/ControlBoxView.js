@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions';
 import { Link } from 'react-router-dom';
+import history from '../history';
 import '../App.css';
 
 const ControlBoxView = props => {
@@ -9,8 +10,9 @@ const ControlBoxView = props => {
     return (
         <div style={ styles.controlBoxViewContainerStyle }>
             <button style={ styles.controlBoxButtonStyle }
-                    className="hoverableButton">
-                <Link className="hoverableButton link" to="/playback">Playback</Link>
+                    className="hoverableButton"
+                    onCLick={() => history.push('/playback')}>
+                <Link className="hoverableButton link" to="/playback" style={{ textDecoration: 'none' }}>Playback</Link>
             </button>
             <br />
 
@@ -18,7 +20,7 @@ const ControlBoxView = props => {
             { props.conf === 'conf-1' ? 
                 <button style={ styles.controlBoxButtonStyle }
                         className="hoverableButton">
-                    <a href={ props.sServer + ":434" + props.camBrowserCam } target="_blank" rel="noopener noreferrer" className="hoverableButton" style={{ textDecoration :'none'}}>
+                    <a href={ ":434" + props.camBrowserCam } target="_blank" rel="noopener noreferrer" className="hoverableButton" style={{ textDecoration :'none'}}>
                         Cam Browser
                     </a>
                 </button> :
@@ -28,8 +30,8 @@ const ControlBoxView = props => {
                 <button style={ styles.controlBoxButtonStyle }
                         className="hoverableButton">
                     <a href={ props.platform === 'Win' ? 
-                                props.sServer + "/launcher.php": 
-                                props.sServer + "/dview.php"
+                               "/launcher.php": 
+                                "/dview.php"
                              } 
                       alt="full viewer"
                       style={styles.linkStyle}
@@ -42,7 +44,7 @@ const ControlBoxView = props => {
             <br/>
             <button style={ styles.controlBoxButtonStyle }
                     className="hoverableButton"
-                    onClick={ () => props.logoutUser(props.sSess, '/JSON/') }> {/* this.props.sServer  */}
+                    onClick={ () => { props.logoutUser(props.sSess, '/JSON/'); history.push("/") } }> 
                 <Link className="hoverableButton" to="/" style={{ textDecoration :'none'}}>Logout</Link>
             </button>
         </div>
@@ -79,7 +81,7 @@ const styles = {
         border: 'none',
         borderRadius: 5,
         fontSize: '1.5vmin',
-        boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)'
+        // boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)'
     },
     linkStyle: {
         fontSize: '1.5vmin',

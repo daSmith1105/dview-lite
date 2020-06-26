@@ -1,5 +1,7 @@
 import { 
     CONFIG_CHANGED,
+    LOGOUT_USER,
+    EXPIRE_SESSION
   } from '../actions/types';
   
   const INITIAL_STATE = { 
@@ -17,6 +19,16 @@ import {
           }
           return { 
             ...state
+          }
+        case LOGOUT_USER:
+          return { 
+            ...state,
+            conf: 'conf-1'
+          }
+        case EXPIRE_SESSION:
+          return { 
+            ...state,
+            conf: 'conf-1'
           }
         default:
             return state;

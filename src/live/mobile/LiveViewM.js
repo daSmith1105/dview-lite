@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { configChange, setSingleView, camViewChange, logoutUser } from '../../actions';
-import { FaPlay, FaCamera, FaSignOutAlt } from 'react-icons/fa';
+import { FaPlay, FaSignOutAlt } from 'react-icons/fa';
 import VideoViewM from './VideoViewM';
 import ConfButtonsViewM from './ConfButtonsViewM';
 import ServerViewM from './ServerViewM';
@@ -50,6 +50,7 @@ class LiveViewM extends React.Component {
     onDragStart = (clientX) => {
       dragged = true;
       dragStartX = clientX;
+      dragEndX = clientX;
       window.addEventListener("touchmove", this.onTouchMove);
     }
     
@@ -64,43 +65,43 @@ class LiveViewM extends React.Component {
     }
     
     onDragEndTouch = (evt) => {
-      this.onDragEnd();
-    }
-
-    onDragEnd = () => {
-      if(dragged && dragEndX - 100 > dragStartX){
-        this.onSwiped('r')
-      }
-      if(dragged && dragEndX !== 0 && dragEndX < dragStartX){
-        this.onSwiped('l')
-      }
+      this.onDragEnd(dragStartX, dragEndX);
       dragged = false;
       dragStartX = 0;
       dragEndX = 0;
       window.removeEventListener("touchmove", this.onTouchMove);
     }
 
+    onDragEnd = (start, end) => {
+      if(dragged && (end - start > 160)){
+        this.onSwiped('r')
+      }
+      if(dragged && (start - end > 170)){
+        this.onSwiped('l')
+      }
+    }
+
     onSwiped = (text) => {
       if(text === 'l'){
-        // alert('getting next camset')
         this.getConfAndIndex('inc');
       };
       if (text === 'r'){
-        // alert('getting previous camset')
         this.getConfAndIndex('dec');
       };
     }
 
+    killDrag = () => {
+      window.removeEventListener("touchmove", this.onTouchMove);
+      window.removeEventListener("touchend", this.onDragEndTouch);
+      window.addEventListener("touchend", this.onDragEndTouch);
+    }
+
     getConfAndIndex = (type) => {
       const currentCamset = this.props.currentCamView.split('_')[1];
-      // alert(this.props.quadViewEnabledArr.indexOf(currentCamset))
       if(currentCamset){
         switch (this.props.conf) {
           case "conf-1": 
             let camset1 = this.props.singleViewEnabledArr.indexOf(parseInt(currentCamset));
-            // alert(this.props.singleViewEnabledArr)
-            // alert(currentCamset)
-            // alert(camset1)
             if(type === 'dec') {
               if(this.props.singleViewEnabledArr[camset1 - 1]){
                 this.props.camViewChange('cam_' + this.props.singleViewEnabledArr[camset1 - 1])
@@ -110,7 +111,6 @@ class LiveViewM extends React.Component {
             }
             if(type === 'inc') {
               if((camset1 < this.props.singleViewEnabledArr.length) && this.props.singleViewEnabledArr[camset1 + 1]){
-                // alert('cam_' + this.props.singleViewEnabledArr[camset1 + 1])
                 this.props.camViewChange('cam_' + this.props.singleViewEnabledArr[camset1 + 1])
               } else {
                 this.props.camViewChange('cam_' + this.props.singleViewEnabledArr[0])
@@ -259,6 +259,7 @@ class LiveViewM extends React.Component {
                 </div> 
                 <div style={{ height: '100%', width: '100%' }} 
                       onTouchStart={this.onDragStartTouch}
+                      onDoubleClick={this.killDrag}
                       ref={this.view} >
                   <VideoViewM />
                 </div>
@@ -269,7 +270,6 @@ class LiveViewM extends React.Component {
                 <div style={{ height: 34, width: '100%', marginLeft: '-1.5%', backgroundColor: 'rgba(0,0,0,.4)', borderRadius: 5, marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
                   {/* icons for playback, jump?, take picture, logout */}
                   <FaPlay style={{ height: '7vmin', width: '7vmin', color: 'white' }} onClick={ () => history.push('/playback') } />
-                  <FaCamera style={{ height: '7vmin', width: '7vmin', color: 'white' }} onClick={ () => alert('snapshot pressed') } />
                   <FaSignOutAlt style={{ height: '7vmin', width: '7vmin', color: 'white' }} onClick={ () => this.props.logoutUser(this.props.sSess) } />
                 </div>
               </div>

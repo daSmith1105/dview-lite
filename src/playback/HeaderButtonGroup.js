@@ -50,7 +50,7 @@ const styles = {
     border: 'none',
     borderRadius: 5,
     fontSize: '1.5vmin',
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
   },
   headerButtonStyleSelected: {
     paddingRight: 10,

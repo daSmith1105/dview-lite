@@ -5,9 +5,8 @@ import '../../App.css';
 import SearchContainerM from './SearchContainerM';
 import PlayerWindowM from './PlayerWindowM';
 import ClipContainerM from './ClipContainerM';
-import moment from 'moment';
 import history from '../../history';
-import { FaChevronLeft, FaCamera, FaSignOutAlt } from 'react-icons/fa';
+import { FaChevronLeft, FaSignOutAlt } from 'react-icons/fa';
 import dividia_logo from '../../images/dividia_logo.png';
 
 class PlaybackViewM extends React.Component {
@@ -30,7 +29,7 @@ class PlaybackViewM extends React.Component {
     
     return (
         <div style={ playbackContainerStyle }>
-            <img src={dividia_logo} height={30} width='auto' style={{ marginBottom: 5 }} />
+            <img src={dividia_logo} height={30} width='auto' alt="" style={{ marginBottom: 5 }} />
             <SearchContainerM />
             <div style={{ marginBottom: 6 }}>
               <PlayerWindowM />
@@ -39,7 +38,6 @@ class PlaybackViewM extends React.Component {
             <div style={{ height: 34, width: '98%', marginLeft:'1%', backgroundColor: 'rgba(0,0,0,.4)', borderRadius: 5, marginTop: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
               {/* icons for playback, jump?, take picture, logout */}
               <FaChevronLeft style={{ height: '7vmin', width: '7vmin', color: 'white' }} onClick={ () => history.push('/live') } />
-              <FaCamera style={{ height: '7vmin', width: '7vmin', color: 'white' }} onClick={ () => alert('snapshot pressed') } />
               <FaSignOutAlt style={{ height: '7vmin', width: '7vmin', color: 'white' }} onClick={ () => this.props.logoutUser(this.props.sSess) } />
             </div>
       </div>
@@ -60,7 +58,8 @@ export default connect(mapStateToProps, { resetPlayback, logoutUser })(PlaybackV
 const styles = {
   playbackContainerStyle: {
     width: '100%',
-    height: '100%',
+    minHeight: '100vh',
+    height: 'auto',
     backgroundColor: 'rgba(10,14,25,0.7)',
     paddingTop: 5
   }

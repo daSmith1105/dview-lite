@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import placeholderImage from '../images/placeholder.jpeg';
+import moment from 'moment';
 
 class CameraStreamContainer extends React.Component {
     constructor(props) {
@@ -39,8 +40,8 @@ class CameraStreamContainer extends React.Component {
                 }
             }, 200)
         })
+    // set a timer to call and replace our image with an updated one
        this.updateTimestamp();
-        // set a timer to call and replace our image with an updated one
     }
 
     componentWillUnmount = () => {
@@ -58,15 +59,44 @@ class CameraStreamContainer extends React.Component {
     };
     
     render() {
-        console.log(this.props.sServer)
         return (
             <div style={{ float: 'left', height: this.props.height, width: this.props.width }} onDoubleClick={ () => this.props.onDoubleClick() }>
                 { this.state.enabled && !this.state.loading && this.props.enabled !== 'false' ?
-                    <img src={ this.props.sServer + '/mpe/cam' + this.props.camNum + '.jpg?user=' + this.props.username + '&pass=' + this.props.password +'&ts=' + this.state.timestamp } 
-                         alt='camera_stream' 
-                         height={'100%'} 
-                         width={'100%'} 
-                         style={{ border: '1px solid grey' }} />  :
+                    <div style={{ position: 'relative', height: '100%', width: '100%'}}>
+                        <img src={ '/mpe/cam' + this.props.camNum + '.jpg?user=' + this.props.username + '&pass=' + this.props.password +'&ts=' + this.state.timestamp } 
+                            alt='camera_stream' 
+                            height={'100%'} 
+                            width={'100%'} 
+                            style={{ border: '1px solid grey' }} />
+                        <div style={{ position: 'absolute', bottom: 2, left: 0, width: '99%', marginLeft: '.5%', backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1vmin',  }}>
+                            <p style={{ margin: 0, 
+                                        padding: 0, 
+                                        fontWeight: 'bold',
+                                        fontSize: this.props.conf === "conf-1" || this.props.fSingle ? '2vmin' : 
+                                                  this.props.conf === "conf-4" ? '1.5vmin' :
+                                                  this.props.conf === "conf-6" ? '1.3vmin' :
+                                                  this.props.conf === "conf-9" ? '1.2vmin' :
+                                                  this.props.conf === "conf-12" ? '1.1vmin' :
+                                                  this.props.conf === "conf-16" ? '1.1vmin' :
+                                                  10,  
+                                        color: 'white' }}>
+                                {this.props.camNum + ' - ' + this.props.cameras.find( c => c.bID === parseInt(this.props.camNum)).sName}
+                            </p>
+                            <p style={{ margin: 0, 
+                                        padding: 0, 
+                                        fontWeight: 'bold',
+                                        fontSize: this.props.conf === "conf-1" || this.props.fSingle ? '2vmin' : 
+                                                  this.props.conf === "conf-4" ? '1.5vmin' :
+                                                  this.props.conf === "conf-6" ? '1.3vmin' :
+                                                  this.props.conf === "conf-9" ? '1.2vmin' :
+                                                  this.props.conf === "conf-12" ? '1.1vmin' :
+                                                  this.props.conf === "conf-16" ? '1.1vmin' :
+                                                  10, 
+                                        color: 'white' }}>
+                                {moment(this.state.timestamp).format('MM/DD/YYYY HH:mm:ss')}
+                            </p>
+                        </div>
+                    </div>  :
                     <img src={placeholderImage} alt='no_stream' height={'100%'} width={'100%'} style={{ border: '1px solid grey' }} /> 
                 }
             </div>
@@ -77,6 +107,8 @@ class CameraStreamContainer extends React.Component {
 const mapStateToProps = state => {
     const { sSess, sServerLiveMPE, isLoggedIn, username, password } = state.auth;
     const { sServer, cameras } = state.server;
+    const { conf } = state.config
+    const { fSingle } = state.video
     return {
         sSess,
         sServerLiveMPE,
@@ -84,7 +116,9 @@ const mapStateToProps = state => {
         username,
         password,
         sServer,
-        cameras
+        cameras,
+        conf,
+        fSingle
     }
 }
 

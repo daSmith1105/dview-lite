@@ -14,7 +14,6 @@ import dConf6 from '../../images/Dconf6.png';
 import dConf9 from '../../images/Dconf9.png';
 import dConf12 from '../../images/Dconf12.png';
 import dConf16 from '../../images/Dconf16.png';
-import CurrentTimeContainer from '../../playback/CurrentTimeContainer';
 
 const ConfButtonsView = props => {
     return (
@@ -25,7 +24,7 @@ const ConfButtonsView = props => {
                      onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-1"); props.camViewChange("cam_1") } }>
                         { props.conf === 'conf-1' ?
                             <img src={dConf1} alt='conf-1' height='100%' width='100%' /> :
-                            <img src={conf1} alt='conf-1' height='100%' width='100%' style={{ boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
+                            <img src={conf1} alt='conf-1' height='100%' width='100%'  />
                         }
                 </div>
     {/* 4 */}
@@ -35,7 +34,7 @@ const ConfButtonsView = props => {
                          onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-4"); props.camViewChange("cam_1-4") } }>
                         { props.conf === 'conf-4' ?
                             <img src={dConf4} alt='conf-4' height='100%' width='100%' /> :
-                            <img src={conf4} alt='conf-4' height='100%' width='100%' style={{ boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  /> 
+                            <img src={conf4} alt='conf-4' height='100%' width='100%' /> 
                         }
                     </div> :
                     null
@@ -47,7 +46,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-6"); props.camViewChange("cam_1-6") } }>
                     { props.conf === 'conf-6' ?
                         <img src={dConf6} alt='conf-6' height='100%' width='100%' /> :
-                        <img src={conf6} alt='conf-6' height='100%' width='100%' style={{ boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  /> 
+                        <img src={conf6} alt='conf-6' height='100%' width='100%' /> 
                     }   
                 </div>
     {/* 9  */}
@@ -56,7 +55,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-9"); props.camViewChange("cam_1-9") } }>
                     { props.conf === 'conf-9' ?
                         <img src={dConf9} alt='conf-9' height='100%' width='100%' /> :
-                        <img src={conf9} alt='conf-9' height='100%' width='100%' style={{ boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
+                        <img src={conf9} alt='conf-9' height='100%' width='100%' />
                     }
                 </div> 
                       
@@ -67,7 +66,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-12"); props.camViewChange("cam_1-12") } }>
                     { props.conf === 'conf-12' ?
                         <img src={dConf12} alt='conf-9' height='100%' width='100%' /> :
-                        <img src={conf12} alt='conf-9' height='100%' width='100%' style={{ boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
+                        <img src={conf12} alt='conf-9' height='100%' width='100%' />
                     }
                 </div> 
     {/* 16 */}
@@ -76,7 +75,7 @@ const ConfButtonsView = props => {
                         onClick={ () => { props.singleCamSelected && props.setSingleView(''); props.configChange("conf-16"); props.camViewChange("cam_1-16") } }>
                     { props.conf === 'conf-16' ?
                         <img src={dConf16} alt='conf-16' height='100%' width='100%' /> :
-                        <img src={conf16} alt='conf-16' height='100%' width='100%' style={{ boxShadow: '1px 1px 4px 2px rgba(40,120,255,0.3), -1px -1px 4px 2px rgba(40,120,255,0.3)' }}  />
+                        <img src={conf16} alt='conf-16' height='100%' width='100%' />
                     }
                 </div> 
         </div>

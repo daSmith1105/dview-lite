@@ -6,7 +6,9 @@ import {
   SET_FILTER,
   SET_VIDEO,
   SET_CURRENT_CLIP_PLAYING,
-  SET_SPEED
+  SET_SPEED,
+  LOGOUT_USER,
+  EXPIRE_SESSION
 } from '../actions/types';
 
 import moment from 'moment';
@@ -30,6 +32,42 @@ const INITIAL_STATE = {
 
 export default ( state = INITIAL_STATE, action ) => {
   switch ( action.type ) {
+    case LOGOUT_USER:
+      return { 
+        ...state, 
+        playbackCamera: 1,
+        playbackDate: new Date(),
+        playbackTime: new Date(),
+        archiveFilterState: false,
+        exportFilterState: false,
+        videoClipsRequested: [],
+        prevClipsetTimestamp: '',
+        nextClipsetTimestamp: '',
+        curretClipPlayingId: 0,
+        currentClipPlayingUrl: '',
+        currentClipPlayingTimestamp: '',
+        currentClipPlayingCameraId: 1,
+        currentClipPlayingDuration: 0,
+        playbackRate: 1.0
+      }
+    case EXPIRE_SESSION:
+      return { 
+        ...state, 
+        playbackCamera: 1,
+        playbackDate: new Date(),
+        playbackTime: new Date(),
+        archiveFilterState: false,
+        exportFilterState: false,
+        videoClipsRequested: [],
+        prevClipsetTimestamp: '',
+        nextClipsetTimestamp: '',
+        curretClipPlayingId: 0,
+        currentClipPlayingUrl: '',
+        currentClipPlayingTimestamp: '',
+        currentClipPlayingCameraId: 1,
+        currentClipPlayingDuration: 0,
+        playbackRate: 1.0
+      }
     case SET_CAMERA:
       return { 
         ...state, 

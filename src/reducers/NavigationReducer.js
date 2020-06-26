@@ -1,12 +1,14 @@
 import { 
     SCREEN_CHANGE,
-    JUMP_SYSTEM
+    JUMP_SYSTEM,
+    LOGOUT_USER,
+    EXPIRE_SESSION
   } from '../actions/types';
   
   const INITIAL_STATE = { 
     screen: 'login',
     previousSystem: {},
-    nextSystem: {}
+    currentSystem: {}
   };
   
   export default ( state = INITIAL_STATE, action ) => {
@@ -19,7 +21,21 @@ import {
       case JUMP_SYSTEM:
         return { 
           ...state,
-          nextSystem: action.payload
+          currentSystem: action.payload
+        }
+      case LOGOUT_USER:
+        return { 
+          ...state,
+          screen: 'login',
+          previousSystem: {},
+          currentSystem: {}
+        }
+      case EXPIRE_SESSION:
+        return { 
+          ...state,
+          screen: 'login',
+          previousSystem: {},
+          currentSystem: {}
         }
       default:
         return state;

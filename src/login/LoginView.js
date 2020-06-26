@@ -167,8 +167,8 @@ class Login extends React.Component {
                       { this.props.platform !== 'Ios' && this.props.platform !== 'Android' ? 
                           <button style={ bottomButtonStyle} onClick={() => this.props.screenChange('full')}>
                             <a href={ this.props.platform === 'Win' ? 
-                                        this.props.sServer + "/launcher.php": 
-                                        this.props.sServer + "/dview.php"
+                                        "/launcher.php": 
+                                        "/dview.php"
                                     } 
                               alt="full viewer"
                               style={{ textDecoration: 'none', color: 'black' }}>
@@ -181,8 +181,8 @@ class Login extends React.Component {
                       { this.props.fEview ? 
                           <button style={ bottomButtonStyle }>
                             <a href={ this.props.platform === 'Win'? 
-                                        this.props.sServer + "/elauncher.php": 
-                                        this.props.sServer + "/eview.php" 
+                                        "/elauncher.php": 
+                                        "/eview.php" 
                                     } 
                               alt="eView" 
                               target="_blank"
@@ -269,7 +269,7 @@ class Login extends React.Component {
                 <p style={styles.footerTextStyle}>Version {this.props.sVersion}</p>
                 <p style={styles.footerTextStyle}>&copy;{currentYear} Dividia Technologies, LLC</p>
                 { !this.state.isIOS && !this.state.isAndroid ?
-                    <a href={ this.props.platform === 'Win' ? this.props.sServer + "/launcher.php" : this.props.sServer + "/dview.php" } 
+                    <a href={ this.props.platform === 'Win' ? "/launcher.php" : "/dview.php" } // launches with the port number?
                       alt="full viewer"
                       style={styles.footerLinkStyle}
                       className={'hoverable'}>
@@ -280,8 +280,8 @@ class Login extends React.Component {
 
                 { this.props.fEview ? 
                      <a href={ this.props.platform === 'Win' ? 
-                                this.props.sServer + "/elauncher.php": 
-                                this.props.sServer + "/eview.php"
+                                "/elauncher.php": 
+                                "/eview.php"
                               } 
                         alt="eView"
                         style={styles.footerLinkStyle}
@@ -364,7 +364,7 @@ const styles = {
     paddingBottom: 15,
     backgroundColor: '#135ba2',
     borderRadius: 10,
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
   },
   headingStyle: {
     fontSize: 16,
@@ -410,7 +410,7 @@ const styles = {
     paddingBottom: 5,
     backgroundColor: 'lightgrey',
     height: 26,
-    boxShadow: '1px 2px 4px 2px rgba(0,0,0,0.3), -1px -1px 4px 2px rgba(0,0,0,0.3)'
+    // boxShadow: '1px 2px 4px 2px rgba(0,0,0,0.3), -1px -1px 4px 2px rgba(0,0,0,0.3)'
   },
   modalContainerStyle: {
     marginTop: 8, 
@@ -418,7 +418,7 @@ const styles = {
     paddingBottom: 15,
     backgroundColor: '#135ba2',
     borderRadius: 10,
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
   },
   spacedRowStyle1: {
     display: 'flex',

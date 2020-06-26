@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { setCurrentClipPlaying, setPlaybackRate, setCamera, getVideo } from '../../actions';
 import moment from 'moment';
 import poster_img from '../../images/poster_img.png';
-import testVideo from '../../images/test_video.mp4';
 import '../../App.css';
 
 let node;
@@ -101,39 +100,39 @@ class PlayerWindowM extends React.Component {
         }
         <video  ref={this.video}
                 // src={ testVideo } 
-                src={ this.props.sServer + '/camstream/?cmd=fetch&session=' + this.props.sSess + '&file=' + this.props.currentClipPlayingUrl } 
+                src={ '/camstream/?cmd=fetch&session=' + this.props.sSess + '&file=' + this.props.currentClipPlayingUrl } 
                 poster={poster_img}
                 style={ styles.videoPlayerStyle }
                 type="video/mp4"
                 muted
                 autoPlay
                 playsInline
-                controls='true' >
+                controls >
           Sorry, your browser doesn't support viewing this video. PLease try viewing using another browser.
         </video>
         <div styles={{ width: '100%', height: 10,  display: 'flex', margin: 0 }}>
           <span style={{ color: 'white', margin: 0, padding: 0, fontSize: 10, marginRight: 10, marginTop :-10 }}>speed:</span>
           <button 
                 className="hoverableButton"
-                style={{ fontSize: 10, color: this.props.playbackRate === 0.5 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 0.5 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5, boxShadow: '1px 1px 2px 2px rgba(40,120,255,0.6), -1px -1px 2px 1px rgba(40,120,255,0.6)'  }}
+                style={{ fontSize: 10, color: this.props.playbackRate === 0.5 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 0.5 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5 }}
                 onClick={ () => this.setPlaybackRate(0.5)}>
               0.5
           </button>
           <button 
               className="hoverableButton"
-              style={{ fontSize: 10, color: this.props.playbackRate === 1 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 1 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5, boxShadow: '1px 1px 2px 2px rgba(40,120,255,0.6), -1px -1px 2px 1px rgba(40,120,255,0.6)' }}
+              style={{ fontSize: 10, color: this.props.playbackRate === 1 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 1 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5 }}
               onClick={ () => this.setPlaybackRate(1.0)}>
             1.0
           </button>
           <button 
               className="hoverableButton"
-              style={{ fontSize: 10, color: this.props.playbackRate === 2 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 2 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5, boxShadow: '1px 1px 2px 2px rgba(40,120,255,0.6), -1px -1px 2px 1px rgba(40,120,255,0.6)' }}
+              style={{ fontSize: 10, color: this.props.playbackRate === 2 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 2 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5 }}
               onClick={ () => this.setPlaybackRate(2.0)}>
             2.0
           </button>
           <button 
               className="hoverableButton"
-              style={{ fontSize: 10, color: this.props.playbackRate === 4 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 4 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5, boxShadow: '1px 1px 2px 2px rgba(40,120,255,0.6), -1px -1px 2px 1px rgba(40,120,255,0.6)' }}
+              style={{ fontSize: 10, color: this.props.playbackRate === 4 ? 'white' : 'black', backgroundColor: this.props.playbackRate === 4 ? 'dodgerblue' : 'white', borderRadius: 5, marginRight: 5, marginLeft: 5 }}
               onClick={ () => this.setPlaybackRate(4.0)}>
             4.0
           </button>
@@ -171,7 +170,6 @@ const styles = {
     width: '98%',
     margin: 'auto',
     backgroundColor: 'rgba(0,0,0,0.7)',
-    boxShadow: '1px 4px 2px 1px rgba(40,120,255,0.4), -1px -1px 2px 1px rgba(40,120,255,0.4), 1px 1px 2px 1px rgba(40,120,255,0.4), -1px 1px 2px 1px rgba(40,120,255,0.4)',
     marginTop: 5,
     paddingBottom: 5
   },

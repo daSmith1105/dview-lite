@@ -102,7 +102,7 @@ class Live extends React.Component {
 
     scan = () => { 
 
-      // initial scan cam is balnk when moving to another this.props.conf - cam_ undefined
+      // initial scan cam is blank when moving to another this.props.conf - cam_ undefined
       // if our local as variable gets set to false clear the interval timer
       if(!this.state.autoScanning) {
         this.killAutoScan();
@@ -212,7 +212,6 @@ class Live extends React.Component {
             justifyContent: 'center',
             alignItems: 'center',
             position: 'relative',
-            // backgroundColor: 'rgba(10,14,25,0.6)',
             height: this.props.fFullscreen ? '100%' : '100vmin',
             width: this.props.fFullscreen ? '100%' : '160vmin',
             marginRight: 0
@@ -229,8 +228,7 @@ class Live extends React.Component {
             marginLeft: '-6vmin', 
             zIndex: 2,
             backgroundColor: 'rgba(10,14,25,0.6)',
-            borderRadius: 5,
-            boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
+            borderRadius: 5
           }
         };
 
@@ -260,8 +258,6 @@ class Live extends React.Component {
                   </div> :
                   null 
                 }
-                {/* iCamButttonsBoxView */}
-                {/* iControlBoxView */}
                 { this.props.fFullscreen ? 
                     <ContextMenu
                       style={{ color: 'black'}}

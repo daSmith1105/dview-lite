@@ -2,20 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setDate } from '../../actions';
 import DatePicker from "react-datepicker";
-import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 import '../../App.css';
 
 class DateContainerM extends React.Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    date: new Date()
+    this.state = {
+      date: new Date()
+    };
   }
 
   componentDidMount = () => {
     this.props.setDate(new Date());
     this.setState({ date: new Date()})
   }
+
 
   handleDateSelect = (date) => {
     this.props.setDate(date);
@@ -25,11 +28,21 @@ class DateContainerM extends React.Component {
   resetToToday = () => {
    // blah
   }
+
+  
   
   render() {
+
+    const CustomInput = ({ value, onClick }) => (
+      <button className="example-custom-input" style={{ backgroundColor: "lightgrey", fontSize: 13, padding: 2, paddingRight: 8, paddingLeft: 8, borderRadius: 5 }} onClick={onClick}>
+        {value}
+      </button>
+    );
+
     return (
       <div style={{ width: '100%' }}>
           <DatePicker
+            customInput={<CustomInput />}
             selected={this.state.date}
             onChange={date => this.handleDateSelect(date)}
             showTimeInput
@@ -70,11 +83,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, { setDate })(DateContainerM);
-
-const styles = {
-  labelTextStyle: {
-    fontSize: '1.5vmin',
-    margin: '.2vw',
-    color: 'white'
-  }
-}

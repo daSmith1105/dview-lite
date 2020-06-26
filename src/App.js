@@ -58,9 +58,9 @@ verifySession = async() => {
     return (
       <div className="App">
         <Switch>
-          <Route exact path="/" component={this.props.getPlatform() === 'Ios' || this.props.getPlatform() === 'Android' ? LoginViewM : LoginView} />
-          <Route exact path="/live" component={this.props.getPlatform() === 'Ios' || this.props.getPlatform() === 'Android' ? LiveViewM : LiveView} />
-          <Route exact path="/playback" component={this.props.getPlatform() === 'Ios' || this.props.getPlatform() === 'Android' ? PlaybackViewM : PlaybackView} />
+          <Route exact path="/" component={this.props.getPlatform() !== 'Ios' && this.props.getPlatform() !== 'Android' ? LoginView : LoginViewM} />
+          <Route exact path="/live" component={this.props.getPlatform() !== 'Ios' && this.props.getPlatform() !== 'Android' ? LiveView : LiveViewM} />
+          <Route exact path="/playback" component={this.props.getPlatform() !== 'Ios' && this.props.getPlatform() !== 'Android' ? PlaybackView : PlaybackViewM} />
           <Route component={Error} />
         </Switch>
       </div>
@@ -81,37 +81,3 @@ const mapStateToProps = state => {
   }
 }
 export default connect( mapStateToProps, { getServer, checkExists, logoutUser, expireSession, getPlatform, updateCurrentTime })(App);
-
-
-// whichIP: function( sIPbase, oServ )
-// 		{
-// 			var oServerTemp = new RDAServer();
-// 			var sServer;
-// 			var sUrl;
-
-// 			/*
-// 			 * Since we use rpcproxy.cgi and the standard case is
-// 			 * we probably are not local, try public first.
-// 			 * This fixes bug: http://tickets.dividia.net/show_bug.cgi?id=16612
-// 			 */
-
-// 			// Special case so we can direct connect back to our sIPbase
-// 			if ( sIPbase != '' ) {
-// 				sServer = oServ.getIP();
-// 				if ( oServ.getPort() != 80 )
-// 					sServer += ":" + oServ.getPort();
-// 				if ( sIPbase == sServer )
-// 					return sServer;
-// 			}
-
-// 			// Try Public IP
-// 			try {
-// 				sServer = oServ.getIP();
-// 				if ( oServ.getPort() != 80 )
-// 					sServer += ":" + oServ.getPort();
-// 				sUrl = "http://" + sServer;
-// 				oServerTemp.setServer( sUrl );
-// 				oServerTemp.Query( "info.isAlive" );
-// 				return sServer;
-// 			} catch ( e ) {
-// 			}

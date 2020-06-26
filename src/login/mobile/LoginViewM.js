@@ -15,7 +15,7 @@ import {
   screenChange,
   clearSessionModal
 } from '../../actions';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaApple } from 'react-icons/fa';
 import '../../App.css';
 
 class LoginViewM extends React.Component {
@@ -85,6 +85,7 @@ class LoginViewM extends React.Component {
       passwordInputStyle,
       autoLoginContainer,
       bottomButtonStyle,
+      bottomButtonStyleShort,
       modalContainerStyle 
     } = styles;
 
@@ -172,19 +173,6 @@ class LoginViewM extends React.Component {
                       <p style={{ backgroundColor: 'white', padding: 1, fontSize: 14, fontWeight: 'bold', color: 'red', marginTop: -11, borderRadius: 5, marginBottom: -10 }}>Must provide username and password</p> :
                       <p style={{  height: 16, fontSize: 14, fontWeight: 'bold', marginTop: -11, marginBottom: -10 }}></p> 
                   }
-
-                  { this.props.platform === 'Ios' ? 
-                        <button style={ bottomButtonStyle }>
-                          <a href={ "https://itunes.apple.com/us/app/dividia-viewer/id1143269725?mt=8" } 
-                            alt="app store" 
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ textDecoration: 'none', color: 'black', fontSize: 16 }}>
-                            App Store
-                          </a>
-                        </button> :
-                      null
-                  }
                 
                   { this.props.loading ?
                     <div style={{ display: 'flex', margin: 'auto', height: 26, justifyContent: 'center',  width: '30%', marginTop: 10 }}>
@@ -242,6 +230,25 @@ class LoginViewM extends React.Component {
             <div style={{ marginTop: 10 }}>
               <p style={styles.footerTextStyle}>&copy;{currentYear} Dividia Technologies, LLC</p>
             </div>
+
+            { this.props.platform === 'Ios' && 
+              this.props.loginResult !== 'exists' && 
+              this.props.loginResult !== 'expired' && 
+              this.props.loginResult !== 'error' && 
+              this.props.loginResult !== 'noremote' && 
+              this.props.loginResult !== 'maxsession' ? 
+                <button style={ bottomButtonStyleShort }>
+                  <a href={ "https://itunes.apple.com/us/app/dividia-viewer/id1143269725?mt=8" } 
+                    alt="app store" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: 'none', color: 'black', fontSize: 16, marginRight: 5 }}>
+                    Get the App
+                  </a>
+                  <FaApple style={{ marginBottom: 3 }} />
+                </button> :
+                null
+            }
         </div>
       </div>
     );
@@ -310,7 +317,7 @@ const styles = {
     paddingBottom: 15,
     backgroundColor: '#135ba2',
     borderRadius: 10,
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
   },
   headingStyle: {
     fontSize: 18,
@@ -369,13 +376,26 @@ const styles = {
     boxShadow: '1px 2px 4px 2px rgba(0,0,0,0.3), -1px -1px 4px 2px rgba(0,0,0,0.3)', 
     marginTop: 18
   },
+  bottomButtonStyleShort: {
+    width: '40%',
+    padding: 2,
+    fontSize: 16,
+    fontWeight: 'bold',
+    border: 'none',
+    borderRadius: 5,
+    paddingTop: 3,
+    paddingBottom: 3,
+    backgroundColor: 'lightgrey',
+    boxShadow: '1px 2px 4px 2px rgba(0,0,0,0.3), -1px -1px 4px 2px rgba(0,0,0,0.3)', 
+    marginLeft: '50%'
+  },
   modalContainerStyle: {
     marginTop: 8, 
     padding: 4,
     paddingBottom: 15,
     backgroundColor: '#135ba2',
     borderRadius: 10,
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)',
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)',
     marginBottom: 16
   },
   spacedRowStyle1: {

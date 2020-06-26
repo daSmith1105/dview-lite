@@ -4,7 +4,9 @@ import {
     SET_PTZ_CONFIG,
     SET_PTZ_PRESETS,
     SET_ALL_CAMERAS,
-    SET_AUTH_SERVERS
+    SET_AUTH_SERVERS,
+    LOGOUT_USER,
+    EXPIRE_SESSION
   } from '../actions/types';
   
   const INITIAL_STATE = { 
@@ -36,7 +38,7 @@ import {
     sixteenViewEnabledArr: [],
     singleViewEnabledArray: [],
     authServers: [],
-    sServer: 'http://192.168.0.22',
+    sServer: '',
     sServerLiveMPE: '/mpe/',
     sServerPlayback: '/camstream/',
     sServerPreview: '?cmd=fetch&session=1234&file=test.jpg'
@@ -44,6 +46,78 @@ import {
   
   export default ( state = INITIAL_STATE, action ) => {
     switch ( action.type ) {
+      case LOGOUT_USER:
+        return { 
+          ...state, 
+          bSerial: 0,
+          bNumCams: 0,
+          sIP: '',
+          bPort: 0,
+          sLocalIP: '',
+          fLocal: false,
+          sName: '',
+          sVersion: '',
+          sVersionMajor: '',
+          bTimestamp: 0,
+          bTimeDiffmax: 36000,
+          bAutoScanTimeout: 5,
+          ptzConfig: [],
+          ptzPresets: [],
+          cameras: [],
+          cameraArr: [],
+          quadView: [],
+          quadViewEnabledArr: [],
+          sixView: [],
+          sixViewEnabledArr: [],
+          nineView: [],
+          nineViewEnabledArr: [],
+          twelveView: [],
+          twelveViewEnabledArr: [],
+          sixteenView: [],
+          sixteenViewEnabledArr: [],
+          singleViewEnabledArray: [],
+          authServers: [],
+          sServer: '',
+          sServerLiveMPE: '/mpe/',
+          sServerPlayback: '/camstream/',
+          sServerPreview: '?cmd=fetch&session=1234&file=test.jpg'
+        }
+      case EXPIRE_SESSION:
+        return { 
+          ...state, 
+          bSerial: 0,
+          bNumCams: 0,
+          sIP: '',
+          bPort: 0,
+          sLocalIP: '',
+          fLocal: false,
+          sName: '',
+          sVersion: '',
+          sVersionMajor: '',
+          bTimestamp: 0,
+          bTimeDiffmax: 36000,
+          bAutoScanTimeout: 5,
+          ptzConfig: [],
+          ptzPresets: [],
+          cameras: [],
+          cameraArr: [],
+          quadView: [],
+          quadViewEnabledArr: [],
+          sixView: [],
+          sixViewEnabledArr: [],
+          nineView: [],
+          nineViewEnabledArr: [],
+          twelveView: [],
+          twelveViewEnabledArr: [],
+          sixteenView: [],
+          sixteenViewEnabledArr: [],
+          singleViewEnabledArray: [],
+          authServers: [],
+          sServer: '',
+          sServerLiveMPE: '/mpe/',
+          sServerPlayback: '/camstream/',
+          sServerPreview: '?cmd=fetch&session=1234&file=test.jpg'
+        }
       case GET_SERVER:
         return { 
           ...state, 

@@ -2,7 +2,6 @@ import React from 'react';
 import DateContainerM from './DateContainerM';
 import { connect } from 'react-redux';
 import { setFilter, setCamera, getVideo } from '../../actions';
-import { FaChevronCircleRight } from 'react-icons/fa';
 import moment from 'moment';
 import '../../App.css';
 
@@ -87,12 +86,11 @@ const styles = {
     width: '98vw', 
     margin: 'auto', 
     paddingBottom: 10,
-    backgroundColor: 'rgba(10,14,25,0.7)',
-    boxShadow: '1px 1px 2px 1px rgba(40,120,255,0.6), -1px -1px 2px 1px rgba(40,120,255,0.6)',
+    backgroundColor: 'rgba(10,14,25,0.7)'
   },
   buttonGroupButtonStyle: {
     fontSize: 14,
-    marginTop: 16,
+    marginTop: 14,
     borderRadius: 5,
     padding: '.2vw',
     width: '90%', 

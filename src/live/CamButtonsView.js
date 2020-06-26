@@ -14,11 +14,20 @@ const CamButtonsView = props => {
         props.singleCamSelected && props.setSingleView(''); 
         props.camViewChange(cam);
     }
-
     const singleView = <div>
                             { props.cameraArr.map(c => 
                                 <button key={c[1]}
-                                        style={{ color: !c[2] ? 'rgba(0,0,0,0.4)' : props.currentCamView === c[0] ? 'white' : 'black', backgroundColor: !c[2] ? 'white' : props.currentCamView === c[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: !c[2] ? '2px solid lightgrey' : props.currentCamView === c[0] ? '2px solid dodgerblue' : '2px solid lightgrey', borderRadius: 5, boxShadow: !c[2] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }} 
+                                        style={{ color: !c[2] ? 'rgba(0,0,0,0.4)' : props.currentCamView === c[0] ? 'white' : 'black', 
+                                        backgroundColor: !c[2] ? 'white' : props.currentCamView === c[0] ? 'dodgerblue' : 'lightgrey', 
+                                        fontSize: '1.5vmin',
+                                         margin: '.8vmin', 
+                                         paddingRight: 8, 
+                                         paddingLeft: 8, 
+                                         paddingTop: 3, 
+                                         paddingBottom: 3, 
+                                         border: !c[2] ? '2px solid lightgrey' : props.currentCamView === c[0] ? '2px solid dodgerblue' : '2px solid lightgrey', 
+                                         borderRadius: 5, 
+                                        }} 
                                         className={ c[2] ?  "hoverableButton" : null }
                                         onClick={ () => c[2] ? setSingleCamData(c) : null }>
                                     { c[1] }
@@ -35,13 +44,33 @@ const CamButtonsView = props => {
     const quadView = <div>
                         { props.quadView.map(v => 
                             <button key={v[0]}
-                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: !v[1] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', 
+                                             backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', 
+                                             fontSize: '1.5vmin', 
+                                             margin: '.8vmin', 
+                                             paddingRight: 8, 
+                                             paddingLeft: 8, 
+                                             paddingTop: 3, 
+                                             paddingBottom: 3, 
+                                             border: 'none', 
+                                             borderRadius: 5
+                                            }}
                                     className="hoverable"
                                     onClick={ () => v[1] ? setMultipleCamData ('cam_' + v[0]) : null }>
                                 {v[0].split('-')[0] + ' - ' + v[0].split('-')[1]}
                             </button>
                         )}
-                        <button style={{ color: props.autoScanning ? 'white' : 'black', backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                        <button style={{ color: props.autoScanning ? 'white' : 'black', 
+                                         backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', 
+                                         fontSize: '1.5vmin', 
+                                         margin: '.8vmin', 
+                                         paddingRight: 8, 
+                                         paddingLeft: 8, 
+                                         paddingTop: 3, 
+                                         paddingBottom: 3, 
+                                         border: 'none', 
+                                         borderRadius: 5
+                                        }}
                                 className="hoverable"
                                 onClick={ props.toggleAutoScan }>
                             AS
@@ -51,13 +80,33 @@ const CamButtonsView = props => {
     const sixView = <div>
                         { props.sixView.map(v => 
                             <button key={v[0]}
-                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: !v[1] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', 
+                                             backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', 
+                                             fontSize: '1.5vmin', 
+                                             margin: '.8vmin', 
+                                             paddingRight: 8, 
+                                             paddingLeft: 8, 
+                                             paddingTop: 3, 
+                                             paddingBottom: 3, 
+                                             border: 'none', 
+                                             borderRadius: 5
+                                            }}
                                     className="hoverable"
                                     onClick={ () => v[1] ? setMultipleCamData ('cam_' + v[0]) : null }>
                                 {v[0].split('-')[0] + ' - ' + v[0].split('-')[1]}
                             </button>
                         )}
-                        <button style={{ color: props.autoScanning ? 'white' : 'black', backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                        <button style={{ color: props.autoScanning ? 'white' : 'black', 
+                                         backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', 
+                                         fontSize: '1.5vmin', 
+                                         margin: '.8vmin', 
+                                         paddingRight: 8, 
+                                         paddingLeft: 8, 
+                                         paddingTop: 3, 
+                                         paddingBottom: 3, 
+                                         border: 'none', 
+                                         borderRadius: 5
+                                        }}
                                 className="hoverable"
                                 onClick={ props.toggleAutoScan }>
                             AS
@@ -67,13 +116,32 @@ const CamButtonsView = props => {
     const nineView = <div>
                         { props.nineView.map(v => 
                             <button key={v[0]}
-                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: !v[1] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', 
+                                             backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', 
+                                             fontSize: '1.5vmin', 
+                                             margin: '.8vmin', 
+                                             paddingRight: 8, 
+                                             paddingLeft: 8, 
+                                             paddingTop: 3, 
+                                             paddingBottom: 3, 
+                                             border: 'none', 
+                                             borderRadius: 5
+                                            }}
                                     className="hoverable"
                                     onClick={ () => v[1] ? setMultipleCamData ('cam_' + v[0]) : null }>
                                 {v[0].split('-')[0] + ' - ' + v[0].split('-')[1]}
                             </button>
                         )}
-                        <button style={{ color: props.autoScanning ? 'white' : 'black', backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                        <button style={{ color: props.autoScanning ? 'white' : 'black', 
+                                         backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', 
+                                         fontSize: '1.5vmin', 
+                                         margin: '.8vmin', 
+                                         paddingRight: 8, 
+                                         paddingLeft: 8, 
+                                         paddingTop: 3, 
+                                         paddingBottom: 3, 
+                                         border: 'none', borderRadius: 5
+                                        }}
                                 className="hoverable"
                                 onClick={ props.toggleAutoScan }>
                             AS
@@ -83,13 +151,33 @@ const CamButtonsView = props => {
     const twelveView = <div>
                         { props.twelveView.map(v => 
                             <button key={v[0]}
-                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: !v[1] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                                    style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', 
+                                             backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', 
+                                             fontSize: '1.5vmin', 
+                                             margin: '.8vmin', 
+                                             paddingRight: 8, 
+                                             paddingLeft: 8, 
+                                             paddingTop: 3, 
+                                             paddingBottom: 3, 
+                                             border: 'none', 
+                                             borderRadius: 5
+                                             }}
                                     className="hoverable"
                                     onClick={ () => v[1] ? setMultipleCamData ('cam_' + v[0]) : null }>
                                 {v[0].split('-')[0] + ' - ' + v[0].split('-')[1]}
                             </button>
                         )}
-                        <button style={{ color: props.autoScanning ? 'white' : 'black', backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                        <button style={{ color: props.autoScanning ? 'white' : 'black', 
+                                         backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', 
+                                         fontSize: '1.5vmin',
+                                          margin: '.8vmin', 
+                                          paddingRight: 8, 
+                                          paddingLeft: 8, 
+                                          paddingTop: 3, 
+                                          paddingBottom: 3, 
+                                          border: 'none', 
+                                          borderRadius: 5
+                                        }}
                                 className="hoverable"
                                 onClick={ props.toggleAutoScan }>
                             AS
@@ -99,13 +187,33 @@ const CamButtonsView = props => {
     const sixteenView = <div>
                             { props.sixteenView.map(v => 
                                 <button key={v[0]}
-                                        style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: !v[1] ? '2px 2px 4px 2px rgba(0,0,0,0)' : '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                                        style={{ color: !v[1] ? 'rgba(0,0,0,0.4)' : props.currentCamView === "cam_" + v[0] ? 'white' : 'black', 
+                                                 backgroundColor: !v[1] ? 'white' :props.currentCamView === "cam_" + v[0] ? 'dodgerblue' : 'lightgrey', 
+                                                 fontSize: '1.5vmin', 
+                                                 margin: '.8vmin', 
+                                                 paddingRight: 8, 
+                                                 paddingLeft: 8, 
+                                                 paddingTop: 3, 
+                                                 paddingBottom: 3, 
+                                                 border: 'none', 
+                                                 borderRadius: 5
+                                                }}
                                         className="hoverable"
                                         onClick={ () => v[1] ? setMultipleCamData ('cam_' + v[0]) : null }>
                                     {v[0].split('-')[0] + ' - ' + v[0].split('-')[1]}
                                 </button>
                             )}
-                            <button style={{ color: props.autoScanning ? 'white' : 'black', backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', fontSize: '1.5vmin', margin: '.8vmin', paddingRight: 8, paddingLeft: 8, paddingTop: 3, paddingBottom: 3, border: 'none', borderRadius: 5, boxShadow: '2px 2px 4px 2px rgba(40,120,255,0.4), -2px -2px 4px 2px rgba(40,120,255,0.4)' }}
+                            <button style={{ color: props.autoScanning ? 'white' : 'black', 
+                                             backgroundColor: props.autoScanning ? 'dodgerblue' : 'lightgrey', 
+                                             fontSize: '1.5vmin', 
+                                             margin: '.8vmin', 
+                                             paddingRight: 8, 
+                                             paddingLeft: 8, 
+                                             paddingTop: 3, 
+                                             paddingBottom: 3, 
+                                             border: 'none', 
+                                             borderRadius: 5
+                                            }}
                                     className="hoverable"
                                     onClick={ props.toggleAutoScan }>
                                 AS

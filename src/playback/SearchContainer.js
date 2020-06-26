@@ -104,7 +104,7 @@ const styles = {
     position: 'relative',
     paddingBottom: '1vmin',
     backgroundColor: 'rgba(10,14,25,0.7)',
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)',
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)',
   },
   
   rowStyle: {
@@ -130,7 +130,7 @@ const styles = {
     paddingRight: '.4vw', 
     paddingLeft : '.4vw',
     border: 'none',
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)'
   },
 
 }

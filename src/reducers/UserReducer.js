@@ -1,7 +1,9 @@
 import { 
     SET_USER_DATA,
     SET_USER_RIGHTS,
-    SET_USER_CAMERAS
+    SET_USER_CAMERAS,
+    LOGOUT_USER,
+    EXPIRE_SESSION
   } from '../actions/types';
   
   const INITIAL_STATE = { 
@@ -17,6 +19,30 @@ import {
   
   export default ( state = INITIAL_STATE, action ) => {
     switch ( action.type ) {
+        case LOGOUT_USER:
+            return { 
+                ...state, 
+                bID: 0,
+                sName: '',
+                sDescription: '',
+                sPassword: '',
+                bType: 0,
+                bInactivityTimeout: 0,
+                userRights: [],
+                userCameras: []
+            }
+        case EXPIRE_SESSION:
+            return { 
+                ...state, 
+                bID: 0,
+                sName: '',
+                sDescription: '',
+                sPassword: '',
+                bType: 0,
+                bInactivityTimeout: 0,
+                userRights: [],
+                userCameras: []
+            }
         case SET_USER_DATA:
             return { 
                 ...state, 

@@ -21,10 +21,17 @@ const PreviewBlock = props => {
 
   return (
     <div key={props.video.bID} 
-         style={{  height: '6.3vw', width: '11vw', borderRadius: 5, backgroundColor: props.component.currentClipPlayingId === props.video.bID ? 'rgba(40,120,255,0.6)' : 'rgba(0,0,0,0.8)', margin: '.8vw', boxShadow: props.component.currentClipPlayingId === props.video.bID ? '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)' : '2px 2px 10px 1px rgba(0,0,0,0.7)' }}
+         style={{  
+           height: '6.3vw', 
+           width: '11vw',
+          borderRadius: 5, 
+          backgroundColor: props.component.currentClipPlayingId === props.video.bID ? 'rgba(40,120,255,0.6)' : 'rgba(0,0,0,0.8)', 
+          margin: '.8vw', 
+          // boxShadow: props.component.currentClipPlayingId === props.video.bID ? '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)' : '2px 2px 10px 1px rgba(0,0,0,0.7)' 
+        }}
          className="hoverable"
          onClick={ () => props.component.setCurrentClipPlaying(props.video.bID)}>
-      <img src={props.component.sServer + '/camstream/?cmd=fetch&session=' + props.component.sSess + '&file=' + props.video.sPreview + '.112x84'} alt='' height="86%" width="100%" style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
+      <img src={'/camstream/?cmd=fetch&session=' + props.component.sSess + '&file=' + props.video.sPreview + '.112x84'} alt='' height="86%" width="100%" style={{ borderTopRightRadius: 5, borderTopLeftRadius: 5 }} />
       <p style={{ textAlign: 'center', color: 'white', fontSize: '.7vw', margin: 0, marginTop :'-.2vw' }}>{timestamp}</p> 
     </div>
   )
@@ -100,7 +107,7 @@ const styles = {
     borderRadius: 10,
     paddingRight: '1.5vmin',
     paddingLeft: '1.5vmin',
-    boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)',
+    // boxShadow: '1px 2px 4px 2px rgba(40,120,255,0.6), -1px -2px 4px 2px rgba(40,120,255,0.6)',
     backgroundColor: 'rgba(10,14,25,0.7)'
   },
   clipPlaceholderStyle: {

@@ -1,6 +1,8 @@
 import { 
     SET_PLATFORM_TYPE,
-    UPDATE_CURRENT_TIME
+    UPDATE_CURRENT_TIME,
+    LOGOUT_USER,
+    EXPIRE_SESSION
   } from '../actions/types';
 
   import moment from 'moment';
@@ -13,6 +15,16 @@ import {
   
   export default ( state = INITIAL_STATE, action ) => {
     switch ( action.type ) {
+      case LOGOUT_USER:
+        return { 
+          ...state, 
+          platform: ''
+        }
+      case EXPIRE_SESSION:
+        return { 
+          ...state, 
+          platform: ''
+        }
       case SET_PLATFORM_TYPE:
         return { 
           ...state, 
